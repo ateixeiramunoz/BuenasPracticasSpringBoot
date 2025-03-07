@@ -197,7 +197,7 @@ class EntidadPadreRepositoryTests {
         log.debug("Creada EntidadPadre con nombre {}", entidadPadre.getNombre());
         log.debug("Creada EntidadPadre con nombre {}", entidadPadre.getNombre());
         int entidadPadreId = entidadPadreRepository.save(entidadPadre).getId();
-        log.info("EntidadPadre guardada con ID {}", entidadPadreId);
+        log.debug("EntidadPadre guardada con ID {}", entidadPadreId);
         assertThat(entidadPadreId).isPositive();
     }
 
@@ -226,13 +226,13 @@ class EntidadPadreRepositoryTests {
     @Test
     @Order(3)
     void encontrarEntidadPadreById() {
-        log.info("Iniciando la prueba encontrarEntidadPadreById...");
+        log.debug("Iniciando la prueba encontrarEntidadPadreById...");
         var entidadPadre = new EntidadPadre();
         entidadPadre.setNombre("JetBrains");
         int entidadPadreId = entidadPadreRepository.save(entidadPadre).getId();
-        log.info("EntidadPadre guardada con ID {}", entidadPadreId);
+        log.debug("EntidadPadre guardada con ID {}", entidadPadreId);
         var entidadPadre1 = entidadPadreRepository.findById(entidadPadreId).orElseThrow();
-        log.info("EntidadPadre recuperada con ID {}", entidadPadre1.getId());
+        log.debug("EntidadPadre recuperada con ID {}", entidadPadre1.getId());
         assertThat(entidadPadre1.getNombre()).isEqualTo("JetBrains");
     }
 
@@ -260,13 +260,13 @@ class EntidadPadreRepositoryTests {
     @Test
     @Order(4)
     void encontrarEntidadPadreByNombre() {
-        log.info("Iniciando la prueba encontrarEntidadPadreByNombre...");
+        log.debug("Iniciando la prueba encontrarEntidadPadreByNombre...");
         var entidadPadre = new EntidadPadre();
         entidadPadre.setNombre("JetBrains");
         entidadPadreRepository.save(entidadPadre);
         log.debug("Buscando EntidadPadre con nombre {}", entidadPadre.getNombre());
         EntidadPadre entidadPadre1 = entidadPadreRepository.findByNombre("JetBrains").orElseThrow();
-        log.info("EntidadPadre encontrada con nombre {}", entidadPadre1.getNombre());
+        log.debug("EntidadPadre encontrada con nombre {}", entidadPadre1.getNombre());
         assertThat(entidadPadre1.getNombre()).isEqualTo("JetBrains");
     }
 
@@ -327,7 +327,7 @@ class EntidadPadreRepositoryTests {
 
         // Guardar la EntidadPadre (esto también debería guardar la EntidadHija debido a la relación)
         var entidadPadreGuardada = entidadPadreRepository.save(entidadPadre);
-        log.info("EntidadPadre and associated EntidadHija saved with IDs {} and {}",
+        log.debug("EntidadPadre and associated EntidadHija saved with IDs {} and {}",
                 entidadPadreGuardada.getId(), entidadPadreGuardada.getEntidadesHijas().get(0).getId());
 
         // Verificar que la entidad padre fue guardada
@@ -337,7 +337,7 @@ class EntidadPadreRepositoryTests {
 
         // Recuperar el padre por su ID y verificar que tiene la hija asociada
         var entidadPadreRecuperada = entidadPadreRepository.findById(entidadPadreGuardada.getId()).orElseThrow();
-        log.info("Retrieved EntidadPadre with ID {} and associated EntidadHija with ID {}",
+        log.debug("Retrieved EntidadPadre with ID {} and associated EntidadHija with ID {}",
                 entidadPadreRecuperada.getId(), entidadPadreRecuperada.getEntidadesHijas().get(0).getId());
         assertThat(entidadPadreRecuperada.getEntidadesHijas()).hasSize(1);
         assertThat(entidadPadreRecuperada.getEntidadesHijas().get(0).getNombre()).isEqualTo("Hija de ejemplo");

@@ -3,18 +3,6 @@ name: Desarrollo
 # Definimos los servicios que se ejecutarán en los contenedores Docker.
 services:
 
-  java: # Servicio principal de la aplicación Java.
-    image: demo:0.0.1-SNAPSHOT  # Especifica la imagen de Docker que se utilizará (versión 0.0.1-SNAPSHOT).
-    depends_on:
-      - db # Indica que este servicio depende del servicio de base de datos (db).
-    ports:
-      # Se exponen los puertos para permitir el acceso externo a la aplicación.
-      # <Puerto del host>:<Puerto dentro del contenedor>
-      - '8080:8080' # El puerto 8080 del host se enlaza al puerto 8080 del contenedor.
-    links:
-      - "db:database" # Conexión al contenedor de la base de datos, accesible como "database".
-    restart: on-failure # Reinicia el contenedor automáticamente si falla.
-
 
   db: # Servicio para la base de datos MySQL.
     image: mysql:latest # Utiliza la imagen oficial de MySQL versión 5.7.
@@ -35,4 +23,18 @@ services:
       interval: 10s # Intervalo entre cada chequeo (10 segundos).
       timeout: 300s # Tiempo de espera máximo para el chequeo (300 segundos).
       retries: 10 # Número de intentos antes de marcar el contenedor como no saludable.
-    restart: on-failure
+    restart: always
+
+  java: # Servicio principal de la aplicación Java.
+    image: demo:0.0.1-SNAPSHOT  # Especifica la imagen de Docker que se utilizará (versión 0.0.1-SNAPSHOT).
+    depends_on:
+      - db # Indica que este servicio depende del servicio de base de datos (db).
+    ports:
+      # Se exponen los puertos para permitir el acceso externo a la aplicación.
+      # <Puerto del host>:<Puerto dentro del contenedor>
+      - '8080:8080' # El puerto 8080 del host se enlaza al puerto 8080 del contenedor.
+    links:
+      - "db:database" # Conexión al contenedor de la base de datos, accesible como "database".
+    restart: always # Reinicia el contenedor automáticamente si falla.
+
+
