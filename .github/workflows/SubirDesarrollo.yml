@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '23'
-          distribution: 
+          distribution: 'temurin'
           cache: maven
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots verify
