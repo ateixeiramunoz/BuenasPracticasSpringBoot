@@ -1,4 +1,4 @@
-package entities;
+package com.example.demo.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -70,6 +70,11 @@ public class EntidadPadre {
     @OneToMany(mappedBy = "entidadPadre", cascade = CascadeType.ALL)
     private List<EntidadHija> entidadesHijas;
 
+
+    public EntidadPadre(String nombre) {
+        this.nombre = nombre;
+    }
 }
+
 
 

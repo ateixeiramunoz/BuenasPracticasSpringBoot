@@ -1,15 +1,16 @@
-package loaders;
+package com.example.demo.loaders;
 
-import entities.EntidadHija;
-import entities.EntidadHijaRepository;
-import entities.EntidadPadre;
-import entities.EntidadPadreRepository;
+import com.example.demo.entities.EntidadHijaRepository;
+import com.example.demo.entities.EntidadPadre;
+import com.example.demo.entities.EntidadPadreRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import java.util.Arrays;
+
+
 
 /**
  * Clase de configuración que permite cargar datos iniciales en los repositorios
@@ -50,7 +51,6 @@ public class InitialDataLoader {
         this.repository = repository;
         this.entidadHijaRepository = entidadHijaRepository;
     }
-
 
     /**
      * Método encargado de cargar datos iniciales en los repositorios para el
@@ -96,33 +96,10 @@ public class InitialDataLoader {
         int numeroEntidades = 10;
 
         EntidadPadre[] entidades = new EntidadPadre[numeroEntidades];
-        Arrays.setAll(entidades, i -> new EntidadPadre());
-
-        entidades[0].setNombre("Entidad0");
-        entidades[1].setNombre("Entidad1");
-        entidades[2].setNombre("Entidad2");
-        entidades[3].setNombre("Entidad3");
-        entidades[4].setNombre("Entidad4");
-        entidades[5].setNombre("Entidad5");
-        entidades[6].setNombre("Entidad6");
-        entidades[7].setNombre("Entidad7");
-        entidades[8].setNombre("Entidad8");
-        entidades[9].setNombre("Entidad9");
+        Arrays.setAll(entidades, i -> new EntidadPadre("Entidad-" + i+1));
 
         log.info("Persistiendo lote de entidades padre en el repositorio...");
         repository.saveAll(Arrays.asList(entidades));
-
-        EntidadPadre entidadPadre = new EntidadPadre();
-        entidadPadre.setNombre("EntidadPadre99");
-
-        EntidadHija entidadHija = new EntidadHija();
-        entidadHija.setNombre("EntidadHija99");
-
-        entidadHija.setEntidadPadre(entidadPadre);
-
-        log.info("Persistiendo nueva entidad padre con nombre 'EntidadPadre99' y su entidad hija asociada...");
-        repository.save(entidadPadre);
-        entidadHijaRepository.save(entidadHija);
 
     }
 
@@ -133,7 +110,6 @@ public class InitialDataLoader {
         log.info("Iniciando la carga de datos para el perfil de producción.");
         log.info("Datos de producción aún no definidos. Este método requiere implementación adicional.");
     }
-
 
 
 

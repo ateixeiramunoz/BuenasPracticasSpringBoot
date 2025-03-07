@@ -1,4 +1,5 @@
 # Este archivo se utiliza para configurar los servicios de contenedores en un entorno de desarrollo, como la base de datos MySQL que interactúa con una aplicación Spring Boot.
+name: local
 services:
   db:
     # Imagen de Docker que se utilizará, en este caso MySQL versión 5.7
