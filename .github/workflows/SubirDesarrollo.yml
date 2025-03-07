@@ -20,7 +20,9 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots verify
 
+
   arrancar_en_servidor_de_desarrollo:
+    needs: realizar_tests
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v4
