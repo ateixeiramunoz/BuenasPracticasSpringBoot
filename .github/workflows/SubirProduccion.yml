@@ -9,7 +9,7 @@ on:
 jobs:
   realizar_tests:
       needs: sonarqube
-      runs-on: self-hosted
+      runs-on: self-hosted, Windows
       steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 23
@@ -23,7 +23,7 @@ jobs:
 
   sonarqube:
 
-    runs-on: self-hosted
+    runs-on: self-hosted, Windows
     steps:
       - name: SonarQube Scan
         run: |
@@ -31,7 +31,7 @@ jobs:
 
   arrancar_en_servidor_de_desarrollo:
     needs: realizar_tests
-    runs-on: self-hosted
+    runs-on: self-hosted, Windows
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
