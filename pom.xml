@@ -163,9 +163,9 @@
                 <version>0.8.12</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/*com/**/Application.class</exclude>
-                        <exclude>**/*com/**/entities*/**</exclude>
-                        <exclude>**/*com/**/loaders*/**</exclude>
+                        <exclude>**/*com/example/Application.class</exclude>
+                        <exclude>**/*com/example/entities*/**</exclude>
+                        <exclude>**/*com/example/loaders*/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>
