@@ -165,8 +165,8 @@
                 <configuration>
                     <excludes>
                         <exclude>**/*Application.class</exclude>
-                        <exclude>**/*entities*/**</exclude>
-                        <exclude>**/*loaders*/**</exclude>
+                        <exclude>**/*entities*/*</exclude>
+                        <exclude>**/*loaders*/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
