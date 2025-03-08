@@ -28,8 +28,8 @@
     </scm>
     <properties>
         <java.version>17</java.version>
-        <sonar.coverage.exclusions>**/*loaders/**/*</sonar.coverage.exclusions>
-        <sonar.coverage.exclusions>**/*entities/**/*</sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>**/*loaders/*</sonar.coverage.exclusions>
+        <sonar.coverage.exclusions>**/*entities/*</sonar.coverage.exclusions>
         <sonar.coverage.exclusions>**/*Application.*</sonar.coverage.exclusions>
     </properties>
     <dependencies>
@@ -165,8 +165,8 @@
                 <configuration>
                     <excludes>
                         <exclude>**/*Application.class</exclude>
-                        <exclude>**/*entities*/*</exclude>
-                        <exclude>**/*loaders*/*</exclude>
+                        <exclude>**/*entities/*</exclude>
+                        <exclude>**/*loaders/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
