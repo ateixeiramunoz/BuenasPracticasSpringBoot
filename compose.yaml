@@ -21,3 +21,4 @@ services:
     expose:
       # Expone el puerto 3306 dentro del contenedor para comunicación con otros servicios
       - '3306'
+
