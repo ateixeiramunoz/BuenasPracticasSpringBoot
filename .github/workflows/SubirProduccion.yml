@@ -24,7 +24,6 @@ jobs:
 
   sonarqube:
       runs-on: self-hosted
-
       steps:
         - uses: actions/checkout@v4
           with:
@@ -50,7 +49,7 @@ jobs:
           env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
             SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=BuenasPracticas -Dsonar.projectName='BuenasPracticas'
+          run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.login=admin -Dsonar.password=passwordEOI@2025 -Dsonar.projectKey=BuenasPracticas -Dsonar.projectName='BuenasPracticas'
 
   arrancar_en_servidor_de_desarrollo:
     needs: realizar_tests
