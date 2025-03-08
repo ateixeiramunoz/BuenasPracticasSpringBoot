@@ -2,7 +2,7 @@ package com.example.demo;
 
 import com.example.demo.entities.EntidadHija;
 import com.example.demo.entities.EntidadPadre;
-import com.example.demo.entities.EntidadPadreRepository;
+import com.example.demo.repositories.EntidadPadreRepository;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Order;

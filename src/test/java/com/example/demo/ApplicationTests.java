@@ -4,7 +4,6 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -17,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Log4j2
 @DataJpaTest
 @Testcontainers
-class DemoApplicationTests {
+class ApplicationTests {
 
 
     @Container

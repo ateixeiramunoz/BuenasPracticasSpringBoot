@@ -1,5 +1,6 @@
-package com.example.demo.entities;
+package com.example.demo.repositories;
 
+import com.example.demo.entities.EntidadHija;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

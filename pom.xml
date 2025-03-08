@@ -163,8 +163,9 @@
                 <version>0.8.12</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/entities/*</exclude>
-                        <exclude>**/InitialDataLoader.java</exclude>
+                        <exclude>**/*com/**/Application.class</exclude>
+                        <exclude>**/*com/**/entities*/**</exclude>
+                        <exclude>**/*com/**/loaders*/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>

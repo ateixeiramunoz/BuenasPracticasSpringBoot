@@ -1,8 +1,8 @@
 package com.example.demo.loaders;
 
-import com.example.demo.entities.EntidadHijaRepository;
+import com.example.demo.repositories.EntidadHijaRepository;
 import com.example.demo.entities.EntidadPadre;
-import com.example.demo.entities.EntidadPadreRepository;
+import com.example.demo.repositories.EntidadPadreRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Configuration;
