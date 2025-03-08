@@ -163,8 +163,8 @@
                 <version>0.8.12</version>
                 <configuration>
                     <excludes>
-                        <exclude>com/**/*DTO.*</exclude>
-                        <exclude>com/**/entities/*</exclude>
+                        <exclude>**/entities/*</exclude>
+                        <exclude>**/InitialDataLoader.java</exclude>
                     </excludes>
                 </configuration>
                 <executions>
