@@ -8,6 +8,7 @@ on:
     
 jobs:
   realizar_tests:
+      needs: sonarqube
       runs-on: self-hosted
       steps:
       - uses: actions/checkout@v4
@@ -21,6 +22,7 @@ jobs:
         run: mvn --batch-mode verify
 
   sonarqube:
+
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
