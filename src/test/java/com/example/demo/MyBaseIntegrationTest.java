@@ -13,7 +13,7 @@ import org.testcontainers.containers.MySQLContainer;
 public abstract class MyBaseIntegrationTest {
 
     @ServiceConnection
-    protected static final MySQLContainer<?> dbContainer = new MySQLContainer<>().withDatabaseName("testDB").withUsername("appuser").withPassword("password123");
+    protected static final MySQLContainer<?> dbContainer = new MySQLContainer<>("mysql:latest").withDatabaseName("testDB").withUsername("appuser").withPassword("password123");
 
     @Autowired
     EntidadPadreRepository entidadPadreRepository;

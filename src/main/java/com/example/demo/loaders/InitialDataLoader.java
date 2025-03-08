@@ -28,7 +28,6 @@ import java.util.Arrays;
 public class InitialDataLoader {
 
     private final EntidadPadreRepository repository;
-    private final EntidadHijaRepository entidadHijaRepository;
 
     /**
      * Clase de configuración que permite cargar datos iniciales en los repositorios
