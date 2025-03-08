@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Log4j2
 @DataJpaTest
 @Testcontainers
-class ApplicationTests {
+class ApplicationTest {
 
 
     @Container
