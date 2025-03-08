@@ -8,7 +8,7 @@ on:
     
 jobs:
   realizar_tests:
-#     needs: sonarqube
+      needs: sonarqube
       runs-on: self-hosted
       steps:
       - uses: actions/checkout@v4
