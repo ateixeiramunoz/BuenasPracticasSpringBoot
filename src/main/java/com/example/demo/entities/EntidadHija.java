@@ -31,7 +31,6 @@ import lombok.Setter;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class EntidadHija  {
 
     @Id
