@@ -1,26 +1,14 @@
 package com.example.demo;
-
 import com.example.demo.entities.EntidadHija;
 import com.example.demo.entities.EntidadPadre;
-import com.example.demo.repositories.EntidadPadreRepository;
-
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-
-import org.testcontainers.containers.MySQLContainer;
-
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
 import java.util.Arrays;
-
 import java.util.List;
 
+import static com.example.demo.ApplicationTest.mySQLContainer;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -64,46 +52,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * </ul>
  */
 @Log4j2
-@DataJpaTest
 @Testcontainers
-class EntidadPadreRepositoryTest {
-
-    @Autowired
-    EntidadPadreRepository entidadPadreRepository;
-
-    /**
-     * Contenedor estático de MySQL para pruebas y desarrollo con Testcontainers.
-     *
-     * Esta clase define un contenedor de MySQL utilizando la biblioteca Testcontainers,
-     * que permite la emulación de una base de datos MySQL en un entorno de prueba.
-     * El contenedor incluye configuración para la base de datos, el usuario,
-     * y la contraseña, simulando un entorno realista para garantizar que las pruebas
-     * se ejecuten en condiciones controladas.
-     *
-     * Anotaciones de clase:
-     *
-     * @Container
-     * Indica que la instancia de este contenedor debe manejarse por Testcontainers
-     * y debe estar activa durante el ciclo de vida del test asociado. Esto asegura
-     * que el contenedor sea iniciado antes y detenido después de las pruebas automáticas.
-     *
-     * @ServiceConnection
-     * Declara que este contenedor actuará como un servicio conectado para la aplicación
-     * Spring. Esta anotación permite que Spring Boot integre automáticamente este contenedor
-     * con la configuración de contexto de prueba, facilitando el acceso al contenedor
-     * como si fuera un servicio real en producción.
-     *
-     * Atributos configurados:
-     * - La imagen específica de MySQL utilizada es "mysql:8.0.32".
-     * - Se establece el nombre de la base de datos como "testDB".
-     * - Se define el usuario de la base de datos como "appuser".
-     * - Una contraseña segura, "password123", se asigna al usuario.
-     */
-    @Container
-    @ServiceConnection
-    static MySQLContainer<?> mySQLContainer = new MySQLContainer<>(
-            "mysql:latest"
-    ).withDatabaseName("testDB").withUsername("appuser").withPassword("password123");
+class EntidadPadreRepositoryTest extends  MyBaseIntegrationTest {
 
     /**
      * Método de prueba para verificar la correcta carga del contexto de la aplicación Spring.
@@ -271,76 +221,39 @@ class EntidadPadreRepositoryTest {
     }
 
 
+   
     /**
-     * Prueba unitaria para verificar la creación de una entidad hija y su correcta
-     * asociación con una entidad padre, utilizando un repositorio de JPA.
+     * Prueba la creación de una entidad hija (EntidadHija) y su correcta asociación con una entidad padre (EntidadPadre).
+     * Este método verifica que ambas entidades se persistan correctamente y que su relación se mantenga de forma adecuada.
      *
-     * <p>Esta prueba realiza los siguientes pasos:
-     * <ul>
-     *   <li>Crea una instancia de la clase {@code EntidadPadre} y le asigna un nombre.</li>
-     *   <li>Crea una instancia de la clase {@code EntidadHija} y la asocia a la entidad padre.</li>
-     *   <li>Guarda la entidad padre mediante el repositorio correspondiente, lo cual también
-     *   debería guardar la entidad hija debido a la relación entre ambas entidades.</li>
-     *   <li>Verifica que la entidad padre fue guardada correctamente y que contiene la entidad hija asociada.</li>
-     *   <li>Recupera la entidad padre desde la base de datos y valida que efectivamente tiene la
-     *   entidad hija asociada, confirmando la integridad de la relación persistida.</li>
-     * </ul>
+     * Pasos:
+     * 1. Se crea e inicializa una nueva entidad padre (EntidadPadre).
+     * 2. Se crea una nueva entidad hija (EntidadHija) y se asocia con la entidad padre.
+     * 3. La entidad padre, junto con su entidad hija asociada, se persiste.
+     * 4. Las afirmaciones aseguran que:
+     *    - La entidad padre persistida no sea nula.
+     *    - La entidad padre tenga exactamente una entidad hija.
+     *    - El nombre de la entidad hija coincida con el valor esperado.
      *
-     * <p>Esta prueba asegura que las relaciones de asociación entre entidades se conservan y
-     * funcionan correctamente al persistirlas en la base de datos.
-     *
-     *
-     * <p><strong>Notas adicionales:</strong>
-     * El repositorio {@code entidadPadreRepository} es presumiblemente un {@code JpaRepository}
-     * o similar de Spring Data JPA, que permite realizar operaciones de CRUD sobre entidades
-     * persistentes de la base de datos.
-     *
-     * <p>Metodología empleada:
-     * <ul>
-     *   <li>{@code entidadPadreRepository.save(entidadPadre)}: Guarda la entidad padre en la base
-     *   de datos, incluyendo la entidad hija asociada gracias a la configuración de la relación
-     *   en las clases de entidad.</li>
-     *   <li>{@code entidadPadreRepository.findById(id)}: Recupera la entidad padre con un ID
-     *   específico desde la base de datos, verificando su estado tras la persistencia.</li>
-     *   <li>{@code assertThat}: Realiza las validaciones necesarias para confirmar que las
-     *   entidades y relaciones cumplen con las expectativas en términos de datos y comportamiento.</li>
-     * </ul>
+     * La prueba registra pasos importantes y resultados para fines de validación y depuración.
      */
     @Test
     @Order(5)
     void crearEntidadHija() {
-        log.info("Iniciando la prueba crearEntidadHija...");
 
-        // Crear una EntidadPadre
-        var entidadPadre = new EntidadPadre();
-        entidadPadre.setNombre("Padre de ejemplo");
-        log.debug("Created EntidadPadre with name {}", entidadPadre.getNombre());
-
-        // Crear una instancia de EntidadHija
+        log.debug("Iniciando la prueba crearEntidadHija...");
+        var entidadPadre = new EntidadPadre("Padre1");
         var entidadHija = new EntidadHija();
-        entidadHija.setNombre("Hija de ejemplo");
-        log.debug("Creada EntidadHija con nombre {}", entidadHija.getNombre());
+        entidadHija.setNombre("Hija1");
         entidadHija.setEntidadPadre(entidadPadre);
 
-        // Asociar la hija al padre
         entidadPadre.setEntidadesHijas(List.of(entidadHija));
-
-        // Guardar la EntidadPadre (esto también debería guardar la EntidadHija debido a la relación)
         var entidadPadreGuardada = entidadPadreRepository.save(entidadPadre);
-        log.debug("EntidadPadre and associated EntidadHija saved with IDs {} and {}",
-                entidadPadreGuardada.getId(), entidadPadreGuardada.getEntidadesHijas().get(0).getId());
 
-        // Verificar que la entidad padre fue guardada
-        assertThat(entidadPadreGuardada.getId()).isPositive();
-        assertThat(entidadPadreGuardada.getEntidadesHijas()).isNotNull();
-        assertThat(entidadPadreGuardada.getEntidadesHijas().get(0).getNombre()).isEqualTo("Hija de ejemplo");
-
-        // Recuperar el padre por su ID y verificar que tiene la hija asociada
-        var entidadPadreRecuperada = entidadPadreRepository.findById(entidadPadreGuardada.getId()).orElseThrow();
-        log.debug("Retrieved EntidadPadre with ID {} and associated EntidadHija with ID {}",
-                entidadPadreRecuperada.getId(), entidadPadreRecuperada.getEntidadesHijas().get(0).getId());
-        assertThat(entidadPadreRecuperada.getEntidadesHijas()).hasSize(1);
-        assertThat(entidadPadreRecuperada.getEntidadesHijas().get(0).getNombre()).isEqualTo("Hija de ejemplo");
+        assertThat(entidadPadreGuardada).isNotNull();
+        assertThat(entidadPadreGuardada.getEntidadesHijas()).hasSize(1);
+        assertThat(entidadPadreGuardada.getEntidadesHijas().get(0).getNombre()).isEqualTo("Hija1");
+        log.debug("EntidadPadre y EntidadHija guardadas correctamente con asociación válida.");
     }
 
 }

@@ -1,7 +1,9 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -27,6 +29,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class EntidadHija  {
 
     @Id
@@ -34,7 +39,7 @@ public class EntidadHija  {
     private int id;
     private String nombre;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private EntidadPadre entidadPadre;
 
 }
