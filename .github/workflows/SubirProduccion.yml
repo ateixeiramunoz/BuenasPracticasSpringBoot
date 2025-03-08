@@ -24,8 +24,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Build and analyze
-        env:
-        run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=GoodPractices -Dsonar.projectName='GoodPractices'  -Dsonar.token=sqp_361e094157ae95c1fcbca83ae7f7676cd8c0e43c
+        run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=GoodPractices -Dsonar.projectName=GoodPractices  -Dsonar.token=sqp_361e094157ae95c1fcbca83ae7f7676cd8c0e43c
 
   arrancar_en_servidor_de_desarrollo:
     needs: realizar_tests
