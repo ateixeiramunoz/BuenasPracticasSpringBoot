@@ -46,7 +46,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: sqp_5dd2e34b3bd4fbdb488a87e260a1b9b9fb5f6c35
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dsonar.projectKey=GoodPractices -Dsonar.projectName='GoodPractices'
 
