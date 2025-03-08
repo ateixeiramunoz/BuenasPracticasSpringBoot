@@ -2,37 +2,34 @@ name: Produccion
 
 # Definimos los servicios que se ejecutarán en los contenedores Docker.
 services:
-
-  java: # Servicio principal de la aplicación Java.
-    image: demo:0.0.1-SNAPSHOT  # Especifica la imagen de Docker que se utilizará (versión 0.0.1-SNAPSHOT).
-    depends_on:
-      - db # Indica que este servicio depende del servicio de base de datos (db).
+  java:
+    image: demo:0.0.1-SNAPSHOT
     ports:
-      # Se exponen los puertos para permitir el acceso externo a la aplicación.
-      # <Puerto del host>:<Puerto dentro del contenedor>
-      - '8080:8080' # El puerto 8080 del host se enlaza al puerto 8080 del contenedor.
-    links:
-      - "db:database" # Conexión al contenedor de la base de datos, accesible como "database".
-    restart: on-failure # Reinicia el contenedor automáticamente si falla.
-
-
-  db: # Servicio para la base de datos MySQL.
-    image: mysql:latest # Utiliza la imagen oficial de MySQL versión 5.7.
+      - '8081:8080'
     environment:
-      MYSQL_DATABASE: 'desarrollo' # Nombre de la base de datos por defecto.
-      MYSQL_USER: 'appuser' # Usuario creado para acceder a la base de datos.
-      MYSQL_PASSWORD: 'password123' # Contraseña para el usuario de la base de datos.
-      MYSQL_ROOT_PASSWORD: 'password' # Contraseña del usuario root de MySQL.
-    ports:
-      - '3306:3306' # El puerto 3306 del host se enlaza al puerto 3306 dentro del contenedor MySQL.
-    expose:
-      # Expone el puerto de MySQL dentro del contenedor (solo accesible dentro de la red Docker).
-      - '3306' # Puerto en el que MySQL está escuchando.
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/produccion
+      SPRING_DATASOURCE_USERNAME: produser
+      SPRING_DATASOURCE_PASSWORD: prodpassword
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: 'produccion'
+      MYSQL_USER: 'produser'
+      MYSQL_PASSWORD: 'prodpassword'
+      MYSQL_ROOT_PASSWORD: 'rootpassword'
     healthcheck:
-      # Configuración del chequeo de salud del contenedor de la base de datos.
-      # Verifica si la base de datos está disponible ejecutando una consulta simple.
-      test: "mysql $$MYSQL_DATABASE -uroot -p$$MYSQL_ROOT_PASSWORD -e 'SELECT 1;'" # Comando para comprobar el estado de MySQL.
-      interval: 10s # Intervalo entre cada chequeo (10 segundos).
-      timeout: 300s # Tiempo de espera máximo para el chequeo (300 segundos).
-      retries: 10 # Número de intentos antes de marcar el contenedor como no saludable.
-    restart: on-failure
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    ports:
+      - "3303:3306"
+    expose:
+      - "3303"
+    restart: always
+
+
