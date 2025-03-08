@@ -6,25 +6,51 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+
 /**
- * Representa una clase de entidad persistente de base de datos denominada "EntidadHija".
+ * Representa una clase de entidad persistente denominada "EntidadHija".
  *
- * Anotaciones de clase:
- * - {@code @Getter}: Genera automáticamente los métodos 'getter' para todos los campos de la clase.
- *   Proviene de la biblioteca Lombok. Útil para reducir código repetitivo.
+ * Esta clase está asociada a una tabla en la base de datos mediante JPA y mapea
+ * los datos relacionados con una entidad hija que depende de una entidad padre.
  *
- * - {@code @Setter}: Genera automáticamente los métodos 'setter' para todos los campos de la clase.
- *   Proviene de la biblioteca Lombok. También forma parte de la simplificación del código.
+ * Anotaciones de la clase:
+ * - {@code @Entity}: Define esta clase como una entidad JPA que será persistida en la base de datos.
+ * - {@code @Getter} y {@code @Setter}: Proporcionadas por Lombok, generan automáticamente
+ *   los métodos getter y setter correspondientes para todos los atributos.
+ * - {@code @AllArgsConstructor}: Genera un constructor con argumentos para todos los campos de la clase.
+ * - {@code @NoArgsConstructor}: Genera un constructor sin argumentos, útil para JPA y frameworks de serialización.
  *
- * - {@code @Entity}: Indica que la clase está mapeada como una tabla en la base de datos.
- *   Es necesaria para que Hibernate o JPA reconozcan esta clase como una entidad persistente.
- *   Esta clase se asignará a una tabla de base de datos con las columnas correspondientes a los atributos declarados.
+ * Atributos:
  *
- * Campos:
- * - {@code id}: Identificador único para cada instancia de `EntidadHija`. Es la clave primaria de la base de datos.
- * - {@code nombre}: Representa el nombre de la entidad hija.
- * - {@code entidadPadre}: Establece una asociación muchos-a-uno (Many-to-One) con la entidad `EntidadPadre`.
- *   Esto significa que múltiples instancias de `EntidadHija` pueden estar relacionadas con una única instancia de `EntidadPadre`.
+ * - {@code id}:
+ *   - Descripción: Clave primaria de la tabla que representa a esta entidad.
+ *   - Anotaciones:
+ *     - {@code @Id}: Define esta propiedad como la clave primaria.
+ *     - {@code @GeneratedValue(strategy = GenerationType.IDENTITY)}: El valor del identificador será generado
+ *       automáticamente en la base de datos mediante la estrategia de incremento automático (IDENTITY).
+ *
+ * - {@code nombre}:
+ *   - Descripción: Almacena el nombre asociado a esta entidad hija.
+ *
+ * - {@code entidadPadre}:
+ *   - Descripción: Relación de muchos-a-uno con la entidad {@code EntidadPadre}.
+ *   - Anotaciones:
+ *     - {@code @ManyToOne(fetch = FetchType.EAGER)}: Define la relación de muchos-a-uno con la tabla asociada
+ *       de {@code EntidadPadre}. La estrategia de carga {@code EAGER} asegura que los datos de la entidad
+ *       padre sean cargados inmediatamente al acceder a la entidad hija.
+ *
+ * Constructores:
+ *
+ * - {@code EntidadHija()}: Constructor vacío sin argumentos. Requerido por JPA.
+ * - {@code EntidadHija(int id, String nombre, EntidadPadre entidadPadre)}: Constructor que inicializa todos los
+ *   campos de la clase.
+ * - {@code EntidadHija(String nombre)}: Constructor especial que inicializa solo el campo {@code nombre}.
+ *
+ * Relaciones:
+ *
+ * - Asociación: Muchas instancias de {@code EntidadHija} pueden estar asociadas a una sola instancia
+ *   de {@code EntidadPadre}.
  */
 @Getter
 @Setter
@@ -41,4 +67,7 @@ public class EntidadHija  {
     @ManyToOne(fetch = FetchType.EAGER)
     private EntidadPadre entidadPadre;
 
+    public EntidadHija (String nombre) {
+        this.nombre = nombre;
+    }
 }

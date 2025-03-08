@@ -1,5 +1,6 @@
 package com.example.demo.loaders;
 
+import com.example.demo.entities.EntidadHija;
 import com.example.demo.repositories.EntidadHijaRepository;
 import com.example.demo.entities.EntidadPadre;
 import com.example.demo.repositories.EntidadPadreRepository;
@@ -29,7 +30,6 @@ public class InitialDataLoader {
 
     private final EntidadPadreRepository repository;
     private final EntidadHijaRepository entidadHijaRepository;
-
     /**
      * Clase de configuración que permite cargar datos iniciales en los repositorios
      * de entidades para diferentes perfiles de configuración.
@@ -100,6 +100,11 @@ public class InitialDataLoader {
 
         log.info("Persistiendo lote de entidades padre en el repositorio...");
         repository.saveAll(Arrays.asList(entidades));
+
+        log.info("Creando y persistiendo entidades hijas asociadas a las entidades padre...");
+        for (EntidadPadre entidadPadre : entidades) {
+            entidadHijaRepository.save(new EntidadHija("Hija de " + entidadPadre.getNombre()));
+        }
 
     }
 
