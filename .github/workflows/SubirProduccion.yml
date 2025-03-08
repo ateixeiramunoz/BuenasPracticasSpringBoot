@@ -25,9 +25,7 @@ jobs:
     steps:
       - name: Build and analyze
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=GoodPractices -Dsonar.projectName='GoodPractices'
+        run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=GoodPractices -Dsonar.projectName='GoodPractices'  -Dsonar.token=sqp_361e094157ae95c1fcbca83ae7f7676cd8c0e43c
 
   arrancar_en_servidor_de_desarrollo:
     needs: realizar_tests
