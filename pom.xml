@@ -28,6 +28,7 @@
     </scm>
     <properties>
         <java.version>17</java.version>
+        <sonar.coverage.exclusions>**/*entities/**/*</sonar.coverage.exclusions>
     </properties>
     <dependencies>
         <dependency>
@@ -125,8 +126,6 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     </dependencies>
-
-
     <build>
         <plugins>
             <plugin>
