@@ -48,7 +48,7 @@ jobs:
         env:
           SONAR_TOKEN: sqp_40442320675fca0ad2df58f53aae3253e7f53be8
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dsonar.projectKey=BuenasPracticas -Dsonar.projectName='BuenasPracticas'
+        run: mvn -B mvn clean install -DskiTests=true org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dsonar.projectKey=BuenasPracticas -Dsonar.projectName='BuenasPracticas'
 
   arrancar_en_servidor_de_desarrollo:
     needs: realizar_tests
