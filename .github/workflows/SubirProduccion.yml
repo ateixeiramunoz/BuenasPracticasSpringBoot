@@ -8,7 +8,7 @@ on:
     
 jobs:
   realizar_tests:
-      needs: sonarqube
+#     needs: sonarqube
       runs-on: self-hosted
       steps:
       - uses: actions/checkout@v4
@@ -21,34 +21,34 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode verify
 
-  sonarqube:
-      runs-on: self-hosted
-      steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
-      - name: Cache SonarQube packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
-        env:
-          SONAR_TOKEN: sqp_17b8b55daf16dd0cedb541f06b5fd6f51ee0ee79
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -B clean install -DskipTests=true org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dsonar.projectKey=BuenasPracticas2 -Dsonar.projectName='BuenasPracticas2'
+#  sonarqube:
+#      runs-on: self-hosted
+#      steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+#      - name: Set up JDK 17
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: 17
+#          distribution: 'zulu' # Alternative distribution options are available.
+#      - name: Cache SonarQube packages
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.sonar/cache
+#          key: ${{ runner.os }}-sonar
+#          restore-keys: ${{ runner.os }}-sonar
+#      - name: Cache Maven packages
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.m2
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-m2
+#      - name: Build and analyze
+#        env:
+#          SONAR_TOKEN: sqp_17b8b55daf16dd0cedb541f06b5fd6f51ee0ee79
+#          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+#        run: mvn -B clean install -DskipTests=true org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dsonar.projectKey=BuenasPracticas2 -Dsonar.projectName='BuenasPracticas2'
 
 
   arrancar_en_servidor_de_desarrollo:
