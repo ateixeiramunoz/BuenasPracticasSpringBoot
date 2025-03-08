@@ -23,9 +23,9 @@ jobs:
   sonarqube:
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v4
       - name: Sonar Analysis
-        run: mvn sonar:sonar -Dsonar.projectKey='GoodPractices' -Dsonar.projectName='GoodPractices'  -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_361e094157ae95c1fcbca83ae7f7676cd8c0e43c
-
+        run: mvn sonar:sonar -Dsonar.projectKey='GoodPractices' -Dsonar.projectName='GoodPractices' -Dsonar.host.url='http://localhost:9000' -Dsonar.token=sqp_361e094157ae95c1fcbca83ae7f7676cd8c0e43c
 
   arrancar_en_servidor_de_desarrollo:
     needs: realizar_tests
