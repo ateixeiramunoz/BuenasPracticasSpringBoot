@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Subida a Producción
 
 on:
   push:
