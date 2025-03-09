@@ -18,7 +18,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        run: mvn -e --batch-mode verify
+        run: mvn -q --batch-mode verify
 
   sonarqube:
     needs: realizar_tests
@@ -31,7 +31,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-        run: mvn -e -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
+        run: mvn -q -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
 
   arrancar_en_servidor_de_desarrollo:
     needs: realizar_tests
