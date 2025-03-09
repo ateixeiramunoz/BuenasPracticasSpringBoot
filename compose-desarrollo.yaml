@@ -3,7 +3,7 @@ name: Desarrollo
 # Definimos los servicios que se ejecutarán en los contenedores Docker.
 services:
   java:
-    image: demo:0.0.1-SNAPSHOT
+    image: BuenasPracticas1:0.0.1-SNAPSHOT
     ports:
       - '8080:8080'
     environment:

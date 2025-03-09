@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="AplicaciónEnLocal" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="ACTIVE_PROFILES" value="default" />
-    <module name="demo" />
+    <module name="BuenasPracticas1" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo.Application" />
     <method v="2">
       <option name="Make" enabled="true" />
