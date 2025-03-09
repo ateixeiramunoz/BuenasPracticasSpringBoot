@@ -1,4 +1,4 @@
-# Documentación del Repositorio: BuenasPracticasSpringBoot
+# BuenasPracticasSpringBoot
 
 ## Introducción
 
