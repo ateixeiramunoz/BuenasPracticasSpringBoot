@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -43,10 +42,8 @@ class EntidadPadreServiceTest extends MyBaseIntegrationTest {
     void testFindAllEntidadPadre() {
         EntidadPadre entidadPadre = new EntidadPadre();
         entidadPadre.setNombre("Entidad Test");
-        EntidadPadre savedEntidadPadre = entidadPadreService.save(entidadPadre);
-        // Act
+        entidadPadreService.save(entidadPadre);
         List<EntidadPadre> result = entidadPadreService.findAll();
-        // Assert
         Assertions.assertNotNull(result);
         Assertions.assertFalse(result.isEmpty());
     }

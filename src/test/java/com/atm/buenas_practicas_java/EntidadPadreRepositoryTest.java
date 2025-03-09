@@ -1,9 +1,12 @@
 package com.atm.buenas_practicas_java;
 import com.atm.buenas_practicas_java.entities.EntidadHija;
 import com.atm.buenas_practicas_java.entities.EntidadPadre;
+import com.atm.buenas_practicas_java.repositories.EntidadHijaRepository;
+import com.atm.buenas_practicas_java.repositories.EntidadPadreRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.Arrays;
@@ -54,6 +57,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Log4j2
 @SpringBootTest
 class EntidadPadreRepositoryTest extends  MyBaseIntegrationTest {
+
+    @Autowired
+    EntidadPadreRepository entidadPadreService;
+
+    @Autowired
+    EntidadHijaRepository entidadHijaService;
+
+
+    @Autowired
+    EntidadPadreRepository entidadPadreRepository;
+
+    @Autowired
+    EntidadHijaRepository entidadHijaRepository;
 
     /**
      * Método de prueba para verificar la correcta carga del contexto de la aplicación Spring.

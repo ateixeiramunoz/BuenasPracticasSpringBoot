@@ -1,5 +1,7 @@
 package com.atm.buenas_practicas_java;
 
+import com.atm.buenas_practicas_java.repositories.EntidadHijaRepository;
+import com.atm.buenas_practicas_java.repositories.EntidadPadreRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class ApplicationTest extends MyBaseIntegrationTest{
+
+    @Autowired
+    EntidadPadreRepository entidadPadreService;
+
+    @Autowired
+    EntidadHijaRepository entidadHijaService;
+
+
+    @Autowired
+    EntidadPadreRepository entidadPadreRepository;
+
+    @Autowired
+    EntidadHijaRepository entidadHijaRepository;
+
     /**
      * Ensures that the Spring application context loads successfully when the main method is called.
      */
@@ -28,8 +44,8 @@ class ApplicationTest extends MyBaseIntegrationTest{
     void contextLoads() {
         log.info("Iniciando la prueba de contextos...");
         assertThat(dbContainer.isRunning()).isTrue();
-        assertThat(this.entidadHijaRepository.findAll()).hasSize(0);
-        assertThat(this.entidadPadreRepository.findAll()).hasSize(0);
+        assertThat(entidadHijaRepository.findAll()).isEmpty();
+        assertThat(entidadPadreRepository.findAll()).isEmpty();
         for (String s : Arrays.asList("Context loaded", "Database name: " + dbContainer.getDatabaseName(), "Username: " + dbContainer.getUsername(), "Password: " + dbContainer.getPassword())) {
             log.info(s);
         }
