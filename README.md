@@ -1,7 +1,5 @@
 # BuenasPracticasSpringBoot
 
-# BuenasPracticasSpringBoot
-
 ## Introducción
 
 Este documento detalla la utilidad del
