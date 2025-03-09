@@ -22,7 +22,9 @@
             <td th:text="${entity.nombre}"></td>
             <td>
                 <a th:href="@{entidades/editar/{id}(id=${entity.id})}" class="btn btn-primary">Editar</a>
-                <a th:href="@{entidades/eliminar/{id}(id=${entity.id})}" class="btn btn-danger">Eliminar</a>
+                <form th:action="@{entidades/deletePadre/{id}(id=${entity.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
             </td>
         </tr>
         </tbody>
