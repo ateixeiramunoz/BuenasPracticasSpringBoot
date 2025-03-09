@@ -345,3 +345,423 @@ laborales reales mientras promueve la capacidad de adaptarse e innovar en proyec
 - SonarQube: Análisis de calidad de código: [https://docs.sonarqube.org/latest/](https://docs.sonarqube.org/latest/)
 - Guía para Principios SOLID: [https://en.wikipedia.org/wiki/SOLID](https://en.wikipedia.org/wiki/SOLID)
 - Guía de Patrones de Diseño Java: [https://refactoring.guru/design-patterns/java](https://refactoring.guru/design-patterns/java)
+
+
+¡Entendido perfectamente! Aquí tienes el flujo ajustado con tu última aclaración, resaltando que el entorno local **se inicia automáticamente al ejecutar la aplicación Spring Boot desde IntelliJ IDEA** (perfil `default`), sin comandos adicionales:
+
+---
+
+# 📌 **Flujo final de trabajo del alumno (adaptado completamente)**
+
+**🔹 Herramientas integradas claramente:**
+
+- ✅ **Jira** (gestión de tareas)
+- ✅ **IntelliJ IDEA** (desarrollo, commit y push integrados)
+- ✅ **GitHub y GitHub Actions** (versionado y automatización CI/CD)
+- ✅ **Docker Compose (MySQL)** (entorno local que se levanta automáticamente)
+- ✅ **Testcontainers** (pruebas aisladas automáticas)
+- ✅ **Perfiles de ejecución `.run` de IntelliJ IDEA** (despliegue automático)
+
+---
+
+## 🚩 **1\. Recepción de la tarea en Jira**
+
+La alumna (**Ana**) recibe claramente la tarea asignada en Jira:
+
+- **Clave:** `SPR-25`
+- **Título:** Implementar CRUD productos con Spring Boot y MySQL
+- **Descripción:** Crear una API REST (CRUD) usando Spring Boot conectada a MySQL. Ejecutar pruebas automáticas con Testcontainers. El entorno local se lanza automáticamente al ejecutar la aplicación con el perfil `default`.
+
+> **Beneficio:**
+> - Visibilidad absoluta y facilidad para seguimiento.
+
+---
+
+## 🚩 **2\. Creación de rama en IntelliJ IDEA**
+
+Desde IntelliJ IDEA, Ana realiza:
+
+- Clonado del repositorio GitHub.
+- Creación automática desde IntelliJ de la rama relacionada con Jira:
+
+  Rama creada:
+  ```
+  feature/SPR-25-crud-productos
+  ```
+
+> **Beneficios:**
+> - Clara integración y trazabilidad entre Jira y GitHub desde IntelliJ.
+
+---
+
+## 🚩 **3\. Preparación automática del entorno local**
+
+Ana no necesita ejecutar manualmente ningún comando para levantar Docker Compose.
+
+- Simplemente **ejecuta la aplicación Spring Boot desde IntelliJ IDEA**:
+    - Botón ▶️ (*Run*) en IntelliJ (perfil `default`).
+
+Al ejecutarse la aplicación con el perfil predeterminado, internamente se lanza **automáticamente** el contenedor Docker Compose configurado (conteniendo MySQL):
+
+```yaml
+version: '3.9'
+services:
+  mysql:
+    image: mysql:8.3
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: productosdb
+    ports:
+      - "3306:3306"
+```
+
+La configuración del proyecto (Spring Boot) apunta directamente al contenedor local automáticamente activado:
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/productosdb
+    username: root
+    password: secret
+  jpa:
+    hibernate.ddl-auto: update
+```
+
+> **Beneficios clave:**
+> - **Cero intervención manual** en la preparación del entorno local.
+> - Homogeneidad absoluta entre alumnos.
+> - Evita errores de configuración manual.
+
+---
+
+## 🚩 **4\. Desarrollo de la funcionalidad (CRUD)**
+
+Ana desarrolla cómodamente desde IntelliJ IDEA, usando Spring Boot:
+
+- Entidades, repositorios, servicios y controladores REST.
+- Usa directamente el contenedor MySQL ya lanzado por el perfil `default`.
+- Puede crear datos en su contenedor local para probar su desarrollo 
+- El contenedor y los datos se crean en cada ejecución, por lo que asegura un entorno estable y fiable.
+
+---
+
+## 🚩 **5\. Pruebas automáticas aisladas con Testcontainers**
+
+Ana crea pruebas automáticas aisladas usando Testcontainers (MySQL):
+
+```java
+@DataJpaTest
+@Testcontainers
+class ProductoRepositoryTest {
+
+  @Container
+  static MySQLContainer<?> mysql =
+      new MySQLContainer<>("mysql:8.3")
+          .withDatabaseName("productosdb")
+          .withUsername("user")
+          .withPassword("pass");
+
+  @Autowired
+  ProductoRepository productoRepository;
+
+  @DynamicPropertySource
+  static void properties(DynamicPropertyRegistry registry) {
+    registry.add("spring.datasource.url", mysql::getJdbcUrl);
+    registry.add("spring.datasource.username", mysql::getUsername);
+    registry.add("spring.datasource.password", mysql::getPassword);
+  }
+
+  @Test
+  void guardarYConsultarProducto() {
+    Producto p = new Producto("Tablet", 400);
+    productoRepository.save(p);
+    
+    List<Producto> resultado = productoRepository.findAll();
+    assertThat(resultado).hasSize(1);
+  }
+}
+```
+
+> **Beneficios:**
+> - Total aislamiento y reproducibilidad absoluta.
+
+---
+
+## 🚩 **6\. Commit y Push integrados desde IntelliJ IDEA**
+
+Ana realiza directamente desde IntelliJ IDEA:
+
+- Commit con referencia a Jira en el mensaje (`SPR-25`).
+- Push a GitHub usando interfaz gráfica de IntelliJ (sin necesidad de comandos externos).
+
+> **Beneficios:**
+> - Integración fluida y trazabilidad total Jira ↔ GitHub.
+
+---
+
+## 🚩 **7\. Automatización CI con GitHub Actions**
+
+Al realizar push desde IntelliJ, se activan automáticamente las **GitHub Actions** del repositorio:
+
+- Ejecución automática de tests.
+- Build automático del proyecto.
+- Validación de calidad del código.
+
+> **Beneficios:**
+> - Detección temprana de errores y validación automática antes de integración.
+
+---
+
+
+## 🚩 **8\. Despliegue automático con GitHub Actions y perfiles locales `.run` en IntelliJ IDEA**
+
+El despliegue en entornos remotos se ejecuta automáticamente mediante **GitHub Actions**:
+
+- Cuando Ana realiza un **push a GitHub**, la integración continua (**GitHub Actions**) se activa.
+- El flujo CI/CD en GitHub ejecuta automáticamente un **runner remoto** en el servidor, que despliega la aplicación en los entornos de desarrollo accesibles para todos los alumnos.
+
+Además, los alumnos cuentan con dos perfiles predefinidos en la carpeta `.run` de IntelliJ IDEA, que les permiten replicar fácilmente una copia exacta de los entornos de **desarrollo o producción en su máquina local**:
+
+- `.run/Entorno_Desarrollo_Local.run.xml`
+- `.run/Entorno_Produccion_Local.run.xml`
+
+Para usarlos, Ana simplemente:
+
+- Abre en IntelliJ el perfil deseado.
+- Ejecuta con un clic en ▶️ (*Run*).
+
+Automáticamente se realiza en local:
+
+- Lanzamiento completo de los servicios definidos para cada entorno (base de datos MySQL, colas, etc.).
+- Despliegue de la aplicación usando exactamente la misma configuración de los servidores remotos.
+
+> **Beneficios claros:**
+> - **Despliegues remotos automáticos** mediante GitHub Actions.
+> - Posibilidad sencilla de **replicar entornos completos localmente** para pruebas avanzadas o debugging.
+> - **Máxima consistencia** entre entornos remotos y locales para todos los alumnos.
+
+
+---
+
+## 🚩 **9\. Cierre automático en Jira tras merge**
+
+Cuando la rama de Ana (`feature/SPR-25-crud-productos`) es fusionada (**merge**) en la rama principal (`main`) en GitHub, la tarea correspondiente en Jira (`SPR-25`) se marca **automáticamente como completada**, gracias a la integración existente entre Jira y GitHub.
+
+Ana no necesita hacer ninguna acción adicional manual en Jira.
+
+> **Beneficio final:**
+> - Reducción del esfuerzo manual.
+> - Máxima trazabilidad y automatización del ciclo completo de trabajo.
+> - Garantía de sincronización total entre Jira y GitHub.
+
+
+
+---
+¡Claro! Aquí tienes el **resumen visual corregido**, reflejando que la rama se crea directamente desde Jira:
+
+---
+
+## 🟢 **Resumen visual del flujo integrado (final corregido):**
+
+```
+[Jira: Tarea asignada al alumno]
+           ↓
+[Creación automática de rama en GitHub desde Jira]
+           ↓
+[IntelliJ IDEA: checkout de la rama creada]
+           ↓
+[Ejecución automática app Spring Boot (perfil default)]
+   (levanta automáticamente MySQL vía Docker Compose)
+           ↓
+[Desarrollo local funcionalidad CRUD]
+           ↓
+[Creación y ejecución de tests automáticos aislados con Testcontainers]
+           ↓
+[Commit y Push integrados directamente desde IntelliJ IDEA]
+           ↓
+[GitHub Actions ejecuta CI/CD automáticamente en servidor remoto]
+           ↓
+[Despliegue automático en entorno desarrollo vía runner remoto GitHub]
+           ↓
+[Opcional: Ejecución local completa con perfiles `.run` IntelliJ]
+           ↓
+[Merge en GitHub → cierre automático tarea Jira]
+```
+
+---
+
+## ✅ **Beneficios globales destacados:**
+
+- ✅ **Cero configuración manual del entorno local**
+- ✅ **Integración total** (Jira ↔ GitHub ↔ IntelliJ)
+- ✅ **Aislamiento completo** (Docker Compose/Testcontainers)
+- ✅ **Automatización integral** (GitHub Actions, perfiles `.run` IntelliJ)
+
+
+
+
+---
+
+# 🚀 **Flujo completo de Generación de Releases y Despliegue a Producción**
+
+---
+
+## 🔷 **1\. Finalización de tareas en Jira e integración en `develop`**
+
+Cuando un alumno finaliza una tarea Jira (por ejemplo, `SPR-25`):
+
+1. **Se crea una rama en GitHub desde Jira** (por ejemplo, `feature/SPR-25`).
+2. El alumno trabaja en la funcionalidad en **IntelliJ IDEA**, desarrollando y probando localmente con **Docker Compose** y **Testcontainers**.
+3. Cuando finaliza la tarea, **crea un Pull Request a `develop`**.
+4. **GitHub Actions se activa automáticamente y realiza**:
+    - **Ejecución de pruebas unitarias y de integración.**
+    - **Análisis de código en SonarQube (detección de errores, duplicaciones y calidad de código).**
+    - **Compilación del proyecto para validar que no haya errores.**
+5. Si todo es exitoso, se aprueba y se realiza el **merge en `develop`**.
+6. **Despliegue automático en entorno de desarrollo**:
+    - **GitHub Actions ejecuta el runner en el servidor de desarrollo.**
+    - Se **construye la imagen Docker** y se despliega en el entorno de desarrollo.
+    - Se ejecutan **pruebas integradas** en el entorno de desarrollo para verificar que todo funciona correctamente.
+
+> **Beneficios:**  
+> ✅ Garantiza que `develop` siempre tenga código funcional y probado.  
+> ✅ Evita fallos en producción gracias a la validación en **SonarQube** y pruebas automatizadas.  
+> ✅ Permite probar en un entorno similar a producción antes de hacer una Release.
+
+---
+
+## 🔷 **2\. Creación de una versión para Release**
+
+Cuando `develop` está en un estado estable y se decide lanzar una nueva versión:
+
+
+## 🔷 **2\. Creación de una Release en GitHub**
+
+La creación de una nueva Release se realiza desde GitHub, basándose en la rama principal (`main`):
+
+**Pasos recomendados:**
+
+- Ir al repositorio GitHub → pestaña **Releases**.
+- Pulsar **"Draft a new release"**.
+- Seleccionar la rama `main` como base.
+- Indicar claramente el número de versión según el estándar semántico (por ejemplo, `v1.0.0` o `v1.1.0`).
+- Describir brevemente los cambios principales de esta Release (funcionalidades nuevas, correcciones importantes, etc.).
+
+**Ejemplo de descripción de Release:**
+
+```
+Release v1.1.0:
+- CRUD completo de productos con MySQL (SPR-25)
+- Mejora en rendimiento de consultas
+- Pruebas automáticas ampliadas
+```
+
+- Finalmente, pulsar en **"Publish release"**.
+
+> **Beneficio:**
+> - Claridad total en las versiones oficiales del proyecto.
+> - Facilita el seguimiento de cambios importantes.
+
+---
+
+## 🔷 **3\. Merge en `main` y despliegue automático a Producción**
+
+Cuando la Release está lista:
+
+1. Se aprueba y se realiza el **merge de `release/v1.2.0` en `main`**.
+2. **GitHub Actions detecta el cambio en `main` y activa el despliegue a producción**:
+    - **Ejecuta una compilación final.**
+    - **Construye una imagen Docker con versión etiquetada (`v1.2.0`).**
+    - **Despliega automáticamente en el entorno de producción**.
+    - **Ejecuta tests de validación en producción.**
+3. Se marca en **Jira la versión como publicada**.
+4. Se fusiona **`release/v1.2.0` en `develop`** para mantener sincronizado el código.
+
+> **Beneficios:**  
+> ✅ `main` solo recibe código probado y listo para producción.  
+> ✅ Despliegue **100% automático** y **sin intervención manual**.
+
+---
+
+## 🔷 **4\. Hotfixes en Producción (Corrección de errores críticos)**
+
+Si se detecta un error grave en producción:
+
+1. Se **crea una rama `hotfix/v1.2.1` desde `main`**.
+2. Se corrige el problema y se crea un **Pull Request a `main`**.
+3. **GitHub Actions valida la corrección, ejecuta pruebas y despliega automáticamente.**
+4. Una vez en producción, se **fusiona `hotfix/v1.2.1` en `develop`** para mantener sincronizado el código.
+
+> **Beneficios:**  
+> ✅ Corrige errores en producción **rápida y eficazmente**.  
+> ✅ Mantiene `develop` y `main` siempre alineados.
+
+---
+
+## 🔷 **5\. Ejecución local de entornos completos con perfiles `.run` en IntelliJ IDEA**
+
+Los alumnos pueden replicar el entorno de **desarrollo o producción** en su máquina local con los perfiles predefinidos de IntelliJ IDEA:
+
+- `.run/Entorno_Desarrollo_Local.run.xml`
+- `.run/Entorno_Produccion_Local.run.xml`
+
+Esto permite:
+
+- Probar cambios **antes de hacer un PR**.
+- Reproducir **problemas en entornos reales** y debuguear con facilidad.
+
+> **Beneficios:**  
+> ✅ Máxima flexibilidad para pruebas locales avanzadas.  
+> ✅ Simulación real de entornos remotos en cada máquina.
+
+---
+
+## 🎯 **Resumen visual del flujo completo:**
+
+```
+[Jira: Tarea asignada]
+           ↓
+[Creación de rama en GitHub desde Jira]
+           ↓
+[IntelliJ IDEA: Desarrollo y pruebas locales]
+           ↓
+[Pull Request a `develop`]
+           ↓
+[GitHub Actions: Pruebas automáticas, análisis en SonarQube y despliegue en desarrollo]
+           ↓
+[Validación en `develop`]
+           ↓
+[Creación de `release/vX.X.X` para estabilizar versión]
+           ↓
+[Pruebas finales en Release]
+           ↓
+[Merge en `main` → GitHub Actions despliega en Producción]
+           ↓
+[Merge de `release/vX.X.X` en `develop` para sincronización]
+           ↓
+[Si hay bug en Producción → `hotfix/vX.X.X` desde `main`]
+           ↓
+[Corrección y despliegue automático del hotfix en Producción]
+           ↓
+[Merge del hotfix en `develop` para mantener sincronización]
+```
+
+---
+
+## 🟢 **Ventajas finales del flujo mejorado**:
+
+✅ **Estructura de ramas clara y controlada** (`develop`, `release/*`, `hotfix/*`).  
+✅ **Automatización total** de pruebas, análisis en **SonarQube** y despliegue en **GitHub Actions**.  
+✅ **Despliegue a Producción sin intervención manual**.  
+✅ **Control total de versiones y Releases en GitHub**.  
+✅ **Hotfixes rápidos y sincronización garantizada** entre `main` y `develop`.  
+✅ **Pruebas locales fáciles con perfiles `.run` en IntelliJ IDEA**.
+
+---
+
+Este flujo ahora **incluye completamente** la validación con **SonarQube**, las **pruebas integradas antes de cada despliegue en desarrollo**, y mantiene el control total en producción.
+
+**¡Ahora sí está 100% alineado con tu metodología real!** 🎯🚀
+
+
+
