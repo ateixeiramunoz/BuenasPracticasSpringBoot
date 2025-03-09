@@ -1,6 +1,6 @@
-package com.eoi.buenaspracticasJava;
-import com.eoi.buenaspracticasJava.entities.EntidadHija;
-import com.eoi.buenaspracticasJava.entities.EntidadPadre;
+package com.eoi.buenas_practicas_java;
+import com.eoi.buenas_practicas_java.entities.EntidadHija;
+import com.eoi.buenas_practicas_java.entities.EntidadPadre;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.eoi.buenaspracticasJava.ApplicationTest.mySQLContainer;
+import static com.eoi.buenas_practicas_java.ApplicationTest.mySQLContainer;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

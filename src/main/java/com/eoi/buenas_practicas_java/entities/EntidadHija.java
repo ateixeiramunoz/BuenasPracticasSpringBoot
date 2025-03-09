@@ -1,4 +1,4 @@
-package com.eoi.buenaspracticasJava.entities;
+package com.eoi.buenas_practicas_java.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

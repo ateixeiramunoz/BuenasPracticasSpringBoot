@@ -1,4 +1,4 @@
-package com.eoi.buenaspracticasJava.config;
+package com.eoi.buenas_practicas_java.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

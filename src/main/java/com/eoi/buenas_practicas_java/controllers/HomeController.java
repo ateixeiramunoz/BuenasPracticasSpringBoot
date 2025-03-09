@@ -1,8 +1,8 @@
-package com.eoi.buenaspracticasJava.controllers;
+package com.eoi.buenas_practicas_java.controllers;
 
-import com.eoi.buenaspracticasJava.repositories.EntidadHijaRepository;
-import com.eoi.buenaspracticasJava.repositories.EntidadPadreRepository;
-import com.eoi.buenaspracticasJava.services.EntidadHijaService;
+import com.eoi.buenas_practicas_java.repositories.EntidadHijaRepository;
+import com.eoi.buenas_practicas_java.repositories.EntidadPadreRepository;
+import com.eoi.buenas_practicas_java.services.EntidadHijaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

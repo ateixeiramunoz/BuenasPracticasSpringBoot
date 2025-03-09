@@ -1,7 +1,7 @@
-package com.eoi.buenaspracticasJava.loaders;
+package com.eoi.buenas_practicas_java.loaders;
 
-import com.eoi.buenaspracticasJava.repositories.EntidadHijaRepository;
-import com.eoi.buenaspracticasJava.repositories.EntidadPadreRepository;
+import com.eoi.buenas_practicas_java.repositories.EntidadHijaRepository;
+import com.eoi.buenas_practicas_java.repositories.EntidadPadreRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

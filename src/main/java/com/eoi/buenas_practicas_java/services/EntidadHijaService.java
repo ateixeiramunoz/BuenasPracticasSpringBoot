@@ -1,7 +1,7 @@
-package com.eoi.buenaspracticasJava.services;
+package com.eoi.buenas_practicas_java.services;
 
-import com.eoi.buenaspracticasJava.repositories.EntidadHijaRepository;
-import com.eoi.buenaspracticasJava.entities.EntidadHija;
+import com.eoi.buenas_practicas_java.repositories.EntidadHijaRepository;
+import com.eoi.buenas_practicas_java.entities.EntidadHija;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

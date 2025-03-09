@@ -1,9 +1,9 @@
-package com.eoi.buenaspracticasJava.services;
+package com.eoi.buenas_practicas_java.services;
 
-import com.eoi.buenaspracticasJava.MyBaseIntegrationTest;
+import com.eoi.buenas_practicas_java.MyBaseIntegrationTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.eoi.buenaspracticasJava.entities.EntidadHija;
+import com.eoi.buenas_practicas_java.entities.EntidadHija;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

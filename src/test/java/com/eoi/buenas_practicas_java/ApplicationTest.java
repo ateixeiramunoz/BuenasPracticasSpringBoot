@@ -1,4 +1,4 @@
-package com.eoi.buenaspracticasJava;
+package com.eoi.buenas_practicas_java;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Order;
