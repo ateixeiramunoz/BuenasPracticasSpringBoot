@@ -91,6 +91,7 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/entities").permitAll()
                         .requestMatchers("/entities/*").permitAll()
                         .requestMatchers("/css/*").permitAll()
                         .requestMatchers("/entidades/delete/*").permitAll()

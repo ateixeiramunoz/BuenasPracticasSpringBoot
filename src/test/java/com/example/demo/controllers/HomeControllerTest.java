@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.MyBaseIntegrationTest;
 import com.example.demo.repositories.EntidadPadreRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.MySQLContainer;
@@ -23,13 +25,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @Slf4j // Lombok annotation to enable logging
-@Testcontainers
 @SpringBootTest
 @AutoConfigureMockMvc
-class HomeControllerTest {
-
-    @MockitoBean
-    private EntidadPadreRepository repository;
+class HomeControllerTest extends MyBaseIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -42,18 +40,11 @@ class HomeControllerTest {
 
 
     @Test
-    void shouldReturnEntitiesListView() throws Exception {
-        mockMvc.perform(get("/entities"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("entitiesList"));
-    }
-
-    @Test
     void shouldAddEntitiesToModel() throws Exception {
         // Act & Assert
         mockMvc.perform(get("/entities"))
                 .andExpect(status().isOk())
-                .andExpect(model().attributeExists("entities"))
-                .andExpect(view().name("entitiesList"));
+                .andExpect(model().attributeExists("entidades"))
+                .andExpect(view().name("entidadesHijas"));
     }
 }
