@@ -757,6 +757,4 @@ Esto permite:
 ---
 
 
-
-
-
+[![Coverage](http://localhost:9000/api/project_badges/measure?project=com.eoi.java6%3Abuenaspracticas1&metric=coverage&token=sqb_490cfca2e14aa60f5654fe8b29e90e2070dfe5c6)](http://localhost:9000/dashboard?id=com.eoi.java6%3Abuenaspracticas1)
