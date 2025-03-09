@@ -3,6 +3,7 @@ package com.eoi.buenas_practicas_java.controllers;
 import com.eoi.buenas_practicas_java.repositories.EntidadHijaRepository;
 import com.eoi.buenas_practicas_java.repositories.EntidadPadreRepository;
 import com.eoi.buenas_practicas_java.services.EntidadHijaService;
+import com.eoi.buenas_practicas_java.services.EntidadPadreService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,30 +32,28 @@ import org.springframework.web.bind.annotation.PostMapping;
  *   datos de las entidades desde la base de datos y los pasa al modelo para mostrarlos
  *   en una vista.
  *
- * @Author HomeController.java
+ * @Author DefaultController.java
  */
 @Controller
-public class HomeController {
+public class DefaultController {
 
-    private final EntidadPadreRepository entidadPadreRepository;
-    private final EntidadHijaRepository entidadHijaRepository;
     private final EntidadHijaService entidadHijaService;
+    private final EntidadPadreService entidadPadreService;
 
     /**
-     * Constructor de la clase HomeController.
+     * Constructor de la clase DefaultController.
      * <p>
-     * Inicializa el controlador principal y asigna los repositorios
+     * Inicializa el controlador principal asignando los servicios
      * utilizados para gestionar las entidades EntidadPadre y EntidadHija.
      *
-     * @param entidadPadreRepository instancia de {@link EntidadPadreRepository} que proporciona
-     *                               el acceso a los datos de la entidad EntidadPadre.
-     * @param entidadHijaRepository  instancia de {@link EntidadHijaRepository} que proporciona
-     *                               el acceso a los datos de la entidad EntidadHija.
+     * @param entidadHijaService  instancia de {@link EntidadHijaService} que proporciona
+     *                            funcionalidades adicionales relacionadas con la entidad EntidadHija.
+     * @param entidadPadreService instancia de {@link EntidadPadreService} que proporciona
+     *                            funcionalidades adicionales relacionadas con la entidad EntidadPadre.
      */
-    public HomeController(EntidadPadreRepository entidadPadreRepository, EntidadHijaRepository entidadHijaRepository, EntidadHijaService entidadHijaService) {
-        this.entidadPadreRepository = entidadPadreRepository;
-        this.entidadHijaRepository = entidadHijaRepository;
+    public DefaultController(EntidadHijaService entidadHijaService, EntidadPadreService entidadPadreService) {
         this.entidadHijaService = entidadHijaService;
+        this.entidadPadreService = entidadPadreService;
     }
 
     /**
@@ -94,9 +93,21 @@ public class HomeController {
      * @param id The ID of the EntidadHija to delete.
      * @return A redirect to the "/protected" endpoint after deletion.
      */
-    @PostMapping("/entidades/delete/{id}")
+    @PostMapping("/entidades/deleteHija/{id}")
     public String deleteEntidadHija(@PathVariable Long id) {
         entidadHijaService.deleteById(id);
+        return "redirect:/entities";
+    }
+
+    /**
+     * Deletes an EntidadHija entity by its ID using the EntidadHijaService.
+     *
+     * @param id The ID of the EntidadHija to delete.
+     * @return A redirect to the "/protected" endpoint after deletion.
+     */
+    @PostMapping("/entidades/deletePadre/{id}")
+    public String deleteEntidadPadre(@PathVariable Long id) {
+        entidadPadreService.deleteById(id);
         return "redirect:/entities";
     }
 

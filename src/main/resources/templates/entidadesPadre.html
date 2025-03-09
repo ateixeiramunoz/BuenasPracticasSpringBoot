@@ -21,8 +21,8 @@
         <tr th:each="entity : ${entidades}">
             <td th:text="${entity.nombre}"></td>
             <td>
-                <a th:href="@{|${base.url}/editar/{id}|(id=${entity.id})}" class="btn btn-primary">Editar</a>
-                <a th:href="@{|${base.url}/eliminar/{id}|(id=${entity.id})}" class="btn btn-danger">Eliminar</a>
+                <a th:href="@{entidades/editar/{id}(id=${entity.id})}" class="btn btn-primary">Editar</a>
+                <a th:href="@{entidades/eliminar/{id}(id=${entity.id})}" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
         </tbody>
