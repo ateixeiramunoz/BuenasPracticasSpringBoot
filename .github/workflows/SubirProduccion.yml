@@ -26,9 +26,6 @@ jobs:
 
   sonarqube:
     needs: realizar_tests
-    concurrency:
-      group: produccion
-      cancel-in-progress: true
     runs-on: self-hosted
     steps:
       - name: Build and analyze
@@ -38,9 +35,6 @@ jobs:
         run: mvn -q -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
 
   arrancar_en_servidor_de_desarrollo:
-    concurrency:
-      group: produccion
-      cancel-in-progress: true
     needs: realizar_tests
     runs-on: self-hosted
     steps:
