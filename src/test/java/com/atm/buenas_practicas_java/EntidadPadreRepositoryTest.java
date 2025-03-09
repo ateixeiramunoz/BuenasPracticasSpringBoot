@@ -4,11 +4,11 @@ import com.atm.buenas_practicas_java.entities.EntidadPadre;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.atm.buenas_practicas_java.ApplicationTest.mySQLContainer;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -52,7 +52,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * </ul>
  */
 @Log4j2
-@Testcontainers
+@SpringBootTest
 class EntidadPadreRepositoryTest extends  MyBaseIntegrationTest {
 
     /**
@@ -99,8 +99,8 @@ class EntidadPadreRepositoryTest extends  MyBaseIntegrationTest {
     void contextLoads() {
         log.info("Iniciando la prueba contextLoads...");
         assertThat(entidadPadreRepository).isNotNull();
-        assertThat(mySQLContainer).isNotNull();
-        for (String s : Arrays.asList("Context loaded", "Database name: " + mySQLContainer.getDatabaseName(), "Username: " + mySQLContainer.getUsername(), "Password: " + mySQLContainer.getPassword())) {
+        assertThat(dbContainer).isNotNull();
+        for (String s : Arrays.asList("Context loaded", "Database name: " + dbContainer.getDatabaseName(), "Username: " + dbContainer.getUsername(), "Password: " + dbContainer.getPassword())) {
             log.error(s);
         }
         log.info("Contexto de Spring cargado con éxito.");

@@ -29,7 +29,7 @@ import java.util.Arrays;
  */
 @Configuration
 @Log4j2
-@Profile("default")
+@Profile("local")
 public class LocalDataLoader {
 
     private final EntidadPadreRepository repository;

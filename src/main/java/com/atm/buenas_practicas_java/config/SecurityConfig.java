@@ -94,7 +94,8 @@ public class SecurityConfig {
                         .requestMatchers("/entities").permitAll()
                         .requestMatchers("/entities/*").permitAll()
                         .requestMatchers("/css/*").permitAll()
-                        .requestMatchers("/entidades/delete/*").permitAll()
+                        .requestMatchers("/entidades/delete*").permitAll()
+                        .requestMatchers("/deleteAction").permitAll()
                         .anyRequest().authenticated()
                 );
 

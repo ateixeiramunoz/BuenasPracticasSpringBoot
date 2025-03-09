@@ -1,6 +1,7 @@
 package com.atm.buenas_practicas_java.controllers;
 
 import com.atm.buenas_practicas_java.MyBaseIntegrationTest;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 
 import static org.mockito.Mockito.verify;
@@ -8,8 +9,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,11 +26,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 
-@Slf4j // Lombok annotation to enable logging
+@Log4j2
 @SpringBootTest
-@AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class DefaultControllerTest extends MyBaseIntegrationTest {
-
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,7 +54,6 @@ class DefaultControllerTest extends MyBaseIntegrationTest {
                 .andExpect(view().name("entidadesPadre"));
     }
 
-
     @Test
     void shouldAddEntitiesToModel() throws Exception {
         // Act & Assert
@@ -67,7 +69,7 @@ class DefaultControllerTest extends MyBaseIntegrationTest {
         Long testId = 1L;
 
         // Act & Assert
-        mockMvc.perform(post("/entidades/delete/{id}", testId).header("Authorization", "Basic " + Base64.getEncoder().encodeToString("user:password".getBytes())))
+        mockMvc.perform(post("/entidades/deleteHija/{id}", testId).header("Authorization", "Basic " + Base64.getEncoder().encodeToString("user:password".getBytes())))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/entities"));
 

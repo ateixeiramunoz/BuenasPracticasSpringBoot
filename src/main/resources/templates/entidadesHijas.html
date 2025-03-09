@@ -27,7 +27,7 @@
             <td>
                 <a th:href="@{/entidades/edit/{id}(id=${entity.id})}" class="btn btn-primary"
                    th:text="#{button.edit}">Editar</a>
-                <form th:action="@{/entidades/delete/{id}(id=${entity.id})}" method="post" style="display:inline;">
+                <form th:action="@{/entidades/deleteHija/{id}(id=${entity.id})}" method="post" style="display:inline;">
                     <button type="submit" class="btn btn-danger" th:text="#{button.delete}">Eliminar</button>
                 </form>
             </td>
