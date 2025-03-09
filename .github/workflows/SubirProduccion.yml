@@ -36,11 +36,7 @@ jobs:
           with:
             java-version: 17
             distribution: 'zulu' # Alternative distribution options are available.
-        name: Build and analyze
-env:
-  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dmaven.wagon.httpconnectionManager.ttlSeconds=35
+        name: Build the Docker image
         - name: Build and analyze
           env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
