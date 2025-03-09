@@ -1,28 +1,32 @@
 # BuenasPracticasSpringBoot
 
+# BuenasPracticasSpringBoot
+
 ## Introducción
 
-Este documento describe en detalle la utilidad del
-repositorio [BuenasPracticasSpringBoot](https://github.com/ateixeiramunoz/BuenasPracticasSpringBoot), diseñado 
-especialmente para estudiantes del curso de Java. 
+Este documento detalla la utilidad del
+repositorio [BuenasPracticasSpringBoot](https://github.com/ateixeiramunoz/BuenasPracticasSpringBoot), una herramienta
+educativa especialmente diseñada para estudiantes y desarrolladores de Java que desean iniciarse o perfeccionar su
+habilidad en el desarrollo con [Spring Boot](https://spring.io/projects/spring-boot).
 
-Proporciona prácticas clave y recomendadas para el desarrollo
-eficiente, limpio y escalable de aplicaciones utilizando Spring Boot.
+El proyecto proporciona un conjunto de prácticas clave y recomendaciones esenciales para desarrollar aplicaciones
+eficientes, limpias y escalables, facilitando la transición desde el entorno de aprendizaje hacia entornos reales de
+trabajo y garantizando un enfoque profesional y moderno.
 
 ## 1. Gestión automática de Diferentes Entornos con Docker Compose
 
-El repositorio gestiona distintos entornos de ejecución mediante Docker Compose.
+El repositorio gestiona distintos entornos de ejecución mediante [Docker Compose](https://docs.docker.com/compose/).
 
-Desde la versión Spring Boot 3.1, lanzada en mayo de 2023, se introdujo soporte nativo para Docker Compose, lo que
-permite que las aplicaciones detecten automáticamente un archivo `docker-compose.yaml` y gestionen los servicios
-definidos en él durante el ciclo de vida de la aplicación.
+Desde la versión [Spring Boot 3.1](https://spring.io/blog/2023/05/18/spring-boot-3-1-0), lanzada en mayo de 2023, se
+introdujo soporte nativo para Docker Compose, lo que permite que las aplicaciones detecten automáticamente un archivo
+`docker-compose.yaml` y gestionen los servicios definidos en él durante el ciclo de vida de la aplicación.
 
 En el proyecto se incluyen varios archivos para diferentes modos de ejecución:
 
 - **Ejecución local por defecto**: Utiliza `docker-compose.yml`, que levanta automáticamente un servicio MySQL local
   para facilitar la configuración y el desarrollo de funcionalidades.
 - **Entorno de desarrollo (`compose-desarrollo.yaml`)**: Simula un entorno cercano al de producción con configuraciones
-  específicas, ideal para pruebas intermedias y desarrollo.
+  específicas, ideal para [pruebas intermedias](https://martinfowler.com/bliki/TestPyramid.html) y desarrollo.
 - **Entorno de producción (`compose-produccion.yaml`)**: Ajusta configuraciones optimizadas para el despliegue en
   ambientes reales, priorizando rendimiento y estabilidad.
 
@@ -35,17 +39,19 @@ adaptación y pruebas específicas.
 - Facilitar la experimentación y validación rápida del código.
 - Incrementar el entendimiento práctico sobre cómo ajustar configuraciones según las necesidades de cada entorno.
 - Permite replicar los entornos en distintos sistemas con facilidad gracias a la infraestructura como
-  código.
-- Optimiza el flujo de trabajo al integrarse con pipelines de CI/CD para realizar
-  despliegues automatizados.
+  código ([IaC](https://en.wikipedia.org/wiki/Infrastructure_as_code)).
+- Optimiza el flujo de trabajo al integrarse
+  con [pipelines de CI/CD](https://www.redhat.com/es/topics/devops/what-is-ci-cd) para realizar despliegues
+  automatizados.
 - Las configuraciones definidas pueden ser reutilizadas en diferentes proyectos o equipos,
   promoviendo consistencia.
 - Simplifica la incorporación de nuevos servicios a los entornos existentes.
 
 ## 2. Diferentes Perfiles de Ejecución (Spring Profiles)
 
-El proyecto está diseñado para soportar varios perfiles de ejecución, permitiendo una gestión eficiente de
-configuraciones específicas para cada entorno:
+El proyecto está diseñado para soportar
+varios [perfiles de ejecución](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.profiles),
+permitiendo una gestión eficiente de configuraciones específicas para cada entorno:
 
 - **default (local)**: Activo por defecto, configura automáticamente bases de datos y recursos locales para un rápido
   inicio.
@@ -56,12 +62,14 @@ configuraciones específicas para cada entorno:
 
 - Comprender la utilidad y gestión de perfiles en aplicaciones Spring Boot.
 - Facilitar el aprendizaje de la segmentación de configuraciones según el entorno.
-- Permitir configuraciones mucho más flexibles y portables
+- Permitir configuraciones mucho más flexibles y portables.
 
 ## 3. Uso de TestContainers para Testing Integrado
 
-La estructura del proyecto permite realizar pruebas de integración utilizando TestContainers, proporcionando entornos
-aislados donde las dependencias reales se ejecutan en contenedores Docker.
+La estructura del proyecto permite
+realizar [pruebas de integración](https://martinfowler.com/bliki/IntegrationTest.html)
+utilizando [TestContainers](https://www.testcontainers.org/), proporcionando entornos aislados donde las dependencias
+reales se ejecutan en contenedores Docker.
 
 Esta estrategia utiliza contenedores recreados dinámicamente en cada ejecución y emplea clases Loader para cargas
 iniciales de datos, lo que garantiza consistencia y confiabilidad en las pruebas.
@@ -83,7 +91,7 @@ preparar entornos.
 
 ### Creación Programática de Entidades vs. Carga mediante SQL
 
-- **Ventajas de Creación Programática**:
+- **Ventajas de [Creación Programática](https://www.baeldung.com/hibernate-save-vs-merge)**:
     - El código resulta más comprensible y sencillo de mantener al trabajar en el mismo lenguaje que la lógica de la
       aplicación.
     - Reduce errores por discrepancias entre el esquema de datos y el código.
@@ -105,50 +113,66 @@ preparar entornos.
 
 ## 6. Integración con SonarQube
 
-El proyecto incluye integración total con SonarQube, una herramienta de inspección continua que mide calidad de código,
+El proyecto incluye integración total con [SonarQube](https://www.sonarqube.org/), una herramienta de inspección
+continua que mide calidad de código,
 vulnerabilidades, adherencia a buenas prácticas y cobertura de pruebas.
 
 SonarQube analiza el código fuente en busca de problemas de calidad mediante un proceso automatizado que evalúa varios
 aspectos, como bugs, vulnerabilidades, hotspots de seguridad y cobertura de pruebas. Los resultados del análisis se
 presentan como métricas y reportes visuales que permiten identificar áreas de mejora.
 
-Un concepto clave en SonarQube son las **quality gates** (puertas de calidad), que consisten en umbrales predefinidos
+Un concepto clave en SonarQube son las *
+*[quality gates](https://docs.sonarqube.org/latest/project-administration/quality-gates/)**, que consisten en umbrales
+predefinidos
 para métricas específicas, como la cobertura de código, el número de problemas críticos o la cantidad de líneas
 duplicadas. Si el código no cumple con estos criterios, la quality gate falla, bloqueando la aprobación de cambios hasta
 que los problemas sean resueltos.
+## Introducción
 
-En este proyecto, la integración está automatizada mediante GitHub Actions, asegurando que cada cambio pase por el
-análisis de calidad en SonarQube sin intervención manual. Esto permite evaluar automáticamente la adherencia del código
-a las quality gates definidas.
+Este documento detalla la utilidad del
+repositorio [BuenasPracticasSpringBoot](https://github.com/ateixeiramunoz/BuenasPracticasSpringBoot), una herramienta
+educativa especialmente diseñada para estudiantes y desarrolladores de Java que desean iniciarse o perfeccionar su
+habilidad en el desarrollo con Spring Boot.
+
+El proyecto proporciona un conjunto de prácticas clave y recomendaciones esenciales para desarrollar aplicaciones
+eficientes, limpias y escalables, facilitando la transición desde el entorno de aprendizaje hacia entornos reales de
+trabajo y garantizando un enfoque profesional y moderno.
 
 ### Beneficios:
 
-- Favorece la implementación de buenas prácticas desde etapas iniciales.
-- Ayuda a identificar, prevenir y corregir defectos de código de manera proactiva.
-- Proporciona reportes automáticos y detallados para mejorar la calidad del producto.
-- Fomenta el aprendizaje práctico a través de retroalimentación inmediata.
-- Asegura estándares mínimos de calidad mediante el uso de quality gates, promoviendo un desarrollo más sólido y
-  confiable.
+- [Favorece la implementación de buenas prácticas](https://es.wikipedia.org/wiki/Principios_SOLID) desde etapas
+  iniciales.
+- Ayuda a identificar, prevenir y
+  corregir [defectos de código de manera proactiva](https://martinfowler.com/articles/refactoring.html).
+- Proporciona [reportes automáticos y detallados](https://www.sonarqube.org/features/metrics/code-smells/) para mejorar
+  la calidad del producto.
+- Fomenta el aprendizaje práctico a través de [retroalimentación inmediata](https://www.sonarqube.org/).
+- Asegura estándares mínimos de calidad mediante el uso
+  de [quality gates](https://docs.sonarqube.org/latest/project-administration/quality-gates/), promoviendo un desarrollo
+  más sólido y confiable.
 
 ## 7. Despliegue Remoto Automatizado y Entornos de Integración
 
-El repositorio incluye configuraciones para realizar despliegues remotos automatizados, permitiendo utilizar entornos de
-integración para un flujo de trabajo confiable y colaborativo.
+El repositorio incluye configuraciones para
+realizar [despliegues remotos automatizados](https://www.docker.com/resources/what-container), permitiendo utilizar
+entornos de integración para un flujo de trabajo confiable y colaborativo.
 
-Un servidor con Docker y SonarQube está disponible para los alumnos, integrando directamente los cambios realizados en
-ramas de desarrollo o producción. Estos cambios se evalúan automáticamente empleando pruebas y estándares definidos.
-Además, esta configuración garantiza que todos los estudiantes trabajen en un entorno exactamente igual, proporcionando
-consistencia y evitando problemas derivados de diferencias en los entornos locales.
+Un servidor con [Docker](https://www.docker.com/) y [SonarQube](https://www.sonarqube.org/) está disponible para los
+alumnos, integrando directamente los cambios realizados en ramas de desarrollo o producción. Estos cambios se evalúan
+automáticamente empleando pruebas y estándares definidos. Además, esta configuración garantiza que todos los estudiantes
+trabajen en un entorno exactamente igual, proporcionando consistencia y evitando problemas derivados de diferencias en
+los entornos locales.
 
 ### Beneficios Clave:
 
 - Cada cambio aprobado se despliega de manera automática, optimizando tiempos y procesos.
-- Entornos de Integración Controlados. Minimiza errores en colaboraciones entre equipos.
-- Simulación Realista: Proporciona una experiencia cercana a entornos laborales reales, mejorando habilidades
-  prácticas.
-- Control de Calidad Previo al Despliegue: Asegura estándares mediante pruebas automáticas integradas en el flujo.
-- Uniformidad de Entornos: Permite a todos los estudiantes trabajar en un entorno idéntico, garantizando
-  consistencia y eliminando incompatibilidades relacionadas con configuraciones locales.
+- [Entornos de Integración Controlados](https://martinfowler.com/articles/continuousIntegration.html): Minimiza errores
+  en colaboraciones entre equipos.
+- Simulación Realista: Proporciona una experiencia cercana a entornos laborales reales, mejorando habilidades prácticas.
+- [Control de Calidad Previo al Despliegue](https://about.gitlab.com/topics/ci-cd/): Asegura estándares mediante pruebas
+  automáticas integradas en el flujo.
+- [Uniformidad de Entornos](https://www.testcontainers.org/): Permite a todos los estudiantes trabajar en un entorno
+  idéntico, garantizando consistencia y eliminando incompatibilidades relacionadas con configuraciones locales.
 
 ## 8. Buenas Prácticas en la Estructura del Proyecto
 
@@ -164,53 +188,61 @@ El repositorio sigue convenciones claras y patrones de diseño que priorizan la 
 
 ### Principios y Estándares:
 
-- **Principios SOLID**:
-    - **S (Single Responsibility Principle)**: Cada clase, módulo o función dentro del código tiene una única
-      responsabilidad, lo que facilita su mantenimiento y reduce el acoplamiento entre componentes.
-    - **O (Open/Closed Principle)**: El diseño del código está abierto a extensiones, pero cerrado a modificaciones
-      directas, permitiendo nuevas funcionalidades sin alterar el comportamiento existente.
-    - **L (Liskov Substitution Principle)**: Las clases derivadas pueden ser utilizadas sin afectar el comportamiento
-      esperado de las clases base, garantizando consistencia en los contratos de las interfaces.
-    - **I (Interface Segregation Principle)**: Las interfaces están diseñadas de manera que los clientes no tengan que
-      implementar métodos que no usan, mejorando la modularidad.
-    - **D (Dependency Inversion Principle)**: El código depende de abstracciones en lugar de implementaciones concretas,
-      promoviendo la independencia de módulos.
+**Principios SOLID**
 
-- **Principios DRY (Don't Repeat Yourself)**:
-    - El código evita duplicaciones innecesarias al identificar patrones comunes y abstraer lógica compartida en
-      componentes reutilizables, reduciendo el esfuerzo de mantenimiento.
+- **[S (Single Responsibility Principle)](https://en.wikipedia.org/wiki/Single-responsibility_principle)**: Cada clase, módulo o función dentro del código tiene una única responsabilidad, lo que facilita su mantenimiento y reduce el acoplamiento entre componentes.
 
-- **Uso de SonarQube**:
-    - Las herramientas automáticas de calidad, como SonarQube, analizan el código en busca de problemas como duplicados,
-      vulnerabilidades, puntos críticos de seguridad y errores, proporcionando comentarios visuales y métricas.
-    - Se definen **quality gates** que bloquean la integración de cambios si no cumplen con mínimos criterios de
-      calidad,
-      como la cobertura de pruebas o la ausencia de bugs críticos.
+- **[O (Open/Closed Principle)](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle)**: El diseño del código está abierto a extensiones pero cerrado a modificaciones directas, permitiendo nuevas funcionalidades sin alterar el comportamiento existente.
 
-- **Patrones de Diseño**:
-    - **Repositorio (Repository Pattern)**: Centraliza las operaciones de acceso a la base de datos, desacoplando la
-      lógica de negocio de la persistencia.
-    - **Inversión de Control (IoC)**: Utiliza frameworks como Spring para gestionar la vida útil y las dependencias de
-      los
-      componentes, reduciendo el código boilerplate.
-    - **DTO (Data Transfer Object)**: Minimiza el acoplamiento entre capas al encapsular los datos transmitidos entre
-      ellas, mejorando la extensibilidad y legibilidad.
+- **[L (Liskov Substitution Principle)](https://en.wikipedia.org/wiki/Liskov_substitution_principle)**: Las clases derivadas pueden ser utilizadas sin afectar el comportamiento esperado de las clases base, garantizando consistencia en los contratos de las interfaces.
 
-- **Estilo de Código**:
-    - Consistencia en la nomenclatura y formato, siguiendo convenciones estándar de Java.
-    - Uso de comentarios claros y precisos para explicar lógica compleja o partes críticas del código.
+- **[I (Interface Segregation Principle)](https://en.wikipedia.org/wiki/Interface_segregation_principle)**: Las interfaces están diseñadas de manera que los clientes no tengan que implementar métodos que no usan, mejorando la modularidad.
 
-- **Prácticas Adicionales**:
-    - Cobertura mínima de pruebas establecida para garantizar que aspectos claves estén validados con tests
-      automatizados.
-    - Refactorización constante para mejorar el diseño del código sin modificar su funcionalidad.
-    - Documentación interna con Javadoc en métodos y clases, promoviendo la comprensión colectiva del proyecto.
+- **[D (Dependency Inversion Principle)](https://en.wikipedia.org/wiki/Dependency_inversion_principle)**: El código depende de abstracciones en lugar de implementaciones concretas, promoviendo la independencia de módulos.
 
-### Pruebas:
 
-- **Uso de TestContainers:** Implementa pruebas en entornos aislados y confiables.
-- **Separación por tipo de prueba:** Clasificación clara entre pruebas unitarias e integradas, optimizando la validación
-  del código.
+#### Principios DRY (Don't Repeat Yourself)
+
+El código evita duplicaciones innecesarias al identificar patrones comunes y abstraer lógica compartida en
+componentes reutilizables, reduciendo el esfuerzo de mantenimiento.
+
+**Uso de SonarQube** 
+
+- Herramientas automáticas de calidad, como [SonarQube](https://www.sonarqube.org/), analizan el código en busca
+  de problemas como duplicados, vulnerabilidades, puntos críticos de seguridad y errores. Los comentarios visuales y
+  métricas detalladas facilitan identificar y mejorar áreas problemáticas.
+- Se definen **quality gates** que bloquean la integración de cambios si no cumplen con criterios mínimos de
+  calidad, como la cobertura de pruebas o la ausencia de errores críticos.
+
+**Patrones de Diseño**:
+- **Repositorio (Repository Pattern)**: Centraliza las operaciones de acceso a la base de datos, desacoplando la
+lógica de negocio de la persistencia.
+- **Inversión de Control (IoC)**: Utiliza frameworks como [Spring](https://spring.io/) para gestionar la vida útil y
+las dependencias de los componentes, reduciendo el código repetitivo.
+- **DTO (Data Transfer Object)**: Encapsula datos transmitidos entre capas, minimizando el acoplamiento y mejorando
+la extensibilidad y legibilidad.
+
+
+**Estilo de Código**
+- Consistencia en nomenclatura y formato siguiendo las
+[convenciones estándar](https://www.oracle.com/java/technologies/javase/codeconventions-introduction.html) de
+Java.
+- Uso de comentarios claros y precisos para explicar lógica compleja o partes críticas del código.
+
+**Prácticas Adicionales**
+- Cobertura mínima de pruebas establecida para garantizar que aspectos clave se validen mediante
+  [tests automatizados](https://junit.org/junit5/).
+- Refactorización constante para mejorar el diseño del código sin modificar su funcionalidad.
+- Documentación interna con [Javadoc](https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html) en
+  métodos y clases, promoviendo la comprensión colectiva del proyecto.
+  
+**Pruebas**
+- **Uso de TestContainers:** Implementa pruebas en entornos aislados y confiables,
+  utilizando [contenedores dinámicos](https://www.testcontainers.org/).
+- **Separación por tipo de prueba:** Clasificación clara
+  entre [pruebas unitarias](https://martinfowler.com/bliki/UnitTest.html)
+  e [integradas](https://martinfowler.com/bliki/IntegrationTest.html), optimizando la validación del código.
+
 
 
 
@@ -301,3 +333,16 @@ desde la configuración local hasta despliegues avanzados, reforzando habilidade
 documentación. Gracias a su enfoque práctico y accesible, este repositorio fomenta la preparación para entornos
 laborales reales mientras promueve la capacidad de adaptarse e innovar en proyectos complejos.
 
+
+## Recursos Importantes
+
+- **Documentación oficial de Spring Boot
+  **: [https://docs.spring.io/spring-boot/docs/current/reference/html/](https://docs.spring.io/spring-boot/docs/current/reference/html/)
+- **Guía de Perfiles de Spring
+  **: [https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-java-profile](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-java-profile)
+- **Introducción a Docker Compose**: [https://docs.docker.com/compose/](https://docs.docker.com/compose/)
+- **TestContainers para pruebas**: [https://www.testcontainers.org/](https://www.testcontainers.org/)
+- **SonarQube: Análisis de calidad de código**: [https://docs.sonarqube.org/latest/](https://docs.sonarqube.org/latest/)
+- **Guía para Principios SOLID**: [https://en.wikipedia.org/wiki/SOLID](https://en.wikipedia.org/wiki/SOLID)
+- **Guía de Patrones de Diseño Java
+  **: [https://refactoring.guru/design-patterns/java](https://refactoring.guru/design-patterns/java)
