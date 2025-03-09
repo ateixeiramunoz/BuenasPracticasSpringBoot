@@ -5,8 +5,9 @@ package com.atm.buenas_practicas_java;
 
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-
+@Testcontainers
 public abstract class PostgreSQLContainerTest {
 
     @ServiceConnection
@@ -14,15 +15,7 @@ public abstract class PostgreSQLContainerTest {
 
     static {
         dbContainer.start();
-        // Add a shutdown hook to ensure the container stops after all tests have completed
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            if (dbContainer.isRunning()) {
-                dbContainer.stop();
-            }
-        }));
     }
-
-
 
 }
 
