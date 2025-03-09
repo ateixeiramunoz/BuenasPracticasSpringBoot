@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.PostMapping;
  *   datos de las entidades desde la base de datos y los pasa al modelo para mostrarlos
  *   en una vista.
  *
- * @Author DefaultController.java
  */
 @Controller
 public class DefaultController {
