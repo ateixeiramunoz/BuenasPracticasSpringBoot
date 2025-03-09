@@ -3,8 +3,8 @@
 ## Introducción
 
 Este documento describe en detalle la utilidad del
-repositorio [BuenasPracticasSpringBoot](https://github.com/ateixeiramunoz/BuenasPracticasSpringBoot), diseñado
-principalmente para estudiantes del curso de Java. 
+repositorio [BuenasPracticasSpringBoot](https://github.com/ateixeiramunoz/BuenasPracticasSpringBoot), diseñado 
+especialmente para estudiantes del curso de Java. 
 
 Proporciona prácticas clave y recomendadas para el desarrollo
 eficiente, limpio y escalable de aplicaciones utilizando Spring Boot.
