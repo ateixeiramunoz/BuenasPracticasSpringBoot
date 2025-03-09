@@ -8,10 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 
 
 import java.util.Arrays;
@@ -21,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Log4j2
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class ApplicationTest extends MyBaseIntegrationTest{
+class ApplicationTest extends PostgreSQLContainerTest {
 
     @Autowired
     EntidadPadreRepository entidadPadreService;

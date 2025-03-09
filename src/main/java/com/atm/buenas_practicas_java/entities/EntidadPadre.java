@@ -67,9 +67,8 @@ public class EntidadPadre {
     private Long id;
     private String nombre;
 
-    @OneToMany(mappedBy = "entidadPadre", cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "entidadPadre", fetch = FetchType.EAGER,  cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EntidadHija> entidadesHijas;
-
 
     /**
      * Constructor de la clase EntidadPadre que permite inicializar la entidad

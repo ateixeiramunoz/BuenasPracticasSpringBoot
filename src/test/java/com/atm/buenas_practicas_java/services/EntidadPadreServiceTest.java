@@ -1,6 +1,6 @@
 package com.atm.buenas_practicas_java.services;
 
-import com.atm.buenas_practicas_java.MyBaseIntegrationTest;
+import com.atm.buenas_practicas_java.PostgreSQLContainerTest;
 import com.atm.buenas_practicas_java.entities.EntidadPadre;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Assertions;
@@ -32,7 +32,7 @@ import java.util.Optional;
 @Log4j2
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class EntidadPadreServiceTest extends MyBaseIntegrationTest {
+class EntidadPadreServiceTest extends PostgreSQLContainerTest {
 
 
     @Autowired
