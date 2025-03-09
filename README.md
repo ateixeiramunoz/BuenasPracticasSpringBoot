@@ -17,7 +17,7 @@ trabajo y garantizando un enfoque profesional y moderno.
 
 El repositorio gestiona distintos entornos de ejecución mediante [Docker Compose](https://docs.docker.com/compose/).
 
-Desde la versión [Spring Boot 3.1](https://spring.io/blog/2023/05/18/spring-boot-3-1-0), lanzada en mayo de 2023, se
+Desde la versión [Spring Boot 3.1](https://spring.io/blog/2023/06/21/docker-compose-support-in-spring-boot-3-1), lanzada en mayo de 2023, se
 introdujo soporte nativo para Docker Compose, lo que permite que las aplicaciones detecten automáticamente un archivo
 `docker-compose.yaml` y gestionen los servicios definidos en él durante el ciclo de vida de la aplicación.
 
@@ -215,12 +215,14 @@ componentes reutilizables, reduciendo el esfuerzo de mantenimiento.
   calidad, como la cobertura de pruebas o la ausencia de errores críticos.
 
 **Patrones de Diseño**:
-- **Repositorio (Repository Pattern)**: Centraliza las operaciones de acceso a la base de datos, desacoplando la
-lógica de negocio de la persistencia.
-- **Inversión de Control (IoC)**: Utiliza frameworks como [Spring](https://spring.io/) para gestionar la vida útil y
-las dependencias de los componentes, reduciendo el código repetitivo.
-- **DTO (Data Transfer Object)**: Encapsula datos transmitidos entre capas, minimizando el acoplamiento y mejorando
-la extensibilidad y legibilidad.
+
+- **[Repositorio (Repository Pattern)](https://martinfowler.com/eaaCatalog/repository.html)**: Centraliza las
+  operaciones de acceso a la base de datos, desacoplando la lógica de negocio de la persistencia.
+- **[Inversión de Control (IoC)](https://martinfowler.com/bliki/InversionOfControl.html)**: Utiliza frameworks
+  como [Spring](https://spring.io/) para gestionar la vida útil y las dependencias de los componentes, reduciendo el
+  código repetitivo.
+- **[DTO (Data Transfer Object)](https://martinfowler.com/eaaCatalog/dataTransferObject.html)**: Encapsula datos
+  transmitidos entre capas, minimizando el acoplamiento y mejorando la extensibilidad y legibilidad.
 
 
 **Estilo de Código**
@@ -336,13 +338,10 @@ laborales reales mientras promueve la capacidad de adaptarse e innovar en proyec
 
 ## Recursos Importantes
 
-- **Documentación oficial de Spring Boot
-  **: [https://docs.spring.io/spring-boot/docs/current/reference/html/](https://docs.spring.io/spring-boot/docs/current/reference/html/)
-- **Guía de Perfiles de Spring
-  **: [https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-java-profile](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-java-profile)
-- **Introducción a Docker Compose**: [https://docs.docker.com/compose/](https://docs.docker.com/compose/)
-- **TestContainers para pruebas**: [https://www.testcontainers.org/](https://www.testcontainers.org/)
-- **SonarQube: Análisis de calidad de código**: [https://docs.sonarqube.org/latest/](https://docs.sonarqube.org/latest/)
-- **Guía para Principios SOLID**: [https://en.wikipedia.org/wiki/SOLID](https://en.wikipedia.org/wiki/SOLID)
-- **Guía de Patrones de Diseño Java
-  **: [https://refactoring.guru/design-patterns/java](https://refactoring.guru/design-patterns/java)
+- Documentación oficial de Spring Boot: [https://docs.spring.io/spring-boot/docs/current/reference/html/](https://docs.spring.io/spring-boot/docs/current/reference/html/)
+- Guía de Perfiles de Spring: [https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-java-profile](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-java-profile)
+- Introducción a Docker Compose: [https://docs.docker.com/compose/](https://docs.docker.com/compose/)
+- TestContainers para pruebas: [https://www.testcontainers.org/](https://www.testcontainers.org/)
+- SonarQube: Análisis de calidad de código: [https://docs.sonarqube.org/latest/](https://docs.sonarqube.org/latest/)
+- Guía para Principios SOLID: [https://en.wikipedia.org/wiki/SOLID](https://en.wikipedia.org/wiki/SOLID)
+- Guía de Patrones de Diseño Java: [https://refactoring.guru/design-patterns/java](https://refactoring.guru/design-patterns/java)
