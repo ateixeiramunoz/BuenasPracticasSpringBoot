@@ -17,7 +17,7 @@ jobs:
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@4.1.0 # Ex: v4.1.0, See the latest version at https://github.com/marketplace/actions/official-sonarqube-scan
         env:
-      run: mvn clean verify sonar:sonar -Dsonar.projectKey=GoodPractices -Dsonar.projectName=GoodPractices -Dsonar.host.url=http://localhost:9000 -Psonar.token=${{ secrets.SONAR_TOKEN }}
+        run: mvn clean verify sonar:sonar -Dsonar.projectKey=GoodPractices -Dsonar.projectName=GoodPractices -Dsonar.host.url=http://localhost:9000 -Psonar.token=${{ secrets.SONAR_TOKEN }}
 
   realizar_tests:
     runs-on: self-hosted
