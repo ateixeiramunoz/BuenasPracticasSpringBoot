@@ -1,7 +1,6 @@
 package com.eoi.buenas_practicas_java.controllers;
 
-import com.eoi.buenas_practicas_java.repositories.EntidadHijaRepository;
-import com.eoi.buenas_practicas_java.repositories.EntidadPadreRepository;
+
 import com.eoi.buenas_practicas_java.services.EntidadHijaService;
 import com.eoi.buenas_practicas_java.services.EntidadPadreService;
 import org.springframework.stereotype.Controller;
@@ -67,7 +66,7 @@ public class DefaultController {
     @GetMapping("/entities")
     public String listEntities(Model model)
     {
-        model.addAttribute("entidades", entidadHijaRepository.findAll());
+        model.addAttribute("entidades", entidadHijaService.findAll());
         return "entidadesHijas"; // View name
     }
 
@@ -82,7 +81,7 @@ public class DefaultController {
     @GetMapping("/protected")
     public String protectedList(Model model)
     {
-        model.addAttribute("entidades", entidadPadreRepository.findAll());
+        model.addAttribute("entidades", entidadPadreService.findAll());
         return "entidadesPadre"; // View name
     }
 
