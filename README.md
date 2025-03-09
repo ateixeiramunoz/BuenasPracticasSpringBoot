@@ -635,7 +635,6 @@ Cuando un alumno finaliza una tarea Jira (por ejemplo, `SPR-25`):
 Cuando `develop` está en un estado estable y se decide lanzar una nueva versión:
 
 
-## 🔷 **2\. Creación de una Release en GitHub**
 
 La creación de una nueva Release se realiza desde GitHub, basándose en la rama principal (`main`):
 
@@ -759,9 +758,7 @@ Esto permite:
 
 ---
 
-Este flujo ahora **incluye completamente** la validación con **SonarQube**, las **pruebas integradas antes de cada despliegue en desarrollo**, y mantiene el control total en producción.
 
-**¡Ahora sí está 100% alineado con tu metodología real!** 🎯🚀
 
 
 
