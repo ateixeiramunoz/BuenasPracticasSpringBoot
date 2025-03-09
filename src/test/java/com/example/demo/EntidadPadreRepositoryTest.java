@@ -52,7 +52,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *       afectar resultados.</li>
  * </ul>
  */
-@Slf4j
+@Log4j2
 @Testcontainers
 class EntidadPadreRepositoryTest extends  MyBaseIntegrationTest {
 
