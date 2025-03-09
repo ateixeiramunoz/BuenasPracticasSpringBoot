@@ -34,7 +34,7 @@ class ApplicationTest {
         log.info("Iniciando la prueba de contextos...");
         assertThat(mySQLContainer).isNotNull();
         for (String s : Arrays.asList("Context loaded", "Database name: " + mySQLContainer.getDatabaseName(), "Username: " + mySQLContainer.getUsername(), "Password: " + mySQLContainer.getPassword())) {
-            log.error(s);
+            log.info(s);
         }
         log.info("Contexto de Spring cargado con éxito.");
     }
