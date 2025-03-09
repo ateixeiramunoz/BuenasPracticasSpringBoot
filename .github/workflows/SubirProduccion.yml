@@ -2,9 +2,9 @@ name: Subida a Producción
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
   realizar_tests:
@@ -38,4 +38,4 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Build the Docker image
-        run: docker compose -f compose-desarrollo.yaml up -d
+        run: docker compose -f compose-produccion.yaml up -d
