@@ -1,9 +1,9 @@
-package com.example.demo.loaders;
+package com.eoi.buenaspracticasJava.loaders;
 
-import com.example.demo.entities.EntidadHija;
-import com.example.demo.entities.EntidadPadre;
-import com.example.demo.repositories.EntidadHijaRepository;
-import com.example.demo.repositories.EntidadPadreRepository;
+import com.eoi.buenaspracticasJava.entities.EntidadHija;
+import com.eoi.buenaspracticasJava.entities.EntidadPadre;
+import com.eoi.buenaspracticasJava.repositories.EntidadHijaRepository;
+import com.eoi.buenaspracticasJava.repositories.EntidadPadreRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Configuration;

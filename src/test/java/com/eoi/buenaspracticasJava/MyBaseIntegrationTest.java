@@ -1,9 +1,9 @@
-package com.example.demo;
+package com.eoi.buenaspracticasJava;
 
 //https://stackoverflow.com/a/77113817/3617531
 
-import com.example.demo.repositories.EntidadHijaRepository;
-import com.example.demo.repositories.EntidadPadreRepository;
+import com.eoi.buenaspracticasJava.repositories.EntidadHijaRepository;
+import com.eoi.buenaspracticasJava.repositories.EntidadPadreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

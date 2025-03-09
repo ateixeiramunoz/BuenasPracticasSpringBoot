@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.eoi.java6</groupId>
-    <artifactId>BuenasPracticas1</artifactId>
+    <artifactId>buenaspracticas1</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>BuenasPracticas1</name>
     <description>BuenasPracticas1</description>

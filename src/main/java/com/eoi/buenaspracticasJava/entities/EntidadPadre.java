@@ -1,4 +1,4 @@
-package com.example.demo.entities;
+package com.eoi.buenaspracticasJava.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

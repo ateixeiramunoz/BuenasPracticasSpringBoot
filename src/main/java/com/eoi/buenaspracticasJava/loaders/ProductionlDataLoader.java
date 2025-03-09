@@ -1,7 +1,7 @@
-package com.example.demo.loaders;
+package com.eoi.buenaspracticasJava.loaders;
 
-import com.example.demo.repositories.EntidadHijaRepository;
-import com.example.demo.repositories.EntidadPadreRepository;
+import com.eoi.buenaspracticasJava.repositories.EntidadHijaRepository;
+import com.eoi.buenaspracticasJava.repositories.EntidadPadreRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

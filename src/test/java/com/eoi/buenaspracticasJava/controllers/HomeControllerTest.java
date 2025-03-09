@@ -1,6 +1,6 @@
-package com.example.demo.controllers;
+package com.eoi.buenaspracticasJava.controllers;
 
-import com.example.demo.MyBaseIntegrationTest;
+import com.eoi.buenaspracticasJava.MyBaseIntegrationTest;
 import lombok.extern.slf4j.Slf4j;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;

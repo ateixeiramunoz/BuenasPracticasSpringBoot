@@ -1,4 +1,4 @@
-package com.example.demo.entities;
+package com.eoi.buenaspracticasJava.entities;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;

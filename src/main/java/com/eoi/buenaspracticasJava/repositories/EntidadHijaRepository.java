@@ -1,6 +1,6 @@
-package com.example.demo.repositories;
+package com.eoi.buenaspracticasJava.repositories;
 
-import com.example.demo.entities.EntidadHija;
+import com.eoi.buenaspracticasJava.entities.EntidadHija;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

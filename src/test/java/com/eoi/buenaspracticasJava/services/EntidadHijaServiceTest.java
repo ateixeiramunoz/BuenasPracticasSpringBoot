@@ -1,9 +1,9 @@
-package com.example.demo.services;
+package com.eoi.buenaspracticasJava.services;
 
-import com.example.demo.MyBaseIntegrationTest;
+import com.eoi.buenaspracticasJava.MyBaseIntegrationTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.demo.entities.EntidadHija;
+import com.eoi.buenaspracticasJava.entities.EntidadHija;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
