@@ -36,7 +36,7 @@ jobs:
           with:
             java-version: 17
             distribution: 'zulu' # Alternative distribution options are available.
-        name: Build the Docker image
+        - name: Build the Docker image
         - name: Build and analyze
           env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
