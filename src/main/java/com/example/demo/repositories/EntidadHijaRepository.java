@@ -3,7 +3,6 @@ package com.example.demo.repositories;
 import com.example.demo.entities.EntidadHija;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-
 /**
  * Repositorio de acceso a datos para la entidad {@code EntidadHija}.
  *
@@ -24,5 +23,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * - {@code findAll()}: Obtiene todas las instancias de {@code EntidadHija} almacenadas.
  * - {@code deleteById(Integer id)}: Elimina una instancia de {@code EntidadHija} directamente por su ID.
  */
-public interface EntidadHijaRepository extends JpaRepository<EntidadHija, Integer> {
+public interface EntidadHijaRepository extends JpaRepository<EntidadHija, Long> {
 }

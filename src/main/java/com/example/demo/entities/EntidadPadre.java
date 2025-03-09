@@ -64,13 +64,20 @@ import java.util.List;
 public class EntidadPadre {
 
     @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String nombre;
 
     @OneToMany(mappedBy = "entidadPadre", cascade = CascadeType.ALL)
     private List<EntidadHija> entidadesHijas;
 
 
+    /**
+     * Constructor de la clase EntidadPadre que permite inicializar la entidad
+     * con un atributo específico.
+     *
+     * @param nombre Nombre de la entidad padre. Este campo representa el nombre
+     *               asociado con esta instancia de la entidad.
+     */
     public EntidadPadre(String nombre) {
         this.nombre = nombre;
     }

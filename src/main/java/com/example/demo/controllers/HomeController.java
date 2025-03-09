@@ -1,10 +1,13 @@
 package com.example.demo.controllers;
 
+import com.example.demo.repositories.EntidadHijaRepository;
 import com.example.demo.repositories.EntidadPadreRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.example.demo.services.EntidadHijaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * Controlador encargado de manejar las solicitudes relacionadas con la entidad principal.
@@ -33,39 +36,68 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    private final EntidadPadreRepository repository;
+    private final EntidadPadreRepository entidadPadreRepository;
+    private final EntidadHijaRepository entidadHijaRepository;
+    private final EntidadHijaService entidadHijaService;
 
     /**
-     * Controlador diseñado para gestionar las operaciones relacionadas con la entidad EntidadPadre.
+     * Constructor de la clase HomeController.
+     * <p>
+     * Inicializa el controlador principal y asigna los repositorios
+     * utilizados para gestionar las entidades EntidadPadre y EntidadHija.
      *
-     * @param repository El repositorio de tipo EntidadPadreRepository que gestiona las operaciones de acceso a los datos
-     *                   de la entidad persistente EntidadPadre.
-     * @Author Desarrollador desconocido (por favor, añadir si existe información disponible).
+     * @param entidadPadreRepository instancia de {@link EntidadPadreRepository} que proporciona
+     *                               el acceso a los datos de la entidad EntidadPadre.
+     * @param entidadHijaRepository  instancia de {@link EntidadHijaRepository} que proporciona
+     *                               el acceso a los datos de la entidad EntidadHija.
      */
-    public HomeController(EntidadPadreRepository repository) {
-        this.repository = repository;
+    public HomeController(EntidadPadreRepository entidadPadreRepository, EntidadHijaRepository entidadHijaRepository, EntidadHijaService entidadHijaService) {
+        this.entidadPadreRepository = entidadPadreRepository;
+        this.entidadHijaRepository = entidadHijaRepository;
+        this.entidadHijaService = entidadHijaService;
     }
 
     /**
-     * Método para listar todas las entidades y agregarlas al modelo para su visualización.
+     * Método que lista las entidades disponibles y las añade al modelo para ser utilizadas en la vista.
+     * Recupera todas las entidades de un repositorio y las presenta en una vista específica.
      *
-     * Este método está protegido por la anotación {@code @PreAuthorize}, lo que significa
-     * que su ejecución puede estar condicionada a ciertas reglas de seguridad.
-     * Además, utiliza un {@code @GetMapping} para asociarlo con la ruta HTTP GET "/entities".
-     *
-     * @param model El objeto {@link Model} utilizado para pasar atributos desde el controlador
-     *              a la vista. En este caso, se agrega una lista de entidades al modelo.
-     * @return El nombre de la vista, representado como un {@code String}. Esta cadena corresponde
-     *         al archivo HTML o vista que representará la lista de entidades.
-     * @Author No especificado
+     * @param model El objeto del modelo que se utiliza para compartir datos entre el backend y la vista.
+     *              Aquí se añade un atributo llamado "entities" con la lista obtenida del repositorio.
+     * @return Una cadena que representa el nombre de la vista ("entitiesList") donde se renderizarán las entidades.
      */
-    @PreAuthorize("true")
     @GetMapping("/entities")
     public String listEntities(Model model)
     {
-        model.addAttribute("entities", repository.findAll());
+        model.addAttribute("entidades", entidadHijaRepository.findAll());
+        return "entidadesHijas"; // View name
+    }
 
-        return "entitiesList"; // View name
+    /**
+     * Gestiona las solicitudes GET para obtener y mostrar la lista de entidades protegidas.
+     * Añade las entidades obtenidas del repositorio al modelo para renderizarlas en la vista correspondiente.
+     *
+     * @param model Objeto {@link Model} que se utiliza para pasar datos desde el controlador a la vista.
+     *              Contendrá la lista de entidades recuperadas desde el repositorio.
+     * @return El nombre de la vista "entitiesList" donde se mostrará la lista de entidades.
+     */
+    @GetMapping("/protected")
+    public String protectedList(Model model)
+    {
+        model.addAttribute("entidades", entidadPadreRepository.findAll());
+        return "entidadesPadre"; // View name
+    }
+
+
+    /**
+     * Deletes an EntidadHija entity by its ID using the EntidadHijaService.
+     *
+     * @param id The ID of the EntidadHija to delete.
+     * @return A redirect to the "/protected" endpoint after deletion.
+     */
+    @PostMapping("/entidades/delete/{id}")
+    public String deleteEntidadHija(@PathVariable Long id) {
+        entidadHijaService.deleteById(id);
+        return "redirect:/entities";
     }
 
 }

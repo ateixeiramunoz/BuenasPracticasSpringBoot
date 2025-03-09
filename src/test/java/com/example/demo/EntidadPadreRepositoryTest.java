@@ -2,6 +2,7 @@ package com.example.demo;
 import com.example.demo.entities.EntidadHija;
 import com.example.demo.entities.EntidadPadre;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -51,7 +52,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *       afectar resultados.</li>
  * </ul>
  */
-@Log4j2
+@Slf4j
 @Testcontainers
 class EntidadPadreRepositoryTest extends  MyBaseIntegrationTest {
 
@@ -146,7 +147,7 @@ class EntidadPadreRepositoryTest extends  MyBaseIntegrationTest {
         entidadPadre.setNombre("JetBrains");
         log.debug("Creada EntidadPadre con nombre {}", entidadPadre.getNombre());
         log.debug("Creada EntidadPadre con nombre {}", entidadPadre.getNombre());
-        int entidadPadreId = entidadPadreRepository.save(entidadPadre).getId();
+        long entidadPadreId = entidadPadreRepository.save(entidadPadre).getId();
         log.debug("EntidadPadre guardada con ID {}", entidadPadreId);
         assertThat(entidadPadreId).isPositive();
     }
@@ -179,7 +180,7 @@ class EntidadPadreRepositoryTest extends  MyBaseIntegrationTest {
         log.debug("Iniciando la prueba encontrarEntidadPadreById...");
         var entidadPadre = new EntidadPadre();
         entidadPadre.setNombre("JetBrains");
-        int entidadPadreId = entidadPadreRepository.save(entidadPadre).getId();
+        log entidadPadreId = entidadPadreRepository.save(entidadPadre).getId();
         log.debug("EntidadPadre guardada con ID {}", entidadPadreId);
         var entidadPadre1 = entidadPadreRepository.findById(entidadPadreId).orElseThrow();
         log.debug("EntidadPadre recuperada con ID {}", entidadPadre1.getId());

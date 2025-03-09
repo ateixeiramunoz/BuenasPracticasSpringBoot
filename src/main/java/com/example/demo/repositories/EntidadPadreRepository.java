@@ -12,7 +12,7 @@ import java.util.Optional;
  * Custom query methods may be defined as needed.
  */
 @Repository
-public interface EntidadPadreRepository extends JpaRepository<EntidadPadre, Integer> {
+public interface EntidadPadreRepository extends JpaRepository<EntidadPadre, Long> {
     Optional<EntidadPadre> findByNombre(String jetBrains);
 
 }

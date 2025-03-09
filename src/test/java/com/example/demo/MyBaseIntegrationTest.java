@@ -21,6 +21,7 @@ public abstract class MyBaseIntegrationTest {
     @Autowired
     EntidadHijaRepository entidadHijaRepository;
 
+
     static {
         dbContainer.start();
     }

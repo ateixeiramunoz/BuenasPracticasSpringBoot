@@ -61,12 +61,19 @@ public class EntidadHija  {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String nombre;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private EntidadPadre entidadPadre;
 
+    /**
+     * Constructor de la clase {@code EntidadHija}.
+     *
+     * Inicializa una nueva instancia de {@code EntidadHija} con el nombre especificado.
+     *
+     * @param nombre El nombre que se le asignará a la instancia de {@code EntidadHija}.
+     */
     public EntidadHija (String nombre) {
         this.nombre = nombre;
     }
