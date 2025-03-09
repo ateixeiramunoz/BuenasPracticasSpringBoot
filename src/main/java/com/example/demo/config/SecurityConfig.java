@@ -87,7 +87,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // deshabilitado para pruebas o APIs
+                .csrf(Customizer.withDefaults()) // deshabilitado para pruebas o APIs
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
