@@ -50,7 +50,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-        run: mvn -q -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
+        run: mvn -q -B test org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
 
   # --------------------- EMPAQUETAR ARTIFACTO ---------------------
   empaquetar_artifacto:
