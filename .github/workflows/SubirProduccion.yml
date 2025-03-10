@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar JDK 17
         uses: actions/setup-java@v4
