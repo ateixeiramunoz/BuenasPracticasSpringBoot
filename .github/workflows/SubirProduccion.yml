@@ -18,14 +18,13 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Verificar si Java 17 ya está instalado
-        run: |
-          if java -version | grep "17"; then
-            echo "Java 17 ya está instalado, saltando setup-java"
-          else
-            echo "Instalando Java 17..."
-            sudo apt update && sudo apt install -y openjdk-17-jdk
-          fi
+      - name: Configurar JDK 17 (Solo si es necesario)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          check-latest: false
+          cache: maven
 
       - name: Cache Maven dependencies
         uses: actions/cache@v3
@@ -44,7 +43,7 @@ jobs:
             echo "No hay cambios en pom.xml, saltando mvn clean."
           fi
 
-      - name: Usar repositorio Maven más rápido
+      - name: Usar repositorio Maven temporal
         run: mvn -q --batch-mode -Dmaven.repo.local=/tmp/maven-repo dependency:go-offline
 
   # --------------------- COMPILAR CÓDIGO ---------------------
