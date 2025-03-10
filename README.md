@@ -1,5 +1,15 @@
 # BuenasPracticasSpringBoot
 
+[![Quality Gate Status](https://localhost:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=alert_status&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)](https://localhost:9000/dashboard?id=com.atm.java6%3Abuenaspracticas)
+[![Coverage](https://localhost:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=coverage&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)](https://localhost:9000/dashboard?id=com.atm.java6%3Abuenaspracticas)
+[![Duplicated Lines (%)](https://localhost:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=duplicated_lines_density&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)](https://localhost:9000/dashboard?id=com.atm.java6%3Abuenaspracticas)
+[![Security Hotspots](https://localhost:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=security_hotspots&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)](https://localhost:9000/dashboard?id=com.atm.java6%3Abuenaspracticas)
+[![Security Issues](https://localhost:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=software_quality_security_issues&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)](https://localhost:9000/dashboard?id=com.atm.java6%3Abuenaspracticas)
+[![Maintainability Issues](https://localhost:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=software_quality_maintainability_issues&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)](https://localhost:9000/dashboard?id=com.atm.java6%3Abuenaspracticas)
+[![Reliability Issues](https://localhost:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=software_quality_reliability_issues&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)](https://localhost:9000/dashboard?id=com.atm.java6%3Abuenaspracticas)
+[![Technical Debt](https://localhost:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=software_quality_maintainability_remediation_effort&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)](https://localhost:9000/dashboard?id=com.atm.java6%3Abuenaspracticas)
+[![Lines of Code](https://localhost:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=ncloc&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)](https://localhost:9000/dashboard?id=com.atm.java6%3Abuenaspracticas)
+
 
 ## Introducción
 
