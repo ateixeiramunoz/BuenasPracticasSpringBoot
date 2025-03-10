@@ -24,7 +24,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           check-latest: false
-          cache: maven  # ✅ GitHub Actions manejará el cache automáticamente
+          cache: none  # ✅ GitHub Actions manejará el cache automáticamente
 
   # --------------------- COMPILAR CÓDIGO ---------------------
   compilar_codigo:
