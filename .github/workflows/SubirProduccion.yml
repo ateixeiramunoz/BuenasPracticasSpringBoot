@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  # --------------------- PREPARAR ENTORNO (Local Cache + Java) ---------------------
+  # --------------------- PREPARAR ENTORNO ---------------------
   preparar_entorno:
     concurrency:
       group: produccion
@@ -18,30 +18,11 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Configurar JDK 17 (Solo una vez en todo el workflow)
+      - name: Configurar JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Mantener Caché Local de Maven
-        run: |
-          if [ "$RUNNER_OS" == "Windows" ]; then
-            if (-Not (Test-Path "$env:USERPROFILE\.m2\repository")) {
-              New-Item -ItemType Directory -Path "$env:USERPROFILE\.m2\repository"
-              Write-Host "Directorio ~/.m2/repository creado en Windows."
-            } else {
-              Write-Host "Directorio ~/.m2/repository ya existe en Windows."
-            }
-          else
-            if [ ! -d ~/.m2/repository ]; then
-              mkdir -p ~/.m2/repository
-              echo "Directorio ~/.m2/repository creado en Linux."
-            else
-              echo "Directorio ~/.m2/repository ya existe en Linux."
-            fi
-          fi
-        shell: bash
 
       - name: Ejecutar Maven Clean
         run: mvn -q --batch-mode clean
@@ -79,15 +60,12 @@ jobs:
       - name: Generar artefacto con Maven
         run: mvn -q --batch-mode package
 
-  # --------------------- CREAR IMAGEN DOCKER (Con Caché Local) ---------------------
+  # --------------------- CREAR IMAGEN DOCKER ---------------------
   crear_imagen_docker:
     needs: empaquetar_artifacto
     runs-on: self-hosted
     steps:
-      - name: Mantener Caché Local de Docker
-        run: mkdir -p /tmp/.buildx-cache
-
-      - name: Construir imagen Docker con Spring Boot (Corrección de plugin)
+      - name: Construir imagen Docker con Spring Boot
         run: mvn -q --batch-mode spring-boot:build-image -Pproduction -DskipTests -Dspring-boot.build-image.publish=false -Dspring-boot.build-image.builder=paketobuildpacks/builder:tiny -Dspring-boot.build-image.runImage=paketobuildpacks/run:tiny -Dspring-boot.build-image.buildpacks.cache=/tmp/.buildx-cache
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
