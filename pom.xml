@@ -187,6 +187,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.1</version>
                 <configuration>
+                    <parallel>methods</parallel>
+                    <threadCount>16</threadCount>
+                    <forkCount>2</forkCount>
+                    <reuseForks>true</reuseForks>
                     <argLine>@{argLine} -Xshare:off</argLine>
                     <parallel>all</parallel>
                 </configuration>
@@ -196,7 +200,12 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>3.2.1</version>
                 <configuration>
+                    <parallel>methods</parallel>
+                    <threadCount>16</threadCount>
+                    <forkCount>2</forkCount>
+                    <reuseForks>true</reuseForks>
                     <argLine>@{argLine} -Xshare:off</argLine>
+                    <parallel>all</parallel>
                 </configuration>
                 <executions>
                     <execution>
