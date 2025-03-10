@@ -35,7 +35,7 @@ jobs:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -T16 clean verify jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dsonar.java.binaries=target/classes -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml -Dclean-if-modified -Dclean-if-modified -U
+        run: mvn -T16 clean verify jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
 
   # --------------------- CREAR IMAGEN DOCKER ---------------------
   crear_imagen_docker:
