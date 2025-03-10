@@ -25,10 +25,10 @@ jobs:
           distribution: 'temurin'
 
       - name: Ejecutar Maven Clean
-        run: mvn -q --batch-mode clean
+        run: mvn -q --batch-mode -T16 clean
 
       - name: Descargar dependencias (Modo Offline)
-        run: mvn -q --batch-mode -T8 dependency:go-offline
+        run: mvn -q --batch-mode -T16 dependency:go-offline
 
   # --------------------- COMPILAR CÓDIGO ---------------------
   compilar_codigo:
@@ -36,7 +36,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Compilar código
-        run: mvn -q --batch-mode -T8 compile
+        run: mvn -q --batch-mode -T16 compile
 
   # --------------------- TESTS  ---------------------
   ejecutar_tests:
@@ -44,7 +44,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Ejecutar todas las pruebas en paralelo con 4 hilos
-        run: mvn -q --batch-mode -T8 verify jacoco:report
+        run: mvn -q --batch-mode -T16 verify jacoco:report
 
 
 
@@ -57,7 +57,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-        run: mvn -q -B -T8 org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
+        run: mvn -q -B -T16 org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
 
   # --------------------- CREAR IMAGEN DOCKER (SIN Package) ---------------------
   crear_imagen_docker:
@@ -65,7 +65,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Construir imagen Docker con Spring Boot (sin package manual)
-        run: mvn -q --batch-mode -T8 spring-boot:build-image
+        run: mvn -q --batch-mode -T16 spring-boot:build-image
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
   desplegar_en_servidor:
