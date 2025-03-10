@@ -38,6 +38,7 @@ En el proyecto se incluyen varios archivos para diferentes modos de ejecución:
 - **Entorno de producción (`compose-produccion.yaml`)**: Ajusta configuraciones optimizadas para el despliegue en
   ambientes reales, priorizando rendimiento y estabilidad.
 
+
 Además, la arquitectura del proyecto incluye cargas iniciales diferenciadas según el entorno elegido, lo que facilita la
 adaptación y pruebas específicas.
 
