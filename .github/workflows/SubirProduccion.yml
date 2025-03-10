@@ -1,4 +1,4 @@
-name: Subida a Producción (Optimizado)
+name: Subida a Producción (Sin Cache Manual)
 
 on:
   push:
@@ -24,17 +24,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           check-latest: false
-
-      - name: Verificar si `C:\maven-repo` existe (Windows)
-        shell: powershell
-        run: |
-          if (Test-Path "C:\maven-repo" -PathType Container -and (Get-ChildItem "C:\maven-repo")) {
-              Write-Host "Repositorio Maven local encontrado, usando cache local."
-          } else {
-              Write-Host "Repositorio vacío o no existe, creando directorio..."
-              New-Item -ItemType Directory -Path "C:\maven-repo" -Force
-          }
-  
+          cache: maven  # ✅ GitHub Actions manejará el cache automáticamente
 
   # --------------------- COMPILAR CÓDIGO ---------------------
   compilar_codigo:
@@ -44,9 +34,9 @@ jobs:
       - name: Compilar código con `clean verify -Dclean-if-modified`
         env:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
-        run: mvn -q --batch-mode -T16 clean verify -Dclean-if-modified -Dmaven.repo.local=/tmp/maven-repo
+        run: mvn -q --batch-mode -T16 clean verify -Dclean-if-modified -U
 
-  # --------------------- TESTS  ---------------------
+  # --------------------- TESTS ---------------------
   ejecutar_tests:
     needs: compilar_codigo
     runs-on: self-hosted
@@ -54,7 +44,7 @@ jobs:
       - name: Ejecutar todas las pruebas en paralelo con 16 hilos
         env:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
-        run: mvn -q --batch-mode -T16 verify jacoco:report -Dsurefire.parallel=methods -Dsurefire.threadCount=16 -Dsurefire.forkCount=2 -Dsurefire.reuseForks=true -Dmaven.repo.local=/tmp/maven-repo
+        run: mvn -q --batch-mode -T16 verify jacoco:report
 
   # --------------------- ANÁLISIS CON SONARQUBE ---------------------
   analisis_sonarqube:
@@ -66,17 +56,17 @@ jobs:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-        run: mvn -q -B -T16 org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dmaven.repo.local=/tmp/maven-repo
+        run: mvn -q -B -T16 org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
 
-  # --------------------- CREAR IMAGEN DOCKER (SIN Package) ---------------------
+  # --------------------- CREAR IMAGEN DOCKER ---------------------
   crear_imagen_docker:
-    needs: analisis_sonarqube  # ✅ Ahora depende de SonarQube directamente
+    needs: analisis_sonarqube
     runs-on: self-hosted
     steps:
-      - name: Construir imagen Docker con Spring Boot (sin package manual)
+      - name: Construir imagen Docker con Spring Boot
         env:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
-        run: mvn -q --batch-mode -T16 spring-boot:build-image -DskipTests -Dmaven.repo.local=/tmp/maven-repo
+        run: mvn -q --batch-mode -T16 spring-boot:build-image -DskipTests
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
   desplegar_en_servidor:
