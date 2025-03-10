@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Log4j2
 @DataJpaTest
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ApplicationTest extends PostgreSQLContainerTest {
 
     @Autowired

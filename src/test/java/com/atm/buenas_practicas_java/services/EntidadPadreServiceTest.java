@@ -31,7 +31,7 @@ import java.util.Optional;
  */
 @Log4j2
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class EntidadPadreServiceTest extends PostgreSQLContainerTest {
 
 

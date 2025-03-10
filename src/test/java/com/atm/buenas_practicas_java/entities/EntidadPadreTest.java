@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Log4j2
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class EntidadPadreTest extends PostgreSQLContainerTest {
 
     @Test
