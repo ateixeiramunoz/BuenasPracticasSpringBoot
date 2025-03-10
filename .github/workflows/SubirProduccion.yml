@@ -7,40 +7,30 @@ on:
     branches: [ "main" ]
 
 jobs:
-  realizar_tests:
+  
+  # --------------------- CHECKOUT CÓDIGO ---------------------
+  checkout_codigo:
     concurrency:
       group: produccion
       cancel-in-progress: true
     runs-on: self-hosted
     steps:
-      - name: Checkout code
+      - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Cache Maven dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
-
-      - name: Build with Maven
-        run: mvn -q --batch-mode package verify
-
-  sonarqube:
-    needs: realizar_tests
+  # --------------------- LIMPIAR PROYECTO ---------------------
+  limpiar_proyecto:
+    needs: checkout_codigo
     runs-on: self-hosted
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Ejecutar Maven Clean
+        run: mvn -q --batch-mode clean
 
+  # --------------------- CARGAR CACHE ---------------------
+  cargar_cache:
+    needs: limpiar_proyecto
+    runs-on: self-hosted
+    steps:
       - name: Cache Maven dependencies
         uses: actions/cache@v3
         with:
@@ -49,59 +39,51 @@ jobs:
           restore-keys: |
             maven-
 
-      - name: Set up JDK 17
+  # --------------------- COMPILAR CÓDIGO ---------------------
+  compilar_codigo:
+    needs: cargar_cache
+    runs-on: self-hosted
+    steps:
+      - name: Configurar JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
 
-      - name: Build and analyze
+      - name: Compilar con Maven
+        run: mvn -q --batch-mode compile
+
+  # --------------------- EJECUTAR TESTS ---------------------
+  ejecutar_tests:
+    needs: compilar_codigo
+    runs-on: self-hosted
+    steps:
+      - name: Ejecutar pruebas
+        run: mvn -q --batch-mode test
+
+  # --------------------- ANÁLISIS CON SONARQUBE ---------------------
+  analisis_sonarqube:
+    needs: ejecutar_tests
+    runs-on: self-hosted
+    steps:
+      - name: Ejecutar análisis con SonarQube
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
         run: mvn -q -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
 
-  crear_imagen:
-    needs: realizar_tests
+  # --------------------- EMPAQUETAR ARTEFACTO ---------------------
+  empaquetar_artefacto:
+    needs: ejecutar_tests
     runs-on: self-hosted
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Generar artefacto con Maven
+        run: mvn -q --batch-mode package
 
-      - name: Cache Maven dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-
-
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: docker-${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            docker-${{ runner.os }}-
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
-
-      - name: Build Docker image with Spring Boot
-        run: |
-          mvn -q --batch-mode spring-boot:build-image -DskipTests \
-            -Dspring-boot.build-image.publish=false \
-            -Dspring-boot.build-image.builder=paketobuildpacks/builder:tiny \
-            -Dspring-boot.build-image.runImage=paketobuildpacks/run:tiny \
-            -Dspring-boot.build-image.buildpacks.cache=/tmp/.buildx-cache
-
-  arrancar_en_servidor_de_desarrollo:
-    needs: crear_imagen
+  # --------------------- CREAR IMAGEN DOCKER ---------------------
+  crear_imagen_docker:
+    needs: empaquetar_artefacto
     runs-on: self-hosted
     steps:
       - name: Cache Docker layers
@@ -112,5 +94,13 @@ jobs:
           restore-keys: |
             docker-${{ runner.os }}-
 
-      - name: Deploy Docker container
+      - name: Construir imagen Docker con Spring Boot
+        run: mvn -q --batch-mode spring-boot:build-image -DskipTests -Dspring-boot.build-image.publish=false -Dspring-boot.build-image.builder=paketobuildpacks/builder:tiny -Dspring-boot.build-image.runImage=paketobuildpacks/run:tiny -Dspring-boot.build-image.buildpacks.cache=/tmp/.buildx-cache
+
+  # --------------------- DESPLEGAR EN SERVIDOR ---------------------
+  desplegar_en_servidor:
+    needs: crear_imagen_docker
+    runs-on: self-hosted
+    steps:
+      - name: Desplegar contenedor en servidor
         run: docker compose -f compose-produccion.yaml up -d
