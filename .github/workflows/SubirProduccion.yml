@@ -24,29 +24,25 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           check-latest: false
-          cache: maven
 
-      - name: Verificar si `mvn clean` es necesario
+      - name: Verificar si `/tmp/maven-repo` existe
         run: |
-          if git diff --name-only HEAD^ | grep 'pom.xml'; then
-            echo "Cambios detectados en pom.xml, ejecutando mvn clean..."
-            mvn -q --batch-mode clean
+          if [ -d "/tmp/maven-repo" ] && [ "$(ls -A /tmp/maven-repo)" ]; then
+            echo "Repositorio Maven local encontrado, usando cache local."
           else
-            echo "No hay cambios en pom.xml, saltando mvn clean."
+            echo "Repositorio vacío, creando directorio."
+            mkdir -p /tmp/maven-repo
           fi
-
-      - name: Usar repositorio Maven local en `/tmp/maven-repo`
-        run: mvn -q --batch-mode -Dmaven.repo.local=/tmp/maven-repo dependency:go-offline
 
   # --------------------- COMPILAR CÓDIGO ---------------------
   compilar_codigo:
     needs: preparar_entorno
     runs-on: self-hosted
     steps:
-      - name: Compilar código
+      - name: Compilar código con `clean verify -Dclean-if-modified`
         env:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
-        run: mvn -q --batch-mode -T16 compile
+        run: mvn -q --batch-mode -T16 clean verify -Dclean-if-modified -Dmaven.repo.local=/tmp/maven-repo
 
   # --------------------- TESTS  ---------------------
   ejecutar_tests:
@@ -56,7 +52,7 @@ jobs:
       - name: Ejecutar todas las pruebas en paralelo con 16 hilos
         env:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
-        run: mvn -q --batch-mode -T16 verify jacoco:report
+        run: mvn -q --batch-mode -T16 verify jacoco:report -Dsurefire.parallel=methods -Dsurefire.threadCount=16 -Dsurefire.forkCount=2 -Dsurefire.reuseForks=true -Dmaven.repo.local=/tmp/maven-repo
 
   # --------------------- ANÁLISIS CON SONARQUBE ---------------------
   analisis_sonarqube:
@@ -68,7 +64,7 @@ jobs:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-        run: mvn -q -B -T16 org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
+        run: mvn -q -B -T16 org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dmaven.repo.local=/tmp/maven-repo
 
   # --------------------- CREAR IMAGEN DOCKER (SIN Package) ---------------------
   crear_imagen_docker:
@@ -78,7 +74,7 @@ jobs:
       - name: Construir imagen Docker con Spring Boot (sin package manual)
         env:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
-        run: mvn -q --batch-mode -T16 spring-boot:build-image -DskipTests
+        run: mvn -q --batch-mode -T16 spring-boot:build-image -DskipTests -Dmaven.repo.local=/tmp/maven-repo
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
   desplegar_en_servidor:
