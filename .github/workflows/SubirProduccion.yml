@@ -1,4 +1,4 @@
-name: Subida a Producción
+name: Subida a Producción (Local Cache)
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  # --------------------- PREPARAR ENTORNO (Checkout + Cache + Setup Java) ---------------------
+  # --------------------- PREPARAR ENTORNO (Local Cache + Java) ---------------------
   preparar_entorno:
     concurrency:
       group: produccion
@@ -18,25 +18,21 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Cache Maven dependencies (antes de clean)
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: maven-${{ runner.os }}-dependencies-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-${{ runner.os }}-dependencies
-
-      - name: Configurar JDK 17
+      - name: Configurar JDK 17 (Solo una vez en todo el workflow)
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
+
+      - name: Mantener Caché Local de Maven (No usa GitHub Actions Cache)
+        run: |
+          mkdir -p ~/.m2/repository
+          echo "Usando caché local de Maven en ~/.m2/repository"
 
       - name: Ejecutar Maven Clean
         run: mvn -q --batch-mode clean
 
-      - name: Descargar dependencias (modo offline)
+      - name: Descargar dependencias (Modo Offline)
         run: mvn -q --batch-mode dependency:go-offline
 
   # --------------------- COMPILAR + TESTS ---------------------
@@ -59,7 +55,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-        run: mvn -q -B sonar:sonar
+        run: mvn -q -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dsonar.java.binaries=target/classes -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
 
   # --------------------- EMPAQUETAR ARTIFACTO ---------------------
   empaquetar_artifacto:
@@ -69,18 +65,13 @@ jobs:
       - name: Generar artefacto con Maven
         run: mvn -q --batch-mode package
 
-  # --------------------- CREAR IMAGEN DOCKER (Corrección del Plugin) ---------------------
+  # --------------------- CREAR IMAGEN DOCKER (Con Caché Local) ---------------------
   crear_imagen_docker:
     needs: empaquetar_artifacto
     runs-on: self-hosted
     steps:
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: docker-${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            docker-${{ runner.os }}-
+      - name: Mantener Caché Local de Docker
+        run: mkdir -p /tmp/.buildx-cache
 
       - name: Construir imagen Docker con Spring Boot (Corrección de plugin)
         run: mvn -q --batch-mode spring-boot:build-image -Pproduction -DskipTests -Dspring-boot.build-image.publish=false -Dspring-boot.build-image.builder=paketobuildpacks/builder:tiny -Dspring-boot.build-image.runImage=paketobuildpacks/run:tiny -Dspring-boot.build-image.buildpacks.cache=/tmp/.buildx-cache
