@@ -84,7 +84,6 @@ public class DefaultController {
         return "entidadesPadre"; // View name
     }
 
-
     /**
      * Deletes an EntidadHija entity by its ID using the EntidadHijaService.
      *
@@ -96,6 +95,8 @@ public class DefaultController {
         entidadHijaService.deleteById(id);
         return "redirect:/entities";
     }
+
+
 
     /**
      * Deletes an EntidadHija entity by its ID using the EntidadHijaService.
