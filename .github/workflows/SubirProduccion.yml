@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  # --------------------- PREPARAR ENTORNO (Checkout + Clean + Cache) ---------------------
+  # --------------------- PREPARAR ENTORNO (Checkout + Clean + Cache + Setup Java) ---------------------
   preparar_entorno:
     concurrency:
       group: produccion
@@ -17,6 +17,13 @@ jobs:
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
 
       - name: Ejecutar Maven Clean
         run: mvn -q --batch-mode clean
@@ -29,25 +36,18 @@ jobs:
           restore-keys: |
             maven-
 
-  # --------------------- COMPILAR + TESTS (NECESARIO PARA SONARQUBE) ---------------------
+  # --------------------- COMPILAR + TESTS ---------------------
   compilar_y_testear:
     needs: preparar_entorno
     runs-on: self-hosted
     steps:
-      - name: Configurar JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
-
       - name: Compilar código
         run: mvn -q --batch-mode compile
 
       - name: Ejecutar pruebas con cobertura JaCoCo
         run: mvn -q --batch-mode test jacoco:report
 
-  # --------------------- ANÁLISIS CON SONARQUBE (DESPUÉS DE COMPILAR Y TESTEAR) ---------------------
+  # --------------------- ANÁLISIS CON SONARQUBE ---------------------
   analisis_sonarqube:
     needs: compilar_y_testear
     runs-on: self-hosted
