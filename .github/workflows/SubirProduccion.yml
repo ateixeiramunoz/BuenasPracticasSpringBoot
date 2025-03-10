@@ -33,7 +33,8 @@ jobs:
       - name: Compilar código con `clean verify -Dclean-if-modified`
         env:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
-        run: mvn -q --batch-mode -T16 clean verify -Dclean-if-modified -U
+        run: mvn -q --batch-mode -T16 clean verify jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dclean-if-modified -U
+
 
   # --------------------- TESTS ---------------------
   ejecutar_tests:
