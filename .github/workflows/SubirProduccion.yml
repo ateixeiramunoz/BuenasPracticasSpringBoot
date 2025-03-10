@@ -47,7 +47,7 @@ jobs:
 
   # --------------------- EMPAQUETAR  ---------------------
   empaquetar:
-    needs: compilar_y_testear
+    needs: testear_Y_enviar_a_sonarqube
     runs-on: self-hosted
     steps:
       - name: Generar artefacto con Maven
