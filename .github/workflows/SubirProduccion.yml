@@ -7,9 +7,9 @@ on:
     branches: [ "main" ]
 
 jobs:
-  
-  # --------------------- CHECKOUT CÓDIGO ---------------------
-  checkout_codigo:
+
+  # --------------------- PREPARAR ENTORNO (Checkout + Clean + Cache) ---------------------
+  preparar_entorno:
     concurrency:
       group: produccion
       cancel-in-progress: true
@@ -18,19 +18,9 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-  # --------------------- LIMPIAR PROYECTO ---------------------
-  limpiar_proyecto:
-    needs: checkout_codigo
-    runs-on: self-hosted
-    steps:
       - name: Ejecutar Maven Clean
         run: mvn -q --batch-mode clean
 
-  # --------------------- CARGAR CACHE ---------------------
-  cargar_cache:
-    needs: limpiar_proyecto
-    runs-on: self-hosted
-    steps:
       - name: Cache Maven dependencies
         uses: actions/cache@v3
         with:
@@ -39,9 +29,9 @@ jobs:
           restore-keys: |
             maven-
 
-  # --------------------- COMPILAR CÓDIGO ---------------------
-  compilar_codigo:
-    needs: cargar_cache
+  # --------------------- COMPILAR + TESTS (NECESARIO PARA SONARQUBE) ---------------------
+  compilar_y_testear:
+    needs: preparar_entorno
     runs-on: self-hosted
     steps:
       - name: Configurar JDK 17
@@ -51,31 +41,26 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Compilar con Maven
+      - name: Compilar código
         run: mvn -q --batch-mode compile
 
-  # --------------------- EJECUTAR TESTS ---------------------
-  ejecutar_tests:
-    needs: compilar_codigo
-    runs-on: self-hosted
-    steps:
-      - name: Ejecutar pruebas
-        run: mvn -q --batch-mode test
+      - name: Ejecutar pruebas con cobertura JaCoCo
+        run: mvn -q --batch-mode test jacoco:report
 
-  # --------------------- ANÁLISIS CON SONARQUBE ---------------------
+  # --------------------- ANÁLISIS CON SONARQUBE (DESPUÉS DE COMPILAR Y TESTEAR) ---------------------
   analisis_sonarqube:
-    needs: empaquetar_artefacto
+    needs: compilar_y_testear
     runs-on: self-hosted
     steps:
       - name: Ejecutar análisis con SonarQube
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-        run: mvn -q -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
+        run: mvn -q -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dsonar.java.binaries=target/classes -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
 
-  # --------------------- EMPAQUETAR ARTEFACTO ---------------------
-  empaquetar_artefacto:
-    needs: ejecutar_tests
+  # --------------------- EMPAQUETAR ARTIFACTO ---------------------
+  empaquetar_artifacto:
+    needs: analisis_sonarqube
     runs-on: self-hosted
     steps:
       - name: Generar artefacto con Maven
@@ -83,7 +68,7 @@ jobs:
 
   # --------------------- CREAR IMAGEN DOCKER ---------------------
   crear_imagen_docker:
-    needs: empaquetar_artefacto
+    needs: empaquetar_artifacto
     runs-on: self-hosted
     steps:
       - name: Cache Docker layers
