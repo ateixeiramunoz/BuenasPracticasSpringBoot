@@ -25,9 +25,15 @@ jobs:
           distribution: 'temurin'
 
       - name: Mantener Caché Local de Maven (No usa GitHub Actions Cache)
+        shell: bash
         run: |
-          mkdir -p ~/.m2/repository
-          echo "Usando caché local de Maven en ~/.m2/repository"
+          if [ ! -d ~/.m2/repository ]; then
+            mkdir -p ~/.m2/repository
+            echo "Directorio ~/.m2/repository creado."
+          else
+            echo "Directorio ~/.m2/repository ya existe."
+          fi
+
 
       - name: Ejecutar Maven Clean
         run: mvn -q --batch-mode clean
