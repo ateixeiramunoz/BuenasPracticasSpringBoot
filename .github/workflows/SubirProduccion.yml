@@ -52,11 +52,11 @@ jobs:
     needs: compilar_y_testear
     runs-on: self-hosted
     steps:
-      - name: Ejecutar análisis con SonarQube
+      - name: Analisis con SonarQube
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-        run: mvn -q -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dsonar.java.binaries=target/classes -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+        run: mvn -q -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
 
   # --------------------- EMPAQUETAR ARTIFACTO ---------------------
   empaquetar_artifacto:
