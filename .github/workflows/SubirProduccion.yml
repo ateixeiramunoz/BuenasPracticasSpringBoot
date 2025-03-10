@@ -1,4 +1,4 @@
-name: Subida a Producción (Local Cache)
+name: Subida a Producción (Sin Package)
 
 on:
   push:
@@ -30,35 +30,55 @@ jobs:
       - name: Descargar dependencias (Modo Offline)
         run: mvn -q --batch-mode dependency:go-offline
 
-  # --------------------- COMPILAR + TESTS ---------------------
-  testear_Y_enviar_a_sonarqube:
+  # --------------------- COMPILAR CÓDIGO ---------------------
+  compilar_codigo:
     needs: preparar_entorno
     runs-on: self-hosted
     steps:
       - name: Compilar código
         run: mvn -q --batch-mode compile
 
-      - name: Ejecutar pruebas con cobertura JaCoCo y enviar informe a SonarQube
+  # --------------------- TESTS UNITARIOS ---------------------
+  tests_unitarios:
+    needs: compilar_codigo
+    runs-on: self-hosted
+    steps:
+      - name: Ejecutar tests unitarios
+        run: mvn -q --batch-mode surefire:test
+
+  # --------------------- TESTS DE INTEGRACIÓN ---------------------
+  tests_integracion:
+    needs: compilar_codigo
+    runs-on: self-hosted
+    steps:
+      - name: Ejecutar tests de integración
+        run: mvn -q --batch-mode failsafe:integration-test
+
+  # --------------------- TESTS DE COBERTURA ---------------------
+  tests_cobertura:
+    needs: compilar_codigo
+    runs-on: self-hosted
+    steps:
+      - name: Ejecutar cobertura con JaCoCo
+        run: mvn -q --batch-mode test jacoco:report
+
+  # --------------------- ANÁLISIS CON SONARQUBE ---------------------
+  analisis_sonarqube:
+    needs: [tests_unitarios, tests_integracion, tests_cobertura]
+    runs-on: self-hosted
+    steps:
+      - name: Ejecutar análisis con SonarQube
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-        run: mvn -q --batch-mode verify jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
+        run: mvn -q -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dsonar.java.binaries=target/classes -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
 
-
-  # --------------------- EMPAQUETAR  ---------------------
-  empaquetar:
-    needs: testear_Y_enviar_a_sonarqube
-    runs-on: self-hosted
-    steps:
-      - name: Generar artefacto con Maven
-        run: mvn -q --batch-mode package
-
-  # --------------------- CREAR IMAGEN DOCKER ---------------------
+  # --------------------- CREAR IMAGEN DOCKER (SIN Package) ---------------------
   crear_imagen_docker:
-    needs: empaquetar
+    needs: analisis_sonarqube  # ✅ Ahora depende de SonarQube directamente
     runs-on: self-hosted
     steps:
-      - name: Construir imagen Docker con Spring Boot
+      - name: Construir imagen Docker con Spring Boot (sin package manual)
         run: mvn -q --batch-mode spring-boot:build-image -Pproduction -DskipTests -Dspring-boot.build-image.publish=false -Dspring-boot.build-image.builder=paketobuildpacks/builder:tiny -Dspring-boot.build-image.runImage=paketobuildpacks/run:tiny -Dspring-boot.build-image.buildpacks.cache=/tmp/.buildx-cache
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
