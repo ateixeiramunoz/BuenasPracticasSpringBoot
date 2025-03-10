@@ -26,32 +26,22 @@ jobs:
           check-latest: false
 
   # --------------------- COMPILAR CÓDIGO ---------------------
-  compilar_codigo:
+  ejecucion_tests_y_sonarqube:
     needs: preparar_entorno
     runs-on: self-hosted
     steps:
       - name: Compilar código con `clean verify -Dclean-if-modified`
         env:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
-        run: mvn -q --batch-mode -T16 clean verify jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dclean-if-modified -U
-
-
-  # --------------------- TESTS ---------------------
-  ejecutar_tests:
-    needs: compilar_codigo
-    runs-on: self-hosted
-    steps:
-      - name: Ejecutar todas las pruebas en paralelo con 16 hilos
-        env:
-          MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-        run: mvn -q --batch-mode -T16 verify jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
+        run: mvn -q --batch-mode -T16 clean verify jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dclean-if-modified -U
+
 
 
   # --------------------- CREAR IMAGEN DOCKER ---------------------
   crear_imagen_docker:
-    needs: ejecutar_tests
+    needs: ejecucion_tests_y_sonarqube
     runs-on: self-hosted
     steps:
       - name: Construir imagen Docker con Spring Boot
