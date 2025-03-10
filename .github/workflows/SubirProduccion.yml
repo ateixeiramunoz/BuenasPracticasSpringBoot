@@ -1,4 +1,4 @@
-name: Subida a Producción (Sin Package)
+name: Subida a Producción (Optimizado)
 
 on:
   push:
@@ -18,21 +18,13 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Configurar JDK 17 (Solo si es necesario)
+      - name: Configurar JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           check-latest: false
           cache: maven
-
-      - name: Cache Maven dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-
 
       - name: Verificar si `mvn clean` es necesario
         run: |
@@ -43,7 +35,7 @@ jobs:
             echo "No hay cambios en pom.xml, saltando mvn clean."
           fi
 
-      - name: Usar repositorio Maven temporal
+      - name: Usar repositorio Maven local en `/tmp/maven-repo`
         run: mvn -q --batch-mode -Dmaven.repo.local=/tmp/maven-repo dependency:go-offline
 
   # --------------------- COMPILAR CÓDIGO ---------------------
@@ -65,9 +57,6 @@ jobs:
         env:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
         run: mvn -q --batch-mode -T16 verify jacoco:report
-
-
-
 
   # --------------------- ANÁLISIS CON SONARQUBE ---------------------
   analisis_sonarqube:
