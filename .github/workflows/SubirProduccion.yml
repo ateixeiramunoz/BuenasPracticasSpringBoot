@@ -38,33 +38,19 @@ jobs:
       - name: Compilar código
         run: mvn -q --batch-mode compile
 
-  # --------------------- TESTS UNITARIOS ---------------------
-  tests_unitarios:
+  # --------------------- TESTS  ---------------------
+  ejecutar_tests:
     needs: compilar_codigo
     runs-on: self-hosted
     steps:
-      - name: Ejecutar tests unitarios
-        run: mvn -q --batch-mode surefire:test
+      - name: Ejecutar todas las pruebas en paralelo con 4 hilos
+        run: mvn -q --batch-mode -T8 verify jacoco:report
 
-  # --------------------- TESTS DE INTEGRACIÓN ---------------------
-  tests_integracion:
-    needs: compilar_codigo
-    runs-on: self-hosted
-    steps:
-      - name: Ejecutar tests de integración
-        run: mvn -q --batch-mode failsafe:integration-test
 
-  # --------------------- TESTS DE COBERTURA ---------------------
-  tests_cobertura:
-    needs: compilar_codigo
-    runs-on: self-hosted
-    steps:
-      - name: Ejecutar cobertura con JaCoCo
-        run: mvn -q --batch-mode test jacoco:report
 
   # --------------------- ANÁLISIS CON SONARQUBE ---------------------
   analisis_sonarqube:
-    needs: [tests_unitarios, tests_integracion, tests_cobertura]
+    needs: [ejecutar_tests]
     runs-on: self-hosted
     steps:
       - name: Ejecutar análisis con SonarQube
