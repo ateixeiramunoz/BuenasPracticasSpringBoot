@@ -44,6 +44,8 @@ jobs:
       - name: Ejecutar todas las pruebas en paralelo con 16 hilos
         env:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
         run: mvn -q --batch-mode -T16 verify jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
 
 
