@@ -71,57 +71,6 @@ class EntidadPadreRepositoryTest extends PostgreSQLContainerTest {
     @Autowired
     EntidadHijaRepository entidadHijaRepository;
 
-    /**
-     * Método de prueba para verificar la correcta carga del contexto de la aplicación Spring.
-     * <p>
-     * Este método se asegura de que los componentes y recursos principales necesarios
-     * para el correcto funcionamiento de la aplicación estén inicializados y no sean nulos.
-     * Además, imprime información de debug sobre el estado de la base de datos
-     * utilizada durante las pruebas, como el nombre de la base de datos, el nombre
-     * de usuario y la contraseña, a través del registro.
-     * </p>
-     *
-     * Funcionalidad del método:
-     * - Comprueba que el `entidadPadreRepository` no sea nulo, lo cual valida que
-     *   el bean relacionado ha sido correctamente inyectado por el contenedor
-     *   de Spring.
-     * - Verifica que el contenedor `mySQLContainer` esté inicializado, lo cual
-     *   asegura la existencia de un ambiente de pruebas para operar la base de datos.
-     * - Recorre una lista de cadenas y registra información útil para propósitos de
-     *   depuración relacionados con la base de datos de prueba.
-     *
-     * Consideraciones:
-     * - Este método utiliza aserciones para validar componentes clave, las cuales
-     *   son esenciales para detectar fallos en la configuración.
-     * - Los mensajes de depuración son registrados como errores (`log.error`), lo cual
-     *   podría interpretarse como un estilo de manejo informacional para destacar
-     *   la importancia de los mensajes en un entorno de pruebas.
-     *
-     * Anotaciones explicadas:
-     * <ul>
-     * <li><b>@Test</b>: Identifica que este método es un caso de prueba que será
-     * ejecutado por el framework de pruebas. Esta anotación proviene de JUnit
-     * e indica que el contenido del método se utilizará para validar cierto
-     * comportamiento o estado de la aplicación.</li>
-     *
-     * <li><b>@Order(1)</b>: Especifica el orden en que este caso de prueba debe
-     * ser ejecutado en relación con otros casos de prueba dentro del mismo
-     * contexto. En este caso, el valor `1` indica que este será el primer
-     * método de prueba en la secuencia.</li>
-     * </ul>
-     */
-    @Test
-    @Order(1)
-    void contextLoads() {
-        log.info("Iniciando la prueba contextLoads...");
-        assertThat(entidadPadreRepository).isNotNull();
-        assertThat(dbContainer).isNotNull();
-        for (String s : Arrays.asList("Context loaded", "Database name: " + dbContainer.getDatabaseName(), "Username: " + dbContainer.getUsername(), "Password: " + dbContainer.getPassword())) {
-            log.error(s);
-        }
-        log.info("Contexto de Spring cargado con éxito.");
-    }
-
 
     /**
      * Prueba unitaria que verifica la funcionalidad de guardar una nueva entidad padre

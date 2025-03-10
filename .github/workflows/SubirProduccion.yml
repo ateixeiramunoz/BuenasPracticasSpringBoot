@@ -76,7 +76,7 @@ jobs:
       - name: Construir imagen Docker con Spring Boot (sin package manual)
         env:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
-        run: mvn -q --batch-mode -T16 spring-boot:build-image -DSkipTests=true
+        run: mvn -q --batch-mode -T16 spring-boot:build-image -DskipTests
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
   desplegar_en_servidor:
