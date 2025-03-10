@@ -26,7 +26,7 @@ jobs:
           check-latest: false
 
       - name: Verificar si `C:\maven-repo` existe (Windows)
-        shell: pwsh
+        shell: powershell
         run: |
           if (Test-Path "C:\maven-repo" -PathType Container -and (Get-ChildItem "C:\maven-repo")) {
               Write-Host "Repositorio Maven local encontrado, usando cache local."
