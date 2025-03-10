@@ -34,7 +34,7 @@ jobs:
         env:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: mvn -q --batch-mode -T16 clean verify jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar -Dclean-if-modified -U
 
 
