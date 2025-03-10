@@ -38,23 +38,13 @@ jobs:
       - name: Compilar código
         run: mvn -q --batch-mode compile
 
-      - name: Ejecutar pruebas con cobertura JaCoCo
-        run: mvn -q --batch-mode test jacoco:report
+      - name: Ejecutar pruebas con cobertura JaCoCo y enviar informe a SonarQube
+        run: mvn -q --batch-mode test jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
 
-  # --------------------- ANÁLISIS CON SONARQUBE ---------------------
-  analisis_sonarqube:
+
+  # --------------------- EMPAQUETAR  ---------------------
+  empaquetar:
     needs: compilar_y_testear
-    runs-on: self-hosted
-    steps:
-      - name: Ejecutar análisis con SonarQube
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-        run: mvn -q -B test -DSkipTests=true org.sonarsource.scanner.maven:sonar-maven-plugin:5.0.0.4389:sonar
-
-  # --------------------- EMPAQUETAR ARTIFACTO ---------------------
-  empaquetar_artifacto:
-    needs: analisis_sonarqube
     runs-on: self-hosted
     steps:
       - name: Generar artefacto con Maven
@@ -62,7 +52,7 @@ jobs:
 
   # --------------------- CREAR IMAGEN DOCKER ---------------------
   crear_imagen_docker:
-    needs: empaquetar_artifacto
+    needs: empaquetar
     runs-on: self-hosted
     steps:
       - name: Construir imagen Docker con Spring Boot
