@@ -18,21 +18,33 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Configurar JDK 17
-        uses: actions/setup-java@v4
+      - name: Verificar si Java 17 ya está instalado
+        run: |
+          if java -version | grep "17"; then
+            echo "Java 17 ya está instalado, saltando setup-java"
+          else
+            echo "Instalando Java 17..."
+            sudo apt update && sudo apt install -y openjdk-17-jdk
+          fi
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-
 
-      - name: Ejecutar Maven Clean
-        env:
-          MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
-        run: mvn -q --batch-mode -T16 clean
+      - name: Ejecutar Maven Clean (si hace falta)
+        run: |
+          if [ -d "target" ]; then
+            echo "El directorio target ya existe, saltando clean..."
+          else
+            mvn -q --batch-mode clean
+          fi
 
-      - name: Descargar dependencias (Modo Offline)
-        env:
-          MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
-        run: mvn -q --batch-mode -T16 dependency:go-offline
+      - name: Usar repositorio Maven más rápido
+        run: mvn -q --batch-mode -Dmaven.repo.local=/tmp/maven-repo dependency:go-offline
 
   # --------------------- COMPILAR CÓDIGO ---------------------
   compilar_codigo:
