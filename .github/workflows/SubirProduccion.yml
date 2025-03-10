@@ -25,14 +25,16 @@ jobs:
           distribution: 'temurin'
           check-latest: false
 
-      - name: Verificar si `/tmp/maven-repo` existe
+      - name: Verificar si `C:\maven-repo` existe (Windows)
+        shell: pwsh
         run: |
-          if [ -d "/tmp/maven-repo" ] && [ "$(ls -A /tmp/maven-repo)" ]; then
-            echo "Repositorio Maven local encontrado, usando cache local."
-          else
-            echo "Repositorio vacío, creando directorio."
-            mkdir -p /tmp/maven-repo
-          fi
+          if (Test-Path "C:\maven-repo" -PathType Container -and (Get-ChildItem "C:\maven-repo")) {
+              Write-Host "Repositorio Maven local encontrado, usando cache local."
+          } else {
+              Write-Host "Repositorio vacío o no existe, creando directorio..."
+              New-Item -ItemType Directory -Path "C:\maven-repo" -Force
+          }
+  
 
   # --------------------- COMPILAR CÓDIGO ---------------------
   compilar_codigo:
