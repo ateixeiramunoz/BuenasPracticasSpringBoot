@@ -49,7 +49,7 @@ jobs:
 
   # --------------------- ANÁLISIS CON SONARQUBE ---------------------
   analisis_sonarqube:
-    needs: compilar_y_testear
+    needs: empaquetar_artifacto
     runs-on: self-hosted
     steps:
       - name: Analisis con SonarQube
@@ -60,7 +60,7 @@ jobs:
 
   # --------------------- EMPAQUETAR ARTIFACTO ---------------------
   empaquetar_artifacto:
-    needs: analisis_sonarqube
+    needs: compilar_y_testear
     runs-on: self-hosted
     steps:
       - name: Generar artefacto con Maven
