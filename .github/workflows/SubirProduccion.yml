@@ -24,16 +24,24 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Mantener Caché Local de Maven (No usa GitHub Actions Cache)
-        shell: bash
+      - name: Mantener Caché Local de Maven
         run: |
-          if [ ! -d ~/.m2/repository ]; then
-            mkdir -p ~/.m2/repository
-            echo "Directorio ~/.m2/repository creado."
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            if (-Not (Test-Path "$env:USERPROFILE\.m2\repository")) {
+              New-Item -ItemType Directory -Path "$env:USERPROFILE\.m2\repository"
+              Write-Host "Directorio ~/.m2/repository creado en Windows."
+            } else {
+              Write-Host "Directorio ~/.m2/repository ya existe en Windows."
+            }
           else
-            echo "Directorio ~/.m2/repository ya existe."
+            if [ ! -d ~/.m2/repository ]; then
+              mkdir -p ~/.m2/repository
+              echo "Directorio ~/.m2/repository creado en Linux."
+            else
+              echo "Directorio ~/.m2/repository ya existe en Linux."
+            fi
           fi
-
+        shell: bash
 
       - name: Ejecutar Maven Clean
         run: mvn -q --batch-mode clean
