@@ -41,14 +41,16 @@ jobs:
         run: mvn -T24 clean verify jacoco:report sonar:sonar
 
   # --------------------- CREAR IMAGEN DOCKER ---------------------
-  crear_imagen_docker:
-    needs: ejecucion_tests_y_sonarqube
-    runs-on: self-hosted
-    steps:
-      - name: Construir imagen Docker con Spring Boot
-        env:
-          MAVEN_OPTS: "-Xmx16g -XX:MaxMetaspaceSize=16G"
-        run: mvn -T24 spring-boot:build-image -DskipTests
+crear_imagen_docker:
+  needs: ejecucion_tests_y_sonarqube
+  runs-on: self-hosted
+  env:
+    VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
+  steps:
+    - name: Construir imagen Docker con versión dinámica
+      run: >
+        mvn spring-boot:build-image -DskipTests
+        -Dspring-boot.build-image.imageName=buenaspracticas:${{ env.VERSION }}
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
 
