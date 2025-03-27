@@ -5,7 +5,7 @@ services:
   java:
     image: buenaspracticas:${VERSION:-snapshot}
     ports:
-      - "${PUERTO_EXTERNO:-8080}:8080"
+      - "${PUERTO_PRODUCCION:-8080}:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/produccion
       SPRING_DATASOURCE_USERNAME: produser
@@ -14,7 +14,7 @@ services:
       db:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:${PUERTO_EXTERNO}/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:${PUERTO_PRODUCCION}/actuator/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
