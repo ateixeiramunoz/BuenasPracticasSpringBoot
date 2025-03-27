@@ -35,7 +35,8 @@ jobs:
           MAVEN_OPTS: "-Xmx16g -XX:MaxMetaspaceSize=16G"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -T24 clean verify jacoco:report sonar:sonar
+          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
+        run: mvn -T24 clean verify jacoco:report sonar:sonar -Dsonar.projectVersion=${VERSION}
 
   # --------------------- CREAR IMAGEN DOCKER ---------------------
   crear_imagen_docker:
