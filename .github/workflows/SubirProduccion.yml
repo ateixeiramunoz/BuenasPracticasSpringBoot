@@ -3,9 +3,9 @@ name: Subida a Producción (Sin Cache Manual)
 on:
   push:
     branches: [ "main" ]
+    tags: [ "v*" ]
   pull_request:
     branches: [ "main" ]
-
 
 jobs:
 
@@ -44,17 +44,22 @@ jobs:
   crear_imagen_docker:
     needs: ejecucion_tests_y_sonarqube
     runs-on: self-hosted
+    env:
+      VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
     steps:
-      - name: Construir imagen Docker con Spring Boot
-        run: mvn -T16 spring-boot:build-image -DskipTests
+      - name: Construir imagen Docker con versión dinámica
+        run: >
+          mvn spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=buenaspracticas:${VERSION}
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
 
   desplegar_en_servidor:
     needs: crear_imagen_docker
     runs-on: self-hosted
+    env:
+      MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
+      VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
+      PUERTO_EXTERNO: ${{ vars.PUERTO_EXTERNO }}  # define esto en GitHub > Repository > Variables
     steps:
       - name: Desplegar contenedor en servidor
-        env:
-          MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
         run: docker compose -f compose-produccion.yaml up -d
