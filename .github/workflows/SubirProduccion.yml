@@ -59,4 +59,5 @@ jobs:
       - name: Desplegar contenedor en servidor
         env:
           MAVEN_OPTS: "-Xmx16g -XX:MaxMetaspaceSize=16G"
+          PUERTO_EXTERNO: ${{ secrets.PUERTO_EXTERNO }}
         run: docker compose -f compose-produccion.yaml up -d
