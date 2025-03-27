@@ -30,6 +30,10 @@ jobs:
     needs: preparar_entorno
     runs-on: self-hosted
     steps:
+      - name: Establecer versión de proyecto para CI
+        env:
+          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
+        run: mvn versions:set -DnewVersion=${VERSION}
       - name: Compilar código con `clean verify -Dclean-if-modified`
         env:
           MAVEN_OPTS: "-Xmx16g -XX:MaxMetaspaceSize=16G"
