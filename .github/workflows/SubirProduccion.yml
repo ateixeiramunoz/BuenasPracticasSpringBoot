@@ -33,7 +33,7 @@ jobs:
       - name: Establecer versión de proyecto para CI
         env:
           VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
-        run: mvn versions:set -DnewVersion=${{ env.VERSION }}
+        run: mvn versions:set "-DnewVersion=${{ env.VERSION }}"
 
       - name: Ejecutar Tests, JaCoCo y enviar a SonarQube
         env:
