@@ -48,7 +48,7 @@ jobs:
       VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
     steps:
       - name: Construir imagen Docker con versión dinámica
-        run: mvn spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName="buenaspracticas:${{ env.VERSION }}"
+        run: mvn spring-boot:build-image -DskipTests
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
 
