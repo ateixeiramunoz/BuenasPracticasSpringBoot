@@ -35,7 +35,7 @@ jobs:
     steps:
       - name: Compilar código con `clean verify -Dclean-if-modified`
         env:
-          MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
+          MAVEN_OPTS: "-Xmx16g -XX:MaxMetaspaceSize=16G"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: mvn -T24 clean verify jacoco:report sonar:sonar
@@ -44,21 +44,19 @@ jobs:
   crear_imagen_docker:
     needs: ejecucion_tests_y_sonarqube
     runs-on: self-hosted
-    env:
-      VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
     steps:
-      - name: Construir imagen Docker con versión dinámica
-        run: mvn spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=buenaspracticas:${VERSION}
+      - name: Construir imagen Docker con Spring Boot
+        env:
+          MAVEN_OPTS: "-Xmx16g -XX:MaxMetaspaceSize=16G"
+        run: mvn -T24 spring-boot:build-image -DskipTests
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
 
   desplegar_en_servidor:
     needs: crear_imagen_docker
     runs-on: self-hosted
-    env:
-      MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
-      VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
-      PUERTO_EXTERNO: ${{ vars.PUERTO_EXTERNO }}  # define esto en GitHub > Repository > Variables
     steps:
       - name: Desplegar contenedor en servidor
+        env:
+          MAVEN_OPTS: "-Xmx16g -XX:MaxMetaspaceSize=16G"
         run: docker compose -f compose-produccion.yaml up -d
