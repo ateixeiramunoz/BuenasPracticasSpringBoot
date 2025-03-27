@@ -143,12 +143,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>fr.brouillard.oss</groupId>
-                <artifactId>jgitver-maven-plugin</artifactId>
-                <version>1.11.0</version>
-                <extensions>true</extensions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
