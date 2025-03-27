@@ -46,8 +46,6 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Construir imagen Docker con Spring Boot
-        env:
-          MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
         run: mvn spring-boot:build-image -DskipTests
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
