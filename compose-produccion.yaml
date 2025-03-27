@@ -3,7 +3,7 @@ name: Produccion
 # Definimos los servicios que se ejecutarán en los contenedores Docker.
 services:
   java:
-    image: buenaspracticas:0.0.1-SNAPSHOT
+    image: buenaspracticas:latest
     ports:
       - "${PUERTO_EXTERNO:-8080}:8080"
     environment:
