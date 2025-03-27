@@ -36,7 +36,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
-        run: mvn -T24 clean verify jacoco:report sonar:sonar -Dsonar.projectVersion=${VERSION}
+        run: mvn -T24 clean verify jacoco:report sonar:sonar -Dsonar:sonar:sonar.projectVersion=${VERSION}
 
   # --------------------- CREAR IMAGEN DOCKER ---------------------
   crear_imagen_docker:
