@@ -46,9 +46,10 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Construir imagen Docker con Spring Boot
-        run: mvn spring-boot:build-image -DskipTests=true
+        run: mvn spring-boot:build-image -DskipTests=true -Dspring-boot.build-image.buildpack.cache=true
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
+
   desplegar_en_servidor:
     needs: crear_imagen_docker
     runs-on: self-hosted
