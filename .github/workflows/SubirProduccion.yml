@@ -38,7 +38,7 @@ jobs:
           MAVEN_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=8G"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -T16 clean verify jacoco:report sonar:sonar
+        run: mvn -T24 clean verify jacoco:report sonar:sonar
 
   # --------------------- CREAR IMAGEN DOCKER ---------------------
   crear_imagen_docker:
@@ -48,8 +48,7 @@ jobs:
       VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
     steps:
       - name: Construir imagen Docker con versión dinámica
-        run: >
-          mvn spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=buenaspracticas:${VERSION}
+        run: mvn spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=buenaspracticas:${VERSION}
 
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
 
