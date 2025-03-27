@@ -34,7 +34,8 @@ jobs:
         env:
           VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
         run: mvn versions:set -DnewVersion=${{ env.VERSION }}
-      - name: Compilar código con `clean verify -Dclean-if-modified`
+
+      - name: Ejecutar Tests, JaCoCo y enviar a SonarQube
         env:
           MAVEN_OPTS: "-Xmx16g -XX:MaxMetaspaceSize=16G"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
