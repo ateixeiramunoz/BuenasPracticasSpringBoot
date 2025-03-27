@@ -29,8 +29,8 @@ import java.util.Arrays;
  */
 @Configuration
 @Log4j2
-@Profile("local")
-public class LocalDataLoader {
+@Profile("alejandro")
+public class AlejandroDataLoader {
 
     private final EntidadPadreRepository repository;
     private final EntidadHijaRepository entidadHijaRepository;
@@ -48,7 +48,7 @@ public class LocalDataLoader {
      *                                Es utilizado para gestionar datos de la entidad hija y su relación con
      *                                la entidad padre.
      */
-    public LocalDataLoader(EntidadPadreRepository repository, EntidadHijaRepository entidadHijaRepository) {
+    public AlejandroDataLoader(EntidadPadreRepository repository, EntidadHijaRepository entidadHijaRepository) {
         this.repository = repository;
         this.entidadHijaRepository = entidadHijaRepository;
     }
@@ -95,7 +95,7 @@ public class LocalDataLoader {
     public void loadDataLocal() {
 
         log.info("Iniciando la carga de datos para el perfil local");
-        int numeroEntidades = 100;
+        int numeroEntidades = 50;
         EntidadPadre[] entidades = new EntidadPadre[numeroEntidades];
         Arrays.setAll(entidades, i -> new EntidadPadre("Entidad-" + (Integer.valueOf(i)+1)));
         repository.saveAll(Arrays.asList(entidades));
@@ -105,10 +105,8 @@ public class LocalDataLoader {
             entidadHijaRepository.save(entidadHija);
         }
         log.info("Datos de entidades cargados correctamente.");
+
+
     }
-
-
-
-
 
 }
