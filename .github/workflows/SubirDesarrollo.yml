@@ -1,8 +1,6 @@
 name: Subida a Desarrollo
 
 on:
-  push:
-    branches: [ "desarrollo" ]
   pull_request:
     branches: [ "desarrollo" ]
 
