@@ -37,4 +37,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Desplegar contenedor de desarrollo
+        env:
+          COMPOSE_PROJECT_NAME: buenaspracticas-dev
         run: docker compose -f compose-desarrollo.yaml up -d
