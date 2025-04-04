@@ -60,7 +60,7 @@ jobs:
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
   arrancar_en_servidor_de_desarrollo:
-    needs: compilar_y_testear2
+    needs: construir_imagen
     runs-on: self-hosted
     steps:
       # Descargar el código (por si es necesario para el docker-compose)
