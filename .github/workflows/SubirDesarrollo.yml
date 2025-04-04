@@ -6,6 +6,7 @@ on:
 
 jobs:
 
+
   # --------------------- COMPILAR, TESTEAR Y CREAR IMAGEN ---------------------
   construir_imagen_snapshot:
     runs-on: self-hosted
