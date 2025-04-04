@@ -34,7 +34,7 @@ jobs:
 
       # Construir imagen Docker usando el builder ligero "minimal" (más rápido)
       - name: Construir imagen Docker con builder ligero
-        run: mvn -T32 spring-boot:build-image -DskipTests "-Dspring-boot.build-image.builder=paketobuildpacks/builder:base"
+        run: mvn -T32 spring-boot:build-image -DskipTests
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
   arrancar_en_servidor_de_desarrollo:
