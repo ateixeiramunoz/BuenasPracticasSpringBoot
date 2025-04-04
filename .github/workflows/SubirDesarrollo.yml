@@ -26,9 +26,9 @@ jobs:
       - name: Compilar y ejecutar tests
         run: mvn --batch-mode verify
 
-      # Construir imagen Docker usando el builder ligero "tiny" (más rápido)
+      # Construir imagen Docker usando el builder ligero "minimal" (más rápido)
       - name: Construir imagen Docker con builder ligero
-        run: mvn spring-boot:build-image -DskipTests "-Dspring-boot.build-image.builder=paketobuildpacks/builder:tiny"
+        run: mvn spring-boot:build-image -DskipTests "-Dspring-boot.build-image.builder=paketobuildpacks/builder:minimal"
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
   arrancar_en_servidor_de_desarrollo:
