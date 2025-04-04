@@ -30,12 +30,18 @@ jobs:
     needs: preparar_entorno
     runs-on: self-hosted
     steps:
-      - name: Compilar código con `clean verify -Dclean-if-modified`
+      - name: Establecer versión de proyecto para CI
+        env:
+          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
+        run: mvn versions:set "-DnewVersion=${{ env.VERSION }}"
+
+      - name: Ejecutar Tests, JaCoCo y enviar a SonarQube
         env:
           MAVEN_OPTS: "-Xmx16g -XX:MaxMetaspaceSize=16G"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: mvn -T24 clean verify jacoco:report sonar:sonar
+          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
+        run: mvn -T24 clean verify jacoco:report sonar:sonar -Dsonar:sonar:sonar.projectVersion=${VERSION}
 
   # --------------------- CREAR IMAGEN DOCKER ---------------------
   crear_imagen_docker:
@@ -47,6 +53,7 @@ jobs:
       - name: Construir imagen Docker con versión dinámica
         run: mvn spring-boot:build-image -DskipTests
 
+
   # --------------------- DESPLEGAR EN SERVIDOR ---------------------
 
   desplegar_en_servidor:
@@ -57,6 +64,6 @@ jobs:
         env:
           VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
           MAVEN_OPTS: "-Xmx16g -XX:MaxMetaspaceSize=16G"
-          PUERTO_EXTERNO: ${{ secrets.PUERTO_EXTERNO }}
+          PUERTO_PRODUCCION: ${{ secrets.PUERTO_PRODUCCION }}
           COMPOSE_PROJECT_NAME: buenaspracticas-prod
         run: docker compose -f compose-produccion.yaml up -d
