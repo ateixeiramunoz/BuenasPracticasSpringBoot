@@ -27,7 +27,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-  compilar_y_testear:
+  test-unitarios:
     needs: construir_imagen_snapshot
     runs-on: self-hosted
     env:
@@ -35,15 +35,32 @@ jobs:
     steps:
       # Persistir el cache de Maven en el directorio local
       - name: Compilar y ejecutar tests
-        run: mvn -T32 --batch-mode verify "-Dmaven.repo.local=C:\Users\maila\.m2\repository"
+        run: mvn -T32 --batch-mode verify -Punit-tests "-Dmaven.repo.local=C:\Users\maila\.m2\repository"
 
+  test-integracion:
+    needs: compilar_y_testear
+    runs-on: self-hosted
+    env:
+      VERSION: snapshot
+    steps:
+      # Persistir el cache de Maven en el directorio local
+      - name: Compilar y ejecutar tests
+        run: mvn -T32 --batch-mode verify -Pintegration-tests "-Dmaven.repo.local=C:\Users\maila\.m2\repository"
+        
+  construir_imagen:
+    needs: test-integracion
+    runs-on: self-hosted
+    env:
+      VERSION: snapshot
+    steps:
       # Construir imagen Docker con cache local
       - name: Construir imagen Docker con builder ligero
         run: mvn -T32 spring-boot:build-image -DskipTests "-Dmaven.repo.local=C:\Users\maila\.m2\repository"
 
+
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
   arrancar_en_servidor_de_desarrollo:
-    needs: compilar_y_testear
+    needs: compilar_y_testear2
     runs-on: self-hosted
     steps:
       # Descargar el código (por si es necesario para el docker-compose)
