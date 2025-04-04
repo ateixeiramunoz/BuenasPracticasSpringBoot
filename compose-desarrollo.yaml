@@ -5,16 +5,17 @@ services:
   java:
     image: buenaspracticas:${VERSION:-snapshot}
     ports:
-      - "${PUERTO_PRODUCCION:-8080}:8080"
+      - "${PUERTO_DESARROLLO:-8080}:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/produccion
-      SPRING_DATASOURCE_USERNAME: produser
-      SPRING_DATASOURCE_PASSWORD: prodpassword
+      SPRING_PROFILES_ACTIVE: desarrollo
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/desarrollo
+      SPRING_DATASOURCE_USERNAME: desarrollouser
+      SPRING_DATASOURCE_PASSWORD: desarrollopassword
     depends_on:
       db:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:${PUERTO_PRODUCCION}/actuator/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:${PUERTO_DESARROLLO}/actuator/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -22,10 +23,12 @@ services:
 
   db:
     image: postgres:latest
+    ports:
+      - "${PUERTO_DB_DESARROLLO}:5432"
     environment:
-      POSTGRES_DB: 'produccion'
-      POSTGRES_USER: 'produser'
-      POSTGRES_PASSWORD: 'prodpassword'
+      POSTGRES_DB: 'desarrollo'
+      POSTGRES_USER: 'desarrollouser'
+      POSTGRES_PASSWORD: 'desarrollopassword'
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "produser" ]
       timeout: 20s
