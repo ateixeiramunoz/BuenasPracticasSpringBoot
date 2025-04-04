@@ -22,17 +22,23 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+  compilar_y_testear:
+    needs: construir_imagen_snapshot
+    runs-on: self-hosted
+    env:
+      VERSION: snapshot
+    steps:
       # Compilar, testear y usar dependencias desde ~/.m2 local (más rápido en self-hosted)
       - name: Compilar y ejecutar tests
-        run: mvn -T16 --batch-mode verify
+        run: mvn -T32 --batch-mode verify
 
       # Construir imagen Docker usando el builder ligero "minimal" (más rápido)
       - name: Construir imagen Docker con builder ligero
-        run: mvn -T16 spring-boot:build-image -DskipTests "-Dspring-boot.build-image.builder=paketobuildpacks/builder:base"
+        run: mvn -T32 spring-boot:build-image -DskipTests "-Dspring-boot.build-image.builder=paketobuildpacks/builder:base"
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
   arrancar_en_servidor_de_desarrollo:
-    needs: construir_imagen_snapshot
+    needs: compilar_y_testear
     runs-on: self-hosted
     steps:
       # Descargar el código (por si es necesario para el docker-compose)
