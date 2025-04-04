@@ -69,7 +69,7 @@ jobs:
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
   arrancar_en_servidor_de_desarrollo:
-    needs: compilar_y_testear
+    needs: crear-imagen
     runs-on: self-hosted
     steps:
       # Descargar el código previamente subido como artifact
