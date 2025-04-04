@@ -24,11 +24,11 @@ jobs:
 
       # Compilar, testear y usar dependencias desde ~/.m2 local (más rápido en self-hosted)
       - name: Compilar y ejecutar tests
-        run: mvn --batch-mode verify
+        run: mvn -T16 --batch-mode verify
 
       # Construir imagen Docker usando el builder ligero "minimal" (más rápido)
       - name: Construir imagen Docker con builder ligero
-        run: mvn spring-boot:build-image -DskipTests "-Dspring-boot.build-image.builder=paketobuildpacks/builder:minimal"
+        run: mvn -T16 spring-boot:build-image -DskipTests "-Dspring-boot.build-image.builder=paketobuildpacks/builder:base"
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
   arrancar_en_servidor_de_desarrollo:
