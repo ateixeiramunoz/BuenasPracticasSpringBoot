@@ -12,30 +12,39 @@ jobs:
     env:
       VERSION: snapshot
     steps:
+      # Descargar el código
       - uses: actions/checkout@v4
 
+      # Configurar Java 17 sin cache remota (usamos ~/.m2 del runner)
       - name: Configurar JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
+      # Compilar, testear y usar dependencias desde ~/.m2 local (más rápido en self-hosted)
       - name: Compilar y ejecutar tests
         run: mvn --batch-mode verify
 
-      - name: Construir imagen Docker con tag 'snapshot'
-        run: mvn spring-boot:build-image -DskipTests
+      # Construir imagen Docker usando el builder ligero "tiny" (más rápido)
+      - name: Construir imagen Docker con builder ligero
+        run: mvn spring-boot:build-image \
+          -DskipTests \
+          -Dspring-boot.build-image.builder=paketobuildpacks/builder:tiny \
+          -Dspring-boot.build-image.imageName=grupo5proyecto-dev:snapshot
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
   arrancar_en_servidor_de_desarrollo:
     needs: construir_imagen_snapshot
     runs-on: self-hosted
     steps:
+      # Descargar el código (por si es necesario para el docker-compose)
       - uses: actions/checkout@v4
 
+      # Desplegar con docker compose (usa el nombre del proyecto y los puertos desde secretos)
       - name: Desplegar contenedor de desarrollo
         env:
-          COMPOSE_PROJECT_NAME: grupo5proyecto-dev
+          COMPOSE_PROJECT_NAME: buenaspracticas-dev
           PUERTO_DESARROLLO: ${{ secrets.PUERTO_DESARROLLO }}
           PUERTO_DB_DESARROLLO: ${{ secrets.PUERTO_DB_DESARROLLO }}
         run: docker compose -f compose-desarrollo.yaml up -d
