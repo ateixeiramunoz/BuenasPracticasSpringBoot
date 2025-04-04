@@ -38,7 +38,7 @@ jobs:
         run: mvn -T32 --batch-mode test "-Dmaven.repo.local=C:\Users\maila\.m2\repository"
 
   test-integracion:
-    needs: test-unitarios
+    needs: preparar-entorno
     runs-on: self-hosted
     env:
       VERSION: snapshot
@@ -48,7 +48,7 @@ jobs:
         run: mvn -T32 --batch-mode verify "-Dmaven.repo.local=C:\Users\maila\.m2\repository"
         
   construir_imagen:
-    needs: test-integracion
+    needs: [test-unitarios,test-integracion]
     runs-on: self-hosted
     env:
       VERSION: snapshot
