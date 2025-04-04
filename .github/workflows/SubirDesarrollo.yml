@@ -1,7 +1,7 @@
 name: Subida a Desarrollo
 
 on:
-  pull_request:
+  push:
     branches: [ "desarrollo" ]
 
 jobs:
@@ -19,7 +19,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
 
       - name: Compilar y ejecutar tests
         run: mvn --batch-mode verify
@@ -36,6 +35,7 @@ jobs:
 
       - name: Desplegar contenedor de desarrollo
         env:
-          COMPOSE_PROJECT_NAME: buenaspracticas-dev
+          COMPOSE_PROJECT_NAME: grupo5proyecto-dev
           PUERTO_DESARROLLO: ${{ secrets.PUERTO_DESARROLLO }}
+          PUERTO_DB_DESARROLLO: ${{ secrets.PUERTO_DB_DESARROLLO }}
         run: docker compose -f compose-desarrollo.yaml up -d
