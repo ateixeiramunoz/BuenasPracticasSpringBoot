@@ -28,6 +28,14 @@ jobs:
     env:
       VERSION: snapshot
     steps:
+      - name: Restaurar caché de compilación (target)
+        uses: actions/cache@v4
+        with:
+          path: target
+          key: target-cache-${{ runner.os }}-${{ hashFiles('**/pom.xml', '**/*.java') }}
+          restore-keys: |
+            target-cache-${{ runner.os }}-
+            
       # Compilar, testear y usar dependencias desde ~/.m2 local (más rápido en self-hosted)
       - name: Compilar y ejecutar tests
         run: mvn -T32 --batch-mode verify
@@ -35,6 +43,12 @@ jobs:
       # Construir imagen Docker usando el builder ligero "minimal" (más rápido)
       - name: Construir imagen Docker con builder ligero
         run: mvn -T32 spring-boot:build-image -DskipTests
+
+      - name: Guardar caché de compilación
+        uses: actions/cache/save@v4
+        with:
+          path: target
+          key: target-cache-${{ runner.os }}-${{ hashFiles('**/pom.xml', '**/*.java') }}
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
   arrancar_en_servidor_de_desarrollo:
