@@ -6,7 +6,6 @@ on:
 
 jobs:
 
-
   # --------------------- COMPILAR, TESTEAR Y CREAR IMAGEN ---------------------
   construir_imagen_snapshot:
     runs-on: self-hosted
@@ -19,8 +18,17 @@ jobs:
           if (Test-Path -Path "BuenasPracticasSpringBoot") {
             Remove-Item -Recurse -Force "BuenasPracticasSpringBoot"
           }
+
+      # Descargar solo el código necesario
       - name: Descargar solo el código necesario
         run: git clone --depth 1 https://github.com/ateixeiramunoz/BuenasPracticasSpringBoot.git
+
+      # Subir el código descargado como un artifact para usar en jobs posteriores
+      - name: Subir el código como artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: codigo-repo
+          path: BuenasPracticasSpringBoot
 
       # Configurar Java 17 sin cache remota (usamos ~/.m2 del runner)
       - name: Configurar JDK 17
@@ -29,16 +37,23 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+  # --------------------- COMPILAR Y TESTEAR ---------------------
   compilar_y_testear:
     needs: construir_imagen_snapshot
     runs-on: self-hosted
     env:
       VERSION: snapshot
     steps:
+      # Descargar el código previamente subido como artifact
+      - name: Descargar código desde artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: codigo-repo
+
       # Persistir el cache de Maven en el directorio local
       - name: Compilar y ejecutar tests
         run: mvn -T32 --batch-mode verify "-Dmaven.repo.local=C:\Users\maila\.m2\repository"
-        
+
       # Construir imagen Docker con cache local
       - name: Construir imagen Docker con builder ligero
         run: mvn -T32 spring-boot:build-image -DskipTests "-Dmaven.repo.local=C:\Users\maila\.m2\repository"
@@ -48,8 +63,11 @@ jobs:
     needs: compilar_y_testear
     runs-on: self-hosted
     steps:
-      # Descargar el código (por si es necesario para el docker-compose)
-      - uses: actions/checkout@v4
+      # Descargar el código previamente subido como artifact
+      - name: Descargar código desde artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: codigo-repo
 
       # Desplegar con docker compose (usa el nombre del proyecto y los puertos desde secretos)
       - name: Desplegar contenedor de desarrollo
