@@ -5,41 +5,50 @@ on:
     branches: [ "desarrollo" ]
 
 jobs:
-
-  # --------------------- COMPILAR, TESTEAR Y CREAR IMAGEN ---------------------
-  construir_imagen_snapshot:
+  # --------------------- Ejecutar Test Unitarios ---------------------
+  test_unitarios:
     runs-on: self-hosted
     env:
       VERSION: snapshot
     steps:
-      # Eliminar el directorio si ya existe (evita el error de "destination path already exists")
-      - name: Eliminar directorio si existe
-        run: |
-          if (Test-Path -Path "BuenasPracticasSpringBoot") {
-            Remove-Item -Recurse -Force "BuenasPracticasSpringBoot"
-          }
-
       # Descargar solo el código necesario
       - name: Descargar solo el código necesario
         run: git clone --depth 1 https://github.com/ateixeiramunoz/BuenasPracticasSpringBoot.git
 
-      # Subir el código descargado como un artifact para usar en jobs posteriores
-      - name: Subir el código como artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: codigo-repo
-          path: BuenasPracticasSpringBoot
-
-      # Configurar Java 17 sin cache remota (usamos ~/.m2 del runner)
+      # Configurar Java 17
       - name: Configurar JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-  # --------------------- COMPILAR Y TESTEAR ---------------------
-  compilar_y_testear:
-    needs: construir_imagen_snapshot
+      # Ejecutar los tests unitarios
+      - name: Ejecutar tests unitarios
+        run: mvn -T32 --batch-mode verify -Punit-tests -Dmaven.repo.local=C:\Users\<YourUsername>\.m2\repository
+
+  # --------------------- Ejecutar Test de Integración ---------------------
+  test_integration:
+    runs-on: self-hosted
+    env:
+      VERSION: snapshot
+    steps:
+      # Descargar solo el código necesario
+      - name: Descargar solo el código necesario
+        run: git clone --depth 1 https://github.com/ateixeiramunoz/BuenasPracticasSpringBoot.git
+
+      # Configurar Java 17
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Ejecutar los tests de integración
+      - name: Ejecutar tests de integración
+        run: mvn -T32 --batch-mode verify -Pintegration-tests -Dmaven.repo.local=C:\Users\<YourUsername>\.m2\repository
+
+  crear-imagen:
+    needs: test_unitarios
     runs-on: self-hosted
     env:
       VERSION: snapshot
