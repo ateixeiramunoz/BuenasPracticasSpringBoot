@@ -5,78 +5,50 @@ on:
     branches: [ "desarrollo" ]
 
 jobs:
-  # --------------------- Ejecutar Test Unitarios ---------------------
-  test_unitarios:
+
+  # --------------------- COMPILAR, TESTEAR Y CREAR IMAGEN ---------------------
+  construir_imagen_snapshot:
     runs-on: self-hosted
     env:
       VERSION: snapshot
     steps:
-      # Descargar solo el código necesario
+      # Eliminar el directorio si ya existe (evita el error de "destination path already exists")
+      - name: Eliminar directorio si existe
+        run: |
+          if (Test-Path -Path "BuenasPracticasSpringBoot") {
+            Remove-Item -Recurse -Force "BuenasPracticasSpringBoot"
+          }
       - name: Descargar solo el código necesario
         run: git clone --depth 1 https://github.com/ateixeiramunoz/BuenasPracticasSpringBoot.git
 
-      # Configurar Java 17
+      # Configurar Java 17 sin cache remota (usamos ~/.m2 del runner)
       - name: Configurar JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # Ejecutar los tests unitarios
-      - name: Ejecutar tests unitarios
-        run: mvn -T32 --batch-mode verify -Punit-tests -Dmaven.repo.local=C:\Users\maila\.m2\repository
-
-  # --------------------- Ejecutar Test de Integración ---------------------
-  test_integration:
+  compilar_y_testear:
+    needs: construir_imagen_snapshot
     runs-on: self-hosted
     env:
       VERSION: snapshot
     steps:
-      # Descargar solo el código necesario
-      - name: Descargar solo el código necesario
-        run: git clone --depth 1 https://github.com/ateixeiramunoz/BuenasPracticasSpringBoot.git
-
-      # Configurar Java 17
-      - name: Configurar JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      # Ejecutar los tests de integración
-      - name: Ejecutar tests de integración
-        run: mvn -T32 --batch-mode verify -Pintegration-tests -Dmaven.repo.local=C:\Users\maila\.m2\repository
-
-  crear-imagen:
-    needs: test_unitarios
-    runs-on: self-hosted
-    env:
-      VERSION: snapshot
-    steps:
-      # Descargar el código previamente subido como artifact
-      - name: Descargar código desde artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: codigo-repo
-
       # Persistir el cache de Maven en el directorio local
       - name: Compilar y ejecutar tests
-        run: mvn -T32 --batch-mode verify "-Dmaven.repo.local=C:\Users\maila\.m2\repository"
+        run: mvn -T32 --batch-mode verify "-Dmaven.repo.local=~/.m2/repository"
 
       # Construir imagen Docker con cache local
       - name: Construir imagen Docker con builder ligero
-        run: mvn -T32 spring-boot:build-image -DskipTests "-Dmaven.repo.local=C:\Users\maila\.m2\repository"
+        run: mvn -T32 spring-boot:build-image -DskipTests "-Dmaven.repo.local=~/.m2/repository"
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
   arrancar_en_servidor_de_desarrollo:
-    needs: crear-imagen
+    needs: compilar_y_testear
     runs-on: self-hosted
     steps:
-      # Descargar el código previamente subido como artifact
-      - name: Descargar código desde artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: codigo-repo
+      # Descargar el código (por si es necesario para el docker-compose)
+      - uses: actions/checkout@v4
 
       # Desplegar con docker compose (usa el nombre del proyecto y los puertos desde secretos)
       - name: Desplegar contenedor de desarrollo
