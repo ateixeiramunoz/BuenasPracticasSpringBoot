@@ -24,7 +24,7 @@ jobs:
 
       # Ejecutar los tests unitarios
       - name: Ejecutar tests unitarios
-        run: mvn -T32 --batch-mode verify -Punit-tests -Dmaven.repo.local=C:\Users\<YourUsername>\.m2\repository
+        run: mvn -T32 --batch-mode verify -Punit-tests -Dmaven.repo.local=C:\Users\maila\.m2\repository
 
   # --------------------- Ejecutar Test de Integración ---------------------
   test_integration:
@@ -45,7 +45,7 @@ jobs:
 
       # Ejecutar los tests de integración
       - name: Ejecutar tests de integración
-        run: mvn -T32 --batch-mode verify -Pintegration-tests -Dmaven.repo.local=C:\Users\<YourUsername>\.m2\repository
+        run: mvn -T32 --batch-mode verify -Pintegration-tests -Dmaven.repo.local=C:\Users\maila\.m2\repository
 
   crear-imagen:
     needs: test_unitarios
