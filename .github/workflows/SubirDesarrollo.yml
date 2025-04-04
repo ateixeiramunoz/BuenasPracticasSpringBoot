@@ -12,6 +12,12 @@ jobs:
     env:
       VERSION: snapshot
     steps:
+      # Eliminar el directorio si ya existe (evita el error de "destination path already exists")
+      - name: Eliminar directorio si existe
+        run: |
+          if [ -d "BuenasPracticasSpringBoot" ]; then
+            rm -rf BuenasPracticasSpringBoot
+          fi
       - name: Descargar solo el código necesario
         run: git clone --depth 1 https://github.com/ateixeiramunoz/BuenasPracticasSpringBoot.git
 
