@@ -12,8 +12,8 @@ jobs:
     env:
       VERSION: snapshot
     steps:
-      # Descargar el código
-      - uses: actions/checkout@v4
+      - name: Descargar solo el código necesario
+        run: git clone --depth 1 https://github.com/ateixeiramunoz/BuenasPracticasSpringBoot.git
 
       # Configurar Java 17 sin cache remota (usamos ~/.m2 del runner)
       - name: Configurar JDK 17
@@ -28,13 +28,13 @@ jobs:
     env:
       VERSION: snapshot
     steps:
-      # Compilar, testear y usar dependencias desde ~/.m2 local (más rápido en self-hosted)
+      # Persistir el cache de Maven en el directorio local
       - name: Compilar y ejecutar tests
-        run: mvn -T32 --batch-mode verify
+        run: mvn -T32 --batch-mode verify -Dmaven.repo.local=~/.m2/repository
 
-      # Construir imagen Docker usando el builder ligero "minimal" (más rápido)
+      # Construir imagen Docker con cache local
       - name: Construir imagen Docker con builder ligero
-        run: mvn -T32 spring-boot:build-image -DskipTests
+        run: mvn -T32 spring-boot:build-image -DskipTests -Dmaven.repo.local=~/.m2/repository
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
   arrancar_en_servidor_de_desarrollo:
