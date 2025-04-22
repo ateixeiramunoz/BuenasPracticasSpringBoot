@@ -1,5 +1,6 @@
 # BuenasPracticasSpringBoot
 
+
 ![Quality Gate Status](http://eoijava.ddns.net:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=alert_status&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)
 ![Coverage](http://eoijava.ddns.net:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=coverage&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)
 ![Duplicated Lines (%)](http://eoijava.ddns.net:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=duplicated_lines_density&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)
