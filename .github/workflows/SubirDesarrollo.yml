@@ -41,7 +41,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-m2-
-  
+          compression: zstd        # ← aquí
+        
       # 3) Compilar JAR sin tests (más rápido, reuse en build-image)
       - name: Compilar jar (sin tests)
         run: mvn -B clean package -DskipTests
