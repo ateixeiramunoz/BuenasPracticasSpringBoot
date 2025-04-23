@@ -25,9 +25,9 @@ services:
     environment:
       POSTGRES_DB: 'desarrollodb'
       POSTGRES_USER: 'desarrollouser'
-      POSTGRES_PASSWORD: 'desarrollouser'
+      POSTGRES_PASSWORD: 'desarrollopassword'
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "desarrollo" ]
+      test: [ "CMD", "pg_isready", "-U", "desarrollouser" ]
       timeout: 20s
       retries: 10
     restart: always
