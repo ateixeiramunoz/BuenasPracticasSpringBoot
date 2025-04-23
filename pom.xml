@@ -146,8 +146,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <!-- o bien la 4.0.0-rc-2, o la futura 3.14.x cuando salga -->
-                <version>4.0.0-rc-2</version>
+                <version>3.13.0</version>
+                <dependencies>
+                    <!-- parche para JDK 24 -->
+                    <dependency>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm</artifactId>
+                        <version>9.7.1</version>
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <release>24</release>
                 </configuration>
