@@ -177,6 +177,9 @@
                         <builder>paketobuildpacks/builder:base</builder>
                         <!--suppress UnresolvedMavenProperty -->
                         <name>${project.name}:${env.VERSION}</name>
+                        <buildCache>
+                          <bind>/:/cache</bind>
+                        </buildCache>
                     </image>
                 </configuration>
             </plugin>
