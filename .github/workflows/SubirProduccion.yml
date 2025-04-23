@@ -61,7 +61,7 @@ jobs:
     steps:
       - name: Desplegar contenedor en servidor
         env:
-          COMPOSE_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-dev
+          COMPOSE_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-prod
           PROJECT_NAME: ${{ vars.PROJECT_NAME }}
           VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
           PUERTO_PRODUCCION: ${{ vars.PUERTO_PRODUCCION }}
