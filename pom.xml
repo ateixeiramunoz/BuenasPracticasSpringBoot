@@ -31,20 +31,6 @@
         <lombok.version>1.18.38</lombok.version>
         <sonar.coverage.exclusions>**/Application.*,**/loaders/*</sonar.coverage.exclusions>
     </properties>
-    <pluginRepositories>
-         <pluginRepository>
-               <id>apache-maven-snapshots</id>
-               <name>Apache Maven Snapshots</name>
-               <url>https://repository.apache.org/snapshots/</url>
-               <releases>
-                 <enabled>false</enabled>
-               </releases>
-               <snapshots>
-                 <enabled>true</enabled>
-                 <updatePolicy>always</updatePolicy>
-               </snapshots>
-         </pluginRepository>
-    </pluginRepositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -154,6 +140,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
             <version>3.4.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.13</version>
         </dependency>
     </dependencies>
     <build>
