@@ -28,6 +28,8 @@
     </scm>
     <properties>
         <java.version>24</java.version>
+        <lombok.version>1.18.38</lombok.version>
+</properties>
         <sonar.coverage.exclusions>**/Application.*,**/loaders/*</sonar.coverage.exclusions>
     </properties>
     <dependencies>
@@ -84,7 +86,7 @@
          <dependency>
            <groupId>org.projectlombok</groupId>
            <artifactId>lombok</artifactId>
-           <version>1.18.36</version>  <!-- o superior -->
+           <version>${lombok.version}</version>
            <scope>provided</scope>
          </dependency>
         <dependency>
@@ -146,21 +148,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-                <dependencies>
-                    <!-- parche para JDK 24 -->
-                    <dependency>
-                        <groupId>org.ow2.asm</groupId>
-                        <artifactId>asm</artifactId>
-                        <version>9.7.1</version>
-                    </dependency>
-                </dependencies>
+                <version>3.14.0</version>
                 <configuration>
                    <annotationProcessorPaths>
                       <path>
                         <groupId>org.projectlombok</groupId>
                         <artifactId>lombok</artifactId>
-                        <version>1.18.36</version>
+                        <version>${lombok.version}</version>
                       </path>
                     </annotationProcessorPaths>
                     <release>24</release>
