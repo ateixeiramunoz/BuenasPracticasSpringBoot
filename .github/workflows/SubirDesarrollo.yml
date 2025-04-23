@@ -59,7 +59,7 @@ jobs:
     steps:
       - name: Desplegar contenedor de desarrollo
         env:
-          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'SNAPSHOT' }}
+          VERSION: 'SNAPSHOT'
           COMPOSE_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-dev
           PROJECT_NAME: ${{ vars.PROJECT_NAME }}
           PUERTO_DESARROLLO: ${{ vars.PUERTO_DESARROLLO }}
