@@ -173,13 +173,9 @@
                 <version>3.4.3</version>
                 <configuration>
                     <image>
-                        <cleanCache>true</cleanCache>
                         <builder>paketobuildpacks/builder:base</builder>
                         <!--suppress UnresolvedMavenProperty -->
                         <name>${project.name}:${env.VERSION}</name>
-                        <buildCache>
-                          <bind>/:/cache</bind>
-                        </buildCache>
                     </image>
                 </configuration>
             </plugin>
