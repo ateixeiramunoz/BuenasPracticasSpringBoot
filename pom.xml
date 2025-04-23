@@ -174,7 +174,7 @@
                 <configuration>
                     <image>               
                       <builder>paketobuildpacks/builder-jammy-full:latest</builder>
-                      <cleanCache>true</cleanCache>
+                      <cleanCache>false</cleanCache>
                       <verboseLogging>true</verboseLogging>
                     </image>
                 </configuration>
