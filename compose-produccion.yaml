@@ -7,9 +7,9 @@ services:
     ports:
       - "${PUERTO_PRODUCCION:-8080}:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/produccion
-      SPRING_DATASOURCE_USERNAME: produser
-      SPRING_DATASOURCE_PASSWORD: prodpassword
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/producciondb
+      SPRING_DATASOURCE_USERNAME: produccionuser
+      SPRING_DATASOURCE_PASSWORD: produccionuser
     depends_on:
       db:
         condition: service_healthy
@@ -23,11 +23,11 @@ services:
   db:
     image: postgres:latest
     environment:
-      POSTGRES_DB: 'produccion'
-      POSTGRES_USER: 'produser'
+      POSTGRES_DB: 'producciondb'
+      POSTGRES_USER: 'produccionuser'
       POSTGRES_PASSWORD: 'prodpassword'
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "produser" ]
+      test: [ "CMD", "pg_isready", "-U", "produccionuser" ]
       timeout: 20s
       retries: 10
     restart: always
