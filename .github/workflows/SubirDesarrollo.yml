@@ -7,20 +7,28 @@ on:
 jobs:
 
   # --------------------- CREAR IMAGEN ---------------------
-  construir_imagen_snapshot:
+construir_imagen_snapshot:
     runs-on: self-hosted
-    services:
-      docker:
-        image: docker:20.10-dind
-        options: --privileged
     steps:
-      - name: Construir imagen con cache de buildpacks
-        run: |
-          docker volume create pack-cache
-          mvn spring-boot:build-image \
-            -Dspring-boot.build-image.imageName=${{ vars.PROJECT_NAME }}:${{ env.VERSION }} \
-            -Dspring-boot.build-image.environment.PATH=/layers \
-            -Dspring-boot.build-image.cache=true
+      - uses: actions/checkout@v4
+
+      - name: Cache Maven local repository
+        uses: actions/cache@v3
+        with:
+          # Ruta Windows al repo .m2 del runner
+          path: C:\Users\runner\.m2\repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      - name: Configurar JDK ${{ vars.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: '${{ vars.JAVA_VERSION }}'
+          distribution: temurin
+
+      - name: Construir imagen Docker con tag 'snapshot'
+        run: mvn spring-boot:build-image -DskipTests
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
   arrancar_en_servidor_de_desarrollo:
