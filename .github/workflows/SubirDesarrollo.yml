@@ -36,7 +36,8 @@ jobs:
 
       - name: Desplegar contenedor de desarrollo
         env:
-          PROJECT_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-dev
+          COMPOSE_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-dev
+          PROJECT_NAME: ${{ vars.PROJECT_NAME }}
           PUERTO_DESARROLLO: ${{ vars.PUERTO_DESARROLLO }}
           PUERTO_DB_DESARROLLO: ${{ vars.PUERTO_DB_DESARROLLO }}
         run: docker compose -f compose-desarrollo.yaml up -d
