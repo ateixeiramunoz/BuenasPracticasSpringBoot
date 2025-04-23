@@ -63,5 +63,5 @@ jobs:
         env:
           VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
           PUERTO_PRODUCCION: ${{ vars.PUERTO_PRODUCCION }}
-          COMPOSE_PROJECT_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-prod
+          PROJECT_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-prod
         run: docker compose -f compose-produccion.yaml up -d
