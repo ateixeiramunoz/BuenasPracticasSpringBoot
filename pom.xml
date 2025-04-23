@@ -33,6 +33,19 @@
         <tag/>
         <url/>
     </scm>
+  <repositories>
+    <repository>
+      <id>spring-milestones</id>
+      <name>Spring Milestone Repository</name>
+      <url>https://repo.spring.io/milestone</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
