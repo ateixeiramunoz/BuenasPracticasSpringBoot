@@ -173,7 +173,9 @@
                 <version>3.4.3</version>
                 <configuration>
                     <image>
-                        <skipLayers>true</skipLayers>
+                        <layers>
+                         <enabled>false</enabled>
+                        </layers>                        
                         <builder>paketobuildpacks/builder:full</builder>
                         <!--suppress UnresolvedMavenProperty -->
                         <name>${project.name}:${env.VERSION}</name>
