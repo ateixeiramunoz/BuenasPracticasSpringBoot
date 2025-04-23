@@ -181,7 +181,8 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>3.4.3</version>
                 <configuration>
-                    <image>                            
+                    <image>          
+                      <name>docker.io/${env.PROJECT_NAME}:${env.VERSION}</name>
                       <builder>paketobuildpacks/builder-jammy-full:latest</builder>
                       <cleanCache>true</cleanCache>
                       <verboseLogging>true</verboseLogging>
