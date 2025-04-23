@@ -27,7 +27,7 @@
         <url/>
     </scm>
     <properties>
-        <java.version>17</java.version>
+        <java.version>24</java.version>
         <sonar.coverage.exclusions>**/Application.*,**/loaders/*</sonar.coverage.exclusions>
     </properties>
     <dependencies>
@@ -148,7 +148,7 @@
                <artifactId>maven-compiler-plugin</artifactId>
                <version>3.13.0</version>
                <configuration>
-                 <release>23</release>
+                 <release>24</release>
                  <annotationProcessorPaths>
                    <path>
                      <groupId>org.projectlombok</groupId>
