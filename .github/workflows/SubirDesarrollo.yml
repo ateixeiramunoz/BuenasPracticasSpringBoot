@@ -10,10 +10,8 @@ jobs:
 construir_imagen_snapshot:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
-
       - name: Cache Maven local repository
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           # Ruta Windows al repo .m2 del runner
           path: C:\Users\runner\.m2\repository
