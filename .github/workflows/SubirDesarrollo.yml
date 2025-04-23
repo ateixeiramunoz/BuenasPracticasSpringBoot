@@ -37,12 +37,13 @@ jobs:
       - name: Cache Maven local repository
         uses: actions/cache@v4
         with:
-          path: C:\Users\runner\.m2\repository
+          # ruta donde SYSTEM (el servicio) guarda .m2
+          path: C:\Windows\system32\config\systemprofile\.m2\repository
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-m2-
           enableCrossOsArchive: true
-        
+
       # 3) Compilar JAR sin tests (más rápido, reuse en build-image)
       - name: Compilar jar (sin tests)
         run: mvn -B clean package -DskipTests
