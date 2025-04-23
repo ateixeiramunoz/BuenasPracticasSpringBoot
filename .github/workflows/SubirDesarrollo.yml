@@ -31,7 +31,6 @@ jobs:
         with:
           distribution: temurin
           java-version: '${{ env.JAVA_VERSION }}'
-          cache: maven                         # activa cache de ~/.m2/repository automáticamente :contentReference[oaicite:0]{index=0}
   
       # 2) Refuerzo cache manualmente (ruta Windows)
       - name: Cache Maven local repository
