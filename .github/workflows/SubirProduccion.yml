@@ -18,11 +18,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configurar JDK 17
+      - name: Configurar JDK ${{ vars.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '24'
+          java-version: '${{ vars.JAVA_VERSION }}'
           check-latest: false
 
   # --------------------- COMPILAR CÓDIGO ---------------------
@@ -37,9 +37,8 @@ jobs:
 
       - name: Ejecutar Tests, JaCoCo y enviar a SonarQube
         env:
-          MAVEN_OPTS: "-Xmx16g -XX:MaxMetaspaceSize=16G"
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ vars.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
           VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
         run: mvn -T24 clean verify sonar:sonar -Dsonar:sonar:sonar.projectVersion=${VERSION}
 
@@ -63,7 +62,6 @@ jobs:
       - name: Desplegar contenedor en servidor
         env:
           VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
-          MAVEN_OPTS: "-Xmx16g -XX:MaxMetaspaceSize=16G"
-          PUERTO_PRODUCCION: ${{ secrets.PUERTO_PRODUCCION }}
-          COMPOSE_PROJECT_NAME: buenaspracticas-prod
+          PUERTO_PRODUCCION: ${{ vars.PUERTO_PRODUCCION }}
+          COMPOSE_PROJECT_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-prod
         run: docker compose -f compose-produccion.yaml up -d
