@@ -14,7 +14,7 @@
         <sonar.coverage.exclusions>**/Application.*,**/loaders/*</sonar.coverage.exclusions>
         <project.name>buenaspracticas</project.name>
     </properties>
-    <groupId>com.atm.java6</groupId>
+    <groupId>${artifact.group}</groupId>
     <artifactId>${project.name}</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>${project.name}</name>
