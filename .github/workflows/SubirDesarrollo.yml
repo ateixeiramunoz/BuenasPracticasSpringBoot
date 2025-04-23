@@ -7,7 +7,7 @@ on:
 jobs:
 
   # --------------------- CREAR IMAGEN ---------------------
-construir_imagen_snapshot:
+  construir_imagen_snapshot:
     runs-on: self-hosted
     steps:
       - name: Cache Maven local repository
@@ -29,6 +29,7 @@ construir_imagen_snapshot:
         run: mvn spring-boot:build-image -DskipTests
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
+  
   arrancar_en_servidor_de_desarrollo:
     needs: construir_imagen_snapshot
     runs-on: self-hosted
