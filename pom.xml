@@ -172,11 +172,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>3.4.3</version>
                 <configuration>
-                    <image>               
-                      <layers>
-                       <!-- deshabilita el uso de capas para saltarte el restorer -->
-                       <enabled>false</enabled>
-                      </layers>               
+                    <image>                            
                       <builder>paketobuildpacks/builder-jammy-full:latest</builder>
                       <cleanCache>true</cleanCache>
                       <verboseLogging>true</verboseLogging>
