@@ -3,7 +3,7 @@ name: ${COMPOSE_NAME}
 # Definimos los servicios que se ejecutarán en los contenedores Docker.
 services:
   java:
-    image: ${PROJECT_NAME}:${VERSION:-snapshot}
+    image: ${PROJECT_NAME}:${VERSION:-SNAPSHOT}
     ports:
       - "${PUERTO_DESARROLLO:-8080}:8080"
     environment:
