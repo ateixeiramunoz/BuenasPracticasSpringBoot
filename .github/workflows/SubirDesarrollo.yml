@@ -26,6 +26,8 @@ jobs:
           distribution: temurin
 
       - name: Construir imagen Docker con tag 'snapshot'
+        env: 
+          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
         run: mvn spring-boot:build-image -DskipTests
 
   # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
@@ -36,6 +38,7 @@ jobs:
     steps:
       - name: Desplegar contenedor de desarrollo
         env:
+          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
           COMPOSE_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-dev
           PROJECT_NAME: ${{ vars.PROJECT_NAME }}
           PUERTO_DESARROLLO: ${{ vars.PUERTO_DESARROLLO }}
