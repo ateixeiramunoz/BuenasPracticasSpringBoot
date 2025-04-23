@@ -11,7 +11,7 @@ jobs:
     runs-on: self-hosted
     env:
       VERSION: snapshot
-      PROJECT_NAME: ${{ variables.PROJECT_NAME }}
+      PROJECT_NAME: ${{ env.PROJECT_NAME }}
     steps:
       - uses: actions/checkout@v4
 
