@@ -13,8 +13,9 @@
         <lombok.version>1.18.38</lombok.version>
         <sonar.coverage.exclusions>**/Application.*,**/loaders/*</sonar.coverage.exclusions>
         <project.name>buenaspracticas</project.name>
+        <project.groupId>com.atm.java6</project.groupId>
     </properties>
-    <groupId>com.atm.java6</groupId>
+    <groupId>${project.groupId}</groupId>
     <artifactId>${project.name}</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>${project.name}</name>
