@@ -48,9 +48,9 @@ jobs:
         run: mvn -B clean package -DskipTests
   
       # 4) Construir imagen Docker con Buildpacks + cache de capas
-      - name: Construir imagen Docker con tag 'snapshot'
+      - name: Construir imagen Docker con tag 'snapshot' 
         run: |
-          mvn -B -DskipTests clean spring-boot:build-image
+          mvn -B -DskipTests -Dspring-boot.build-image.cleanCache=true spring-boot:build-image 
     # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
     
   arrancar_en_servidor_de_desarrollo:
