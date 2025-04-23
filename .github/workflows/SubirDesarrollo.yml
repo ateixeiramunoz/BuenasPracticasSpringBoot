@@ -56,9 +56,9 @@ jobs:
   
     # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
     
-arrancar_en_servidor_de_desarrollo:
-   needs: construir_imagen_snapshot
-   runs-on: self-hosted
+  arrancar_en_servidor_de_desarrollo:
+    needs: construir_imagen_snapshot
+    runs-on: self-hosted
     steps:
       - name: Desplegar contenedor de desarrollo
         env:
