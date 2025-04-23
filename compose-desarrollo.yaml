@@ -21,7 +21,7 @@ services:
       start_period: 5s
     restart: always
     expose: 
-      - 8080
+      - "8080"
 
   db:
     image: postgres:latest
