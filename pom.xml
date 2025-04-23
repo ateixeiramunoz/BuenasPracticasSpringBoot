@@ -29,7 +29,6 @@
     <properties>
         <java.version>24</java.version>
         <lombok.version>1.18.38</lombok.version>
-</properties>
         <sonar.coverage.exclusions>**/Application.*,**/loaders/*</sonar.coverage.exclusions>
     </properties>
     <dependencies>
