@@ -1,8 +1,10 @@
-package com.example.demo.entities;
+package com.atm.buenas_practicas_java.repositories;
 
+import com.atm.buenas_practicas_java.entities.EntidadPadre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -11,7 +13,8 @@ import java.util.Optional;
  * Custom query methods may be defined as needed.
  */
 @Repository
-public interface EntidadPadreRepository extends JpaRepository<EntidadPadre, Integer> {
+public interface EntidadPadreRepository extends JpaRepository<EntidadPadre, Long> {
     Optional<EntidadPadre> findByNombre(String jetBrains);
 
+    Collection<Object> findByNombreContaining(String padre);
 }

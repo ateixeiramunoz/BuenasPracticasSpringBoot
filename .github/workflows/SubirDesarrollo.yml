@@ -1,33 +1,67 @@
-name: Docker Image CI
+name: Subida a Desarrollo
+
 
 on:
   push:
     branches: [ "desarrollo" ]
-  pull_request:
-    branches: [ "desarrollo" ]
-    
+
 jobs:
 
-  realizar_tests:
-      runs-on: self-hosted
-      steps:
+  # --------------------- CREAR IMAGEN ---------------------
+  construir_imagen_snapshot:
+    runs-on: self-hosted
+    # ← Mantengo aquí todas las vars del runner
+    env:
+      CURSO: ${{ vars.CURSO }}
+      GRUPO: ${{ vars.GRUPO }}
+      PROJECT_NAME: ${{ vars.PROJECT_NAME }}
+      JAVA_VERSION: ${{ vars.JAVA_VERSION }}
+      PUERTO_DB_DESARROLLO: ${{ vars.PUERTO_DB_DESARROLLO }}
+      PUERTO_DESARROLLO: ${{ vars.PUERTO_DESARROLLO }}
+      PUERTO_PRODUCCION: ${{ vars.PUERTO_PRODUCCION }}
+      SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+      VERSION: snapshot
+  
+    steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 23
+  
+      # 1) Setup-Java con cache de Maven integrado
+      - name: Configurar JDK ${{ env.JAVA_VERSION }} y cache de dependencias
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
-      - name: Build with Maven
-        run: mvn --batch-mode verify
+          distribution: temurin
+          java-version: '${{ env.JAVA_VERSION }}'
+  
+      # 2) Refuerzo cache manualmente (ruta Windows)
+      - name: Cache Maven local repository
+        uses: actions/cache@v4
+        with:
+          # ruta donde SYSTEM (el servicio) guarda .m2
+          path: C:\Windows\system32\config\systemprofile\.m2\repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+          enableCrossOsArchive: true
 
-
-
+      # 3) Compilar JAR sin tests (más rápido, reuse en build-image)
+      - name: Compilar jar (sin tests)
+        run: mvn -B clean package -DskipTests
+  
+      # 4) Construir imagen Docker con Buildpacks + cache de capas
+      - name: Construir imagen Docker con tag 'snapshot'
+        run: |
+          mvn -B -DskipTests spring-boot:build-image
+    # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
+    
   arrancar_en_servidor_de_desarrollo:
-    needs: realizar_tests
-    runs-on: se lf-hosted
+    needs: construir_imagen_snapshot
+    runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker compose -f compose-desarrollo.yaml up -d
-      
+      - name: Desplegar contenedor de desarrollo
+        env:
+          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
+          COMPOSE_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-dev
+          PROJECT_NAME: ${{ vars.PROJECT_NAME }}
+          PUERTO_DESARROLLO: ${{ vars.PUERTO_DESARROLLO }}
+          PUERTO_DB_DESARROLLO: ${{ vars.PUERTO_DB_DESARROLLO }}
+        run: docker compose -f compose-desarrollo.yaml up -d

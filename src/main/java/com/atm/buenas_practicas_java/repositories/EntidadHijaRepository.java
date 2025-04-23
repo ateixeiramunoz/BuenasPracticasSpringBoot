@@ -1,7 +1,9 @@
-package com.example.demo.entities;
+package com.atm.buenas_practicas_java.repositories;
 
+import com.atm.buenas_practicas_java.entities.EntidadHija;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
 
 /**
  * Repositorio de acceso a datos para la entidad {@code EntidadHija}.
@@ -23,5 +25,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * - {@code findAll()}: Obtiene todas las instancias de {@code EntidadHija} almacenadas.
  * - {@code deleteById(Integer id)}: Elimina una instancia de {@code EntidadHija} directamente por su ID.
  */
-public interface EntidadHijaRepository extends JpaRepository<EntidadHija, Integer> {
+public interface EntidadHijaRepository extends JpaRepository<EntidadHija, Long> {
+    Optional<Object> findByNombre(String hijaActualizada);
 }

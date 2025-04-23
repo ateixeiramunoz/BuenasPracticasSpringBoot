@@ -1,39 +1,68 @@
-name: Docker Image CI
+name: Subida a Producción (Sin Cache Manual)
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-    
+    tags: [ "v*" ]
+
 jobs:
-  realizar_tests:
-      runs-on: self-hosted
-      steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 23
+
+  # --------------------- PREPARAR ENTORNO ---------------------
+  preparar_entorno:
+    concurrency:
+      group: produccion
+      cancel-in-progress: true
+    runs-on: self-hosted
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar JDK ${{ vars.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
           distribution: 'temurin'
-          cache: maven
-      - name: Build with Maven
-        run: mvn --batch-mode verify
+          java-version: '${{ vars.JAVA_VERSION }}'
+          check-latest: false
 
-  sonarqube:
+  # --------------------- COMPILAR CÓDIGO ---------------------
+  ejecucion_tests_y_sonarqube:
+    needs: preparar_entorno
     runs-on: self-hosted
     steps:
-      - name: Build and analyze
+      - name: Establecer versión de proyecto para CI
         env:
-          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
-          SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-        run: mvn clean verify sonar:sonar -Dsonar.projectKey=GoodPractices -Dsonar.projectName='GoodPractices' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_bad33201cc2abcaaba1449fc2f19b1edded3d6c0
+          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
+        run: mvn versions:set "-DnewVersion=${{ env.VERSION }}"
 
-  arrancar_en_servidor_de_desarrollo:
-    needs: realizar_tests
+      - name: Ejecutar Tests, JaCoCo y enviar a SonarQube
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
+        run: mvn -T24 clean verify sonar:sonar -Dsonar:sonar:sonar.projectVersion=${VERSION}
+
+  # --------------------- CREAR IMAGEN DOCKER ---------------------
+  crear_imagen_docker:
+    needs: ejecucion_tests_y_sonarqube
+    runs-on: self-hosted
+    env:
+      VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
+    steps:
+      - name: Construir imagen Docker con versión dinámica
+        run: mvn spring-boot:build-image -DskipTests
+
+
+  # --------------------- DESPLEGAR EN SERVIDOR ---------------------
+
+  desplegar_en_servidor:
+    needs: crear_imagen_docker
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker compose -f compose-desarrollo.yaml up -d
-      
+      - name: Desplegar contenedor en servidor
+        env:
+          COMPOSE_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-prod
+          PROJECT_NAME: ${{ vars.PROJECT_NAME }}
+          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
+          PUERTO_PRODUCCION: ${{ vars.PUERTO_PRODUCCION }}
+        run: docker compose -f compose-produccion.yaml up -d
