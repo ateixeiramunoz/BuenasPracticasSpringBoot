@@ -61,7 +61,8 @@ jobs:
     steps:
       - name: Desplegar contenedor en servidor
         env:
+          COMPOSE_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-dev
+          PROJECT_NAME: ${{ vars.PROJECT_NAME }}
           VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
           PUERTO_PRODUCCION: ${{ vars.PUERTO_PRODUCCION }}
-          PROJECT_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-prod
         run: docker compose -f compose-produccion.yaml up -d
