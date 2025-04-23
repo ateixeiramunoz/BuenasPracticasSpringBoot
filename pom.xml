@@ -173,9 +173,8 @@
                 <version>3.4.3</version>
                 <configuration>
                     <image>               
-                        <builder>paketobuildpacks/builder:full</builder>
-                        <!--suppress UnresolvedMavenProperty -->
-                        <name>${project.name}:${env.VERSION}</name>
+                      <builder>paketobuildpacks/builder-jammy-base-cnb:latest</builder>
+                      <cleanCache>true</cleanCache>
                     </image>
                 </configuration>
             </plugin>
