@@ -143,21 +143,15 @@
     </dependencies>
     <build>
         <plugins>
-         <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-compiler-plugin</artifactId>
-               <version>3.13.0</version>
-               <configuration>
-                 <release>24</release>
-                 <annotationProcessorPaths>
-                   <path>
-                     <groupId>org.projectlombok</groupId>
-                     <artifactId>lombok</artifactId>
-                     <version>1.18.36</version>
-                   </path>
-                 </annotationProcessorPaths>
-               </configuration>
-             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <!-- o bien la 4.0.0-rc-2, o la futura 3.14.x cuando salga -->
+                <version>4.0.0-rc-2</version>
+                <configuration>
+                    <release>24</release>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
