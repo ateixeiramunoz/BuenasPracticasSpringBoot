@@ -173,6 +173,7 @@
                 <version>3.4.3</version>
                 <configuration>
                     <image>
+                        <builder>paketobuildpacks/builder:base</builder>
                         <!--suppress UnresolvedMavenProperty -->
                         <name>${project.name}:${env.VERSION}</name>
                     </image>
