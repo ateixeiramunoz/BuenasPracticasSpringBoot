@@ -51,6 +51,7 @@ jobs:
       - name: Construir imagen Docker con tag 'snapshot' 
         run: |
           mvn -B -DskipTests spring-boot:build-image 
+
     # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
     
   arrancar_en_servidor_de_desarrollo:
@@ -60,6 +61,7 @@ jobs:
       - name: Desplegar contenedor de desarrollo
         env:
           VERSION: 'SNAPSHOT'
+
           COMPOSE_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-dev
           PROJECT_NAME: ${{ vars.PROJECT_NAME }}
           PUERTO_DESARROLLO: ${{ vars.PUERTO_DESARROLLO }}
