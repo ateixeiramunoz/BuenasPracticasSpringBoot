@@ -50,6 +50,7 @@ jobs:
     runs-on: self-hosted
     env:
       VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
+      PROJECT_NAME: ${{ vars.PROJECT_NAME }}
     steps:
       - name: Construir imagen Docker con versión dinámica
         run: mvn spring-boot:build-image -DskipTests
