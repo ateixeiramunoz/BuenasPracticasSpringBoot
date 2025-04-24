@@ -31,26 +31,27 @@ jobs:
         with:
           distribution: temurin
           java-version: '${{ env.JAVA_VERSION }}'
-          cache: maven                         # activa cache de ~/.m2/repository automáticamente :contentReference[oaicite:0]{index=0}
   
       # 2) Refuerzo cache manualmente (ruta Windows)
       - name: Cache Maven local repository
         uses: actions/cache@v4
         with:
-          path: C:\Users\runner\.m2\repository
+          # ruta donde SYSTEM (el servicio) guarda .m2
+          path: C:\Windows\system32\config\systemprofile\.m2\repository
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-m2-
-          compression: zstd        # ← aquí
-  
+          enableCrossOsArchive: true
+
       # 3) Compilar JAR sin tests (más rápido, reuse en build-image)
       - name: Compilar jar (sin tests)
         run: mvn -B clean package -DskipTests
   
       # 4) Construir imagen Docker con Buildpacks + cache de capas
-      - name: Construir imagen Docker con tag 'snapshot'
+      - name: Construir imagen Docker con tag 'snapshot' 
         run: |
-          mvn -B -DskipTests spring-boot:build-image -Dspring-boot.build-image.cleanCache=true
+          mvn -B -DskipTests spring-boot:build-image 
+
     # --------------------- DESPLEGAR EN SERVIDOR DE DESARROLLO ---------------------
     
   arrancar_en_servidor_de_desarrollo:
@@ -59,7 +60,8 @@ jobs:
     steps:
       - name: Desplegar contenedor de desarrollo
         env:
-          VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'SNAPSHOT' }}
+          VERSION: 'SNAPSHOT'
+
           COMPOSE_NAME: ${{ vars.CURSO }}-${{ vars.GRUPO }}-dev
           PROJECT_NAME: ${{ vars.PROJECT_NAME }}
           PUERTO_DESARROLLO: ${{ vars.PUERTO_DESARROLLO }}
