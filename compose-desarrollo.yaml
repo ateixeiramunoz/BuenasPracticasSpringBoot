@@ -10,6 +10,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/desarrollodb
       SPRING_DATASOURCE_USERNAME: desarrollouser
       SPRING_DATASOURCE_PASSWORD: desarrollopassword
+      SPRING_PROFILES_ACTIVE: desarrollo
     depends_on:
       db:
         condition: service_healthy
