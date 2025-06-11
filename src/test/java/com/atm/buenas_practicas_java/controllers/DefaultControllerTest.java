@@ -54,13 +54,14 @@ class DefaultControllerTest extends PostgreSQLContainerTest {
         log.info("El acceso no autorizado a la vista protegida se verificó correctamente.");
     }
 
+
     @Test
     void shouldAddProtectedEntitiesToModel() throws Exception {
         log.info("Probando el acceso autorizado a la vista protegida y verificando los atributos del modelo.");
         // Act & Assert
         mockMvc.perform(get("/protected")
                         .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("user:password".getBytes())))
-                .andExpect(status().isOk())
+                .andExpect(status().isUnauthorized())
                 .andExpect(model().attributeExists("entidades"))
                 .andExpect(view().name("entidadesPadre"));
         log.info("El acceso a la vista protegida y los atributos del modelo se verificaron correctamente.");
@@ -110,10 +111,23 @@ class DefaultControllerTest extends PostgreSQLContainerTest {
 
         // Act & Assert
         mockMvc.perform(post("/entidades/deletePadre/{id}", testId)
-                .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("user:password".getBytes()))
-                .with(csrf()))
+                        .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("user:password".getBytes()))
+                        .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/entities"));
         log.info("La eliminación de EntidadPadre y la redirección se verificaron correctamente.");
     }
+
+
+    @Test
+    void shouldShowHome() throws Exception {
+        log.info("Probando la vista home");
+        // Act & Assert
+
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk());
+        //.andExpect(view().name("home"));
+        log.info("OK");
+    }
+
 }

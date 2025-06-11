@@ -21,7 +21,6 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 @Log4j2
-@Profile("produccion")
 public class ProductionlDataLoader {
 
     private final EntidadPadreRepository repository;
