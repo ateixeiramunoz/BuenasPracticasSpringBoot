@@ -214,7 +214,7 @@
                 <configuration>
                     <parallel>methods</parallel>
                     <threadCount>16</threadCount>
-                    <forkCount>2</forkCount>
+                    <forkCount>0</forkCount>
                     <reuseForks>true</reuseForks>
                     <argLine>@{argLine} -Xshare:off</argLine>
                     <parallel>all</parallel>
