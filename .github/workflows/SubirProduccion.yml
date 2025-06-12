@@ -24,6 +24,13 @@ jobs:
           distribution: 'temurin'
           java-version: '${{ vars.JAVA_VERSION }}'
           check-latest: false
+      
+      - name: Verify Java version
+        run: java -version
+
+      - name: Verify Maven is using correct JDK
+        run: mvn -version
+
 
   # --------------------- COMPILAR CÓDIGO ---------------------
   ejecucion_tests_y_sonarqube:
