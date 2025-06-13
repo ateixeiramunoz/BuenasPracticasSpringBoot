@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 @Log4j2
+@Profile("produccionRESETDATA")
 public class ProductionlDataLoader {
 
     private final EntidadPadreRepository repository;
@@ -47,7 +48,8 @@ public class ProductionlDataLoader {
         this.entidadHijaRepository = entidadHijaRepository;
     }
 
-        @Profile("produccionRESETDATA")
+
+    @PostConstruct
         public void loadDataProduccion() {
         log.info("Iniciando la carga de datos para el perfil de producción.");
         log.info("Datos de producción aún no definidos. Este método requiere implementación adicional.");
