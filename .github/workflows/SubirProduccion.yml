@@ -24,6 +24,13 @@ jobs:
           distribution: 'temurin'
           java-version: '${{ vars.JAVA_VERSION }}'
           check-latest: false
+      
+      - name: Verify Java version
+        run: java -version
+          
+      - name: Verify Maven is using correct JDK
+        run: mvn -version
+
 
   # --------------------- COMPILAR CÓDIGO ---------------------
   ejecucion_tests_y_sonarqube:
@@ -43,6 +50,7 @@ jobs:
           VERSION: ${{ github.ref_type == 'tag' && github.ref_name || 'snapshot' }}
           PROJECT_NAME: ${{ vars.PROJECT_NAME }}
         run: mvn -T24 clean verify sonar:sonar -DskipTests -Dsonar:sonar:sonar.projectVersion=${VERSION}
+
 
   # --------------------- CREAR IMAGEN DOCKER ---------------------
   crear_imagen_docker:
