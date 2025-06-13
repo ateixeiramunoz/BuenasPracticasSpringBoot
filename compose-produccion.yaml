@@ -2,6 +2,7 @@ name: ${COMPOSE_NAME}
 
 volumes:
   produccion_pgdata:
+  produccion_javadata:
 
 
 # Definimos los servicios que se ejecutarán en los contenedores Docker.
@@ -24,6 +25,8 @@ services:
       timeout: 10s
       retries: 3
     restart: always
+    volumes:
+      - produccion_javadata:/var/lib/data/
 
   db:
     image: postgres:latest
@@ -37,5 +40,5 @@ services:
       retries: 10
     restart: always
     volumes:
-      - produccion_pgdata:/var/lib/postgresql/data
+      - produccion_pgdata:/var/lib/postgresql/data/
 

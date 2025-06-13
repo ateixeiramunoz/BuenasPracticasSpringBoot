@@ -47,8 +47,8 @@ public class ProductionlDataLoader {
         this.entidadHijaRepository = entidadHijaRepository;
     }
 
-    @Profile("produccionRESETDATA")
-    public void loadDataProduccion() {
+        @Profile("produccionRESETDATA")
+        public void loadDataProduccion() {
         log.info("Iniciando la carga de datos para el perfil de producción.");
         log.info("Datos de producción aún no definidos. Este método requiere implementación adicional.");
         repository.deleteAll();

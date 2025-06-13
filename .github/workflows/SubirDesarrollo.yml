@@ -3,7 +3,7 @@ name: Subida a Desarrollo
 
 on:
   push:
-    branches: [ "desarrollo" ]
+    branches: [ "desarrolloData" ]
 
 jobs:
 
@@ -66,4 +66,5 @@ jobs:
           PROJECT_NAME: ${{ vars.PROJECT_NAME }}
           PUERTO_DESARROLLO: ${{ vars.PUERTO_DESARROLLO }}
           PUERTO_DB_DESARROLLO: ${{ vars.PUERTO_DB_DESARROLLO }}
-        run: docker compose -f compose-desarrollo.yaml up -d
+        run: docker compose -f compose-desarrollo.yaml up -d --no-recreate
+
