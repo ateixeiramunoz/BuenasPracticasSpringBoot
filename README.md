@@ -1,15 +1,16 @@
-# BuenasPracticasSpringBoot
+# Buenas prácticas con Spring Boot
 
+Recurso educativo sobre desarrollo de aplicaciones Java con Spring Boot.
 
-![Quality Gate Status](http://eoijava.ddns.net:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=alert_status&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)
-![Coverage](http://eoijava.ddns.net:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=coverage&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)
-![Duplicated Lines (%)](http://eoijava.ddns.net:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=duplicated_lines_density&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)
-![Security Hotspots](http://eoijava.ddns.net:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=security_hotspots&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)
-![Security Issues](http://eoijava.ddns.net:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=software_quality_security_issues&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)
-![Maintainability Issues](http://eoijava.ddns.net:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=software_quality_maintainability_issues&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)
-![Reliability Issues](http://eoijava.ddns.net:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=software_quality_reliability_issues&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)
-![Technical Debt](http://eoijava.ddns.net:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=software_quality_maintainability_remediation_effort&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)
-![Lines of Code](http://eoijava.ddns.net:9000/api/project_badges/measure?project=com.atm.java6%3Abuenaspracticas&metric=ncloc&token=sqb_8d1c607ed4cdf7c9da1227e46d30fdd959d5a9bd)
+El [pom.xml](pom.xml) declara Java 24 y Spring Boot 3.4.3. Consulta la configuración de cada entorno antes de ejecutar la aplicación.
+
+## Guía de lectura
+
+- [Código fuente y configuración](src/).
+- [Configuración de desarrollo](compose-desarrollo.yaml).
+- [Notas sobre PostgreSQL](README_PostgreSQL.md).
+
+La documentación de las prácticas continúa a continuación.
 
 ## Introducción
 
@@ -767,4 +768,3 @@ Esto permite:
 ✅ **Pruebas locales fáciles con perfiles `.run` en IntelliJ IDEA**.
 
 ---
-
